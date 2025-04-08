@@ -117,41 +117,126 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named project_cpp
+# Target rules for targets named PROJECT_CPP
 
 # Build rule for target.
-project_cpp: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 project_cpp
-.PHONY : project_cpp
+PROJECT_CPP: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 PROJECT_CPP
+.PHONY : PROJECT_CPP
 
 # fast build rule for target.
-project_cpp/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/project_cpp.dir/build.make CMakeFiles/project_cpp.dir/build
-.PHONY : project_cpp/fast
+PROJECT_CPP/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/build
+.PHONY : PROJECT_CPP/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+#=============================================================================
+# Target rules for targets named PROJECT_CPP_autogen
+
+# Build rule for target.
+PROJECT_CPP_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 PROJECT_CPP_autogen
+.PHONY : PROJECT_CPP_autogen
+
+# fast build rule for target.
+PROJECT_CPP_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP_autogen.dir/build.make CMakeFiles/PROJECT_CPP_autogen.dir/build
+.PHONY : PROJECT_CPP_autogen/fast
+
+PROJECT_CPP_autogen/mocs_compilation.o: PROJECT_CPP_autogen/mocs_compilation.cpp.o
+.PHONY : PROJECT_CPP_autogen/mocs_compilation.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/project_cpp.dir/build.make CMakeFiles/project_cpp.dir/main.cpp.o
-.PHONY : main.cpp.o
+PROJECT_CPP_autogen/mocs_compilation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/PROJECT_CPP_autogen/mocs_compilation.cpp.o
+.PHONY : PROJECT_CPP_autogen/mocs_compilation.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+PROJECT_CPP_autogen/mocs_compilation.i: PROJECT_CPP_autogen/mocs_compilation.cpp.i
+.PHONY : PROJECT_CPP_autogen/mocs_compilation.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/project_cpp.dir/build.make CMakeFiles/project_cpp.dir/main.cpp.i
-.PHONY : main.cpp.i
+PROJECT_CPP_autogen/mocs_compilation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/PROJECT_CPP_autogen/mocs_compilation.cpp.i
+.PHONY : PROJECT_CPP_autogen/mocs_compilation.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+PROJECT_CPP_autogen/mocs_compilation.s: PROJECT_CPP_autogen/mocs_compilation.cpp.s
+.PHONY : PROJECT_CPP_autogen/mocs_compilation.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/project_cpp.dir/build.make CMakeFiles/project_cpp.dir/main.cpp.s
-.PHONY : main.cpp.s
+PROJECT_CPP_autogen/mocs_compilation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/PROJECT_CPP_autogen/mocs_compilation.cpp.s
+.PHONY : PROJECT_CPP_autogen/mocs_compilation.cpp.s
+
+src/MainWindow.o: src/MainWindow.cpp.o
+.PHONY : src/MainWindow.o
+
+# target to build an object file
+src/MainWindow.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/src/MainWindow.cpp.o
+.PHONY : src/MainWindow.cpp.o
+
+src/MainWindow.i: src/MainWindow.cpp.i
+.PHONY : src/MainWindow.i
+
+# target to preprocess a source file
+src/MainWindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/src/MainWindow.cpp.i
+.PHONY : src/MainWindow.cpp.i
+
+src/MainWindow.s: src/MainWindow.cpp.s
+.PHONY : src/MainWindow.s
+
+# target to generate assembly for a file
+src/MainWindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/src/MainWindow.cpp.s
+.PHONY : src/MainWindow.cpp.s
+
+src/MyScene.o: src/MyScene.cpp.o
+.PHONY : src/MyScene.o
+
+# target to build an object file
+src/MyScene.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o
+.PHONY : src/MyScene.cpp.o
+
+src/MyScene.i: src/MyScene.cpp.i
+.PHONY : src/MyScene.i
+
+# target to preprocess a source file
+src/MyScene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.i
+.PHONY : src/MyScene.cpp.i
+
+src/MyScene.s: src/MyScene.cpp.s
+.PHONY : src/MyScene.s
+
+# target to generate assembly for a file
+src/MyScene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.s
+.PHONY : src/MyScene.cpp.s
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
 # Help Target
 help:
@@ -161,10 +246,20 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... project_cpp"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... PROJECT_CPP_autogen"
+	@echo "... PROJECT_CPP"
+	@echo "... PROJECT_CPP_autogen/mocs_compilation.o"
+	@echo "... PROJECT_CPP_autogen/mocs_compilation.i"
+	@echo "... PROJECT_CPP_autogen/mocs_compilation.s"
+	@echo "... src/MainWindow.o"
+	@echo "... src/MainWindow.i"
+	@echo "... src/MainWindow.s"
+	@echo "... src/MyScene.o"
+	@echo "... src/MyScene.i"
+	@echo "... src/MyScene.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 

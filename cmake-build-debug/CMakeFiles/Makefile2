@@ -63,7 +63,7 @@ CMAKE_BINARY_DIR = /mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/project_cpp.dir/all
+all: CMakeFiles/PROJECT_CPP.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,34 +71,61 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/project_cpp.dir/clean
+clean: CMakeFiles/PROJECT_CPP.dir/clean
+clean: CMakeFiles/PROJECT_CPP_autogen.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/project_cpp.dir
+# Target rules for target CMakeFiles/PROJECT_CPP.dir
 
 # All Build rule for target.
-CMakeFiles/project_cpp.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/project_cpp.dir/build.make CMakeFiles/project_cpp.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/project_cpp.dir/build.make CMakeFiles/project_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target project_cpp"
-.PHONY : CMakeFiles/project_cpp.dir/all
+CMakeFiles/PROJECT_CPP.dir/all: CMakeFiles/PROJECT_CPP_autogen.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5 "Built target PROJECT_CPP"
+.PHONY : CMakeFiles/PROJECT_CPP.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/project_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/project_cpp.dir/all
+CMakeFiles/PROJECT_CPP.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/PROJECT_CPP.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/project_cpp.dir/rule
+.PHONY : CMakeFiles/PROJECT_CPP.dir/rule
 
 # Convenience name for target.
-project_cpp: CMakeFiles/project_cpp.dir/rule
-.PHONY : project_cpp
+PROJECT_CPP: CMakeFiles/PROJECT_CPP.dir/rule
+.PHONY : PROJECT_CPP
 
 # clean rule for target.
-CMakeFiles/project_cpp.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/project_cpp.dir/build.make CMakeFiles/project_cpp.dir/clean
-.PHONY : CMakeFiles/project_cpp.dir/clean
+CMakeFiles/PROJECT_CPP.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP.dir/build.make CMakeFiles/PROJECT_CPP.dir/clean
+.PHONY : CMakeFiles/PROJECT_CPP.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/PROJECT_CPP_autogen.dir
+
+# All Build rule for target.
+CMakeFiles/PROJECT_CPP_autogen.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP_autogen.dir/build.make CMakeFiles/PROJECT_CPP_autogen.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP_autogen.dir/build.make CMakeFiles/PROJECT_CPP_autogen.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles --progress-num=6 "Built target PROJECT_CPP_autogen"
+.PHONY : CMakeFiles/PROJECT_CPP_autogen.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/PROJECT_CPP_autogen.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/PROJECT_CPP_autogen.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/PROJECT_CPP_autogen.dir/rule
+
+# Convenience name for target.
+PROJECT_CPP_autogen: CMakeFiles/PROJECT_CPP_autogen.dir/rule
+.PHONY : PROJECT_CPP_autogen
+
+# clean rule for target.
+CMakeFiles/PROJECT_CPP_autogen.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/PROJECT_CPP_autogen.dir/build.make CMakeFiles/PROJECT_CPP_autogen.dir/clean
+.PHONY : CMakeFiles/PROJECT_CPP_autogen.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
