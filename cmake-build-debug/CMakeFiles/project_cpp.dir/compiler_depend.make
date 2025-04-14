@@ -1331,7 +1331,21 @@ CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o: /mnt/c/Users/Surface/Documents/Git
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qshareddata.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qsharedpointer_impl.h \
   /usr/include/x86_64-linux-gnu/qt6/QtGui/qfont.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtGui/qpen.h
+  /usr/include/x86_64-linux-gnu/qt6/QtGui/qpen.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/QGraphicsRectItem \
+  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qgraphicsitem.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qvariant.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qdebug.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qtextstream.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringconverter_base.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qcontiguouscache.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qmap.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qshareddata_impl.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qset.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qhash.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qvarlengtharray.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtGui/qpainterpath.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/QGraphicsPixmapItem
 
 CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub/project_cpp/src/main.cpp \
   /usr/include/stdc-predef.h \
@@ -1814,6 +1828,8 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 
 /usr/include/x86_64-linux-gnu/qt6/QtWidgets/QApplication:
 
+/usr/include/x86_64-linux-gnu/qt6/QtGui/qpainterpath.h:
+
 /usr/include/x86_64-linux-gnu/qt6/QtWidgets/QGraphicsScene:
 
 /mnt/c/Users/Surface/Documents/GitHub/project_cpp/src/MyScene.h:
@@ -1929,6 +1945,8 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qutf8stringview.h:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringalgorithms.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtWidgets/QGraphicsPixmapItem:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringliteral.h:
 
@@ -2175,6 +2193,8 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MyScene.cpp:
 /usr/include/c++/12/bits/locale_facets.h:
 
 /usr/include/c++/12/bits/ostream.tcc:
+
+/usr/include/x86_64-linux-gnu/qt6/QtWidgets/QGraphicsRectItem:
 
 /usr/include/c++/12/iterator:
 
@@ -2441,6 +2461,8 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MainWindow.cpp:
 /usr/include/c++/12/bit:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtWidgets/qgraphicsitem.h:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qiterator.h:
 
