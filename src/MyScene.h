@@ -10,7 +10,17 @@ class MyScene : public QGraphicsScene {
 public:
     MyScene(QObject* parent = nullptr);
     virtual ~MyScene();
+    void keyPressEvent(QKeyEvent* event);
+    void keyReleaseEvent(QKeyEvent* event);
 
+    public slots:
+    void update();
+
+private:
+    QGraphicsTextItem* qgti;
+    QGraphicsPixmapItem* map;
+    QGraphicsRectItem* qgri;
+    QTimer* timer;
 };
 
 
