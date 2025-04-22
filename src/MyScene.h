@@ -12,6 +12,7 @@ public:
     virtual ~MyScene();
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
+    void createMap();
 
     public slots:
     void update();
@@ -21,6 +22,8 @@ private:
     QGraphicsPixmapItem* map;
     QGraphicsRectItem* qgri;
     QTimer* timer;
+    int backgroundWidth;
+    int backgroundHeight;
 };
 
 

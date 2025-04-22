@@ -920,11 +920,9 @@ CMakeFiles/PROJECT_CPP.dir/src/MainWindow.cpp.o: /mnt/c/Users/Surface/Documents/
 
 CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o: /mnt/c/Users/Surface/Documents/GitHub/project_cpp/src/MyScene.cpp \
   /usr/include/stdc-predef.h \
-  /mnt/c/Users/Surface/Documents/GitHub/project_cpp/src/MyScene.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/QGraphicsScene \
-  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qgraphicsscene.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qtwidgetsglobal.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtGui/qtguiglobal.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/QJsonObject \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qjsonobject.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qjsonvalue.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qglobal.h \
   /usr/include/c++/12/type_traits \
   /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
@@ -1176,15 +1174,6 @@ CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o: /mnt/c/Users/Surface/Documents/Git
   /usr/include/c++/12/tr1/riemann_zeta.tcc \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qversiontagging.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qforeach.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtGui/qtgui-config.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtGui/qtguiexports.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qtwidgets-config.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qtwidgetsexports.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qobject.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qobjectdefs.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qnamespace.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qtmetamacros.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qobjectdefs_impl.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qstring.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qchar.h \
   /usr/include/c++/12/functional \
@@ -1212,6 +1201,8 @@ CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o: /mnt/c/Users/Surface/Documents/Git
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringview.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qbytearray.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qrefcount.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qnamespace.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qtmetamacros.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qarraydata.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qpair.h \
   /usr/include/string.h \
@@ -1272,27 +1263,30 @@ CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o: /mnt/c/Users/Surface/Documents/Git
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qanystringview.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qutf8stringview.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringtokenizer.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qlist.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qshareddata.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qhashfunctions.h \
   /usr/include/c++/12/numeric \
   /usr/include/c++/12/bits/stl_numeric.h \
   /usr/include/c++/12/pstl/glue_numeric_defs.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qiterator.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qbytearraylist.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringlist.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qalgorithms.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringmatcher.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qscopedpointer.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qcborvalue.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qdatetime.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qcalendar.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qlocale.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qvariant.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qmetatype.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qcompare.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qscopeguard.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qdatastream.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qscopedpointer.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qiodevicebase.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qiterable.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qmetacontainer.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qcontainerinfo.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qtaggedpointer.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qalgorithms.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qmath.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qobjectdefs.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qobjectdefs_impl.h \
   /usr/include/c++/12/list \
   /usr/include/c++/12/bits/stl_list.h \
   /usr/include/c++/12/bits/list.tcc \
@@ -1300,6 +1294,23 @@ CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o: /mnt/c/Users/Surface/Documents/Git
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/bits/stl_map.h \
   /usr/include/c++/12/bits/stl_multimap.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qdebug.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qtextstream.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringconverter_base.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qcontiguouscache.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qsharedpointer.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qsharedpointer_impl.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qlist.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qiterator.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qbytearraylist.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringlist.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringmatcher.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qmap.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qshareddata_impl.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qset.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qhash.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qvarlengtharray.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qobject.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qobject_impl.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qbindingstorage.h \
   /usr/include/c++/12/chrono \
@@ -1310,6 +1321,19 @@ CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o: /mnt/c/Users/Surface/Documents/Git
   /usr/include/c++/12/istream \
   /usr/include/c++/12/bits/istream.tcc \
   /usr/include/c++/12/bits/sstream.tcc \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qcborcommon.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qregularexpression.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qurl.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/quuid.h \
+  /mnt/c/Users/Surface/Documents/GitHub/project_cpp/src/MyScene.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/QGraphicsScene \
+  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qgraphicsscene.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qtwidgetsglobal.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtGui/qtguiglobal.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtGui/qtgui-config.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtGui/qtguiexports.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qtwidgets-config.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qtwidgetsexports.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qpoint.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qrect.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qmargins.h \
@@ -1327,23 +1351,10 @@ CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o: /mnt/c/Users/Surface/Documents/Git
   /usr/include/x86_64-linux-gnu/qt6/QtGui/qregion.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qline.h \
   /usr/include/x86_64-linux-gnu/qt6/QtGui/qpixmap.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qsharedpointer.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qshareddata.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qsharedpointer_impl.h \
   /usr/include/x86_64-linux-gnu/qt6/QtGui/qfont.h \
   /usr/include/x86_64-linux-gnu/qt6/QtGui/qpen.h \
   /usr/include/x86_64-linux-gnu/qt6/QtWidgets/QGraphicsRectItem \
   /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qgraphicsitem.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qvariant.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qdebug.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qtextstream.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qstringconverter_base.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qcontiguouscache.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qmap.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qshareddata_impl.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qset.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qhash.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qvarlengtharray.h \
   /usr/include/x86_64-linux-gnu/qt6/QtGui/qpainterpath.h \
   /usr/include/x86_64-linux-gnu/qt6/QtWidgets/QGraphicsPixmapItem \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/QTimer \
@@ -1356,7 +1367,6 @@ CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o: /mnt/c/Users/Surface/Documents/Git
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qcoreevent.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qiodevice.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qpointer.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtCore/qurl.h \
   /usr/include/x86_64-linux-gnu/qt6/QtGui/qeventpoint.h \
   /usr/include/x86_64-linux-gnu/qt6/QtGui/qvector2d.h \
   /usr/include/x86_64-linux-gnu/qt6/QtGui/qvectornd.h \
@@ -1375,7 +1385,30 @@ CMakeFiles/PROJECT_CPP.dir/src/MyScene.cpp.o: /mnt/c/Users/Surface/Documents/Git
   /usr/include/x86_64-linux-gnu/qt6/QtGui/QTransform \
   /usr/include/x86_64-linux-gnu/qt6/QtGui/qtransform.h \
   /usr/include/x86_64-linux-gnu/qt6/QtCore/qnativeinterface.h \
-  /usr/include/x86_64-linux-gnu/qt6/QtGui/qkeysequence.h
+  /usr/include/x86_64-linux-gnu/qt6/QtGui/qkeysequence.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/QJsonDocument \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qjsondocument.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/QFile \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qfile.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qfiledevice.h \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
+  /usr/include/c++/12/bits/fs_path.h \
+  /usr/include/c++/12/locale \
+  /usr/include/c++/12/bits/locale_facets_nonio.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/time_members.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/messages_members.h \
+  /usr/include/libintl.h \
+  /usr/include/c++/12/bits/codecvt.h \
+  /usr/include/c++/12/bits/locale_facets_nonio.tcc \
+  /usr/include/c++/12/bits/locale_conv.h \
+  /usr/include/c++/12/iomanip \
+  /usr/include/c++/12/bits/quoted_string.h \
+  /usr/include/c++/12/codecvt \
+  /usr/include/c++/12/bits/fs_dir.h \
+  /usr/include/c++/12/bits/fs_ops.h \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/QJsonArray \
+  /usr/include/x86_64-linux-gnu/qt6/QtCore/qjsonarray.h
 
 CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub/project_cpp/src/main.cpp \
   /usr/include/stdc-predef.h \
@@ -1846,8 +1879,6 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
   /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qgraphicsscene.h
 
 
-/usr/include/x86_64-linux-gnu/qt6/QtCore/qlocale.h:
-
 /usr/include/x86_64-linux-gnu/qt6/QtGui/qinputmethod.h:
 
 /usr/include/x86_64-linux-gnu/qt6/QtGui/qguiapplication.h:
@@ -1856,7 +1887,17 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 
 /usr/include/x86_64-linux-gnu/qt6/QtWidgets/QApplication:
 
-/usr/include/x86_64-linux-gnu/qt6/QtCore/qnativeinterface.h:
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qjsonarray.h:
+
+/usr/include/c++/12/bits/fs_dir.h:
+
+/usr/include/c++/12/bits/locale_facets_nonio.tcc:
+
+/usr/include/x86_64-linux-gnu/c++/12/bits/time_members.h:
+
+/usr/include/c++/12/locale:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/QFile:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/QSizeF:
 
@@ -1874,8 +1915,6 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 
 /usr/include/x86_64-linux-gnu/qt6/QtGui/qvector2d.h:
 
-/usr/include/x86_64-linux-gnu/qt6/QtCore/qurl.h:
-
 /usr/include/x86_64-linux-gnu/qt6/QtGui/qevent.h:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qbasictimer.h:
@@ -1885,6 +1924,22 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qiodevice.h:
 
 /usr/include/x86_64-linux-gnu/qt6/QtGui/qpainterpath.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/quuid.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qurl.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qcborcommon.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qlocale.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qnativeinterface.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qjsonvalue.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qjsonobject.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/QJsonObject:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/QList:
 
@@ -1920,6 +1975,8 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qvariant.h:
 
+/usr/include/c++/12/bits/quoted_string.h:
+
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qline.h:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qpointer.h:
@@ -1950,6 +2007,8 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qmargins.h:
 
+/usr/include/libintl.h:
+
 /usr/include/c++/12/bits/sstream.tcc:
 
 /usr/include/c++/12/istream:
@@ -1973,6 +2032,8 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 /usr/include/c++/12/bits/list.tcc:
 
 /usr/include/c++/12/bits/stl_list.h:
+
+/usr/include/c++/12/filesystem:
 
 /usr/include/c++/12/list:
 
@@ -2026,6 +2087,8 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 
 /usr/include/c++/12/bits/mofunc_impl.h:
 
+/usr/include/c++/12/bits/fs_ops.h:
+
 /usr/include/c++/12/bits/stl_heap.h:
 
 /usr/include/c++/12/bits/stl_algo.h:
@@ -2036,6 +2099,8 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 
 /usr/include/c++/12/bits/stl_vector.h:
 
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qcalendar.h:
+
 /usr/include/c++/12/bits/erase_if.h:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qbytearrayview.h:
@@ -2043,6 +2108,8 @@ CMakeFiles/PROJECT_CPP.dir/src/main.cpp.o: /mnt/c/Users/Surface/Documents/GitHub
 /usr/include/c++/12/bits/unordered_map.h:
 
 /usr/include/c++/12/bits/hashtable_policy.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qfiledevice.h:
 
 /usr/include/c++/12/bits/hashtable.h:
 
@@ -2106,6 +2173,8 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MyScene.cpp:
 
 /usr/include/x86_64-linux-gnu/bits/fp-logb.h:
 
+/usr/include/c++/12/bits/fs_fwd.h:
+
 /usr/include/x86_64-linux-gnu/qt6/QtWidgets/qframe.h:
 
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
@@ -2129,6 +2198,8 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MyScene.cpp:
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qmap.h:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qlogging.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qcborvalue.h:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qsysinfo.h:
 
@@ -2290,6 +2361,8 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MyScene.cpp:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qtconfigmacros.h:
 
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qjsondocument.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
 
 /usr/include/c++/12/bits/move.h:
@@ -2380,11 +2453,15 @@ PROJECT_CPP_autogen/mocs_compilation.cpp:
 
 /usr/include/c++/12/bits/exception_defines.h:
 
+/usr/include/c++/12/bits/fs_path.h:
+
 /usr/include/locale.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
 
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qcoreapplication_platform.h:
+
+/usr/include/c++/12/codecvt:
 
 /usr/include/linux/close_range.h:
 
@@ -2406,7 +2483,11 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MainWindow.cpp:
 
 /usr/include/c++/12/bits/allocator.h:
 
+/usr/include/c++/12/bits/codecvt.h:
+
 /usr/include/c++/12/bits/cpp_type_traits.h:
+
+/usr/include/x86_64-linux-gnu/c++/12/bits/messages_members.h:
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
@@ -2468,7 +2549,11 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MainWindow.cpp:
 
 /usr/include/c++/12/bits/stl_iterator.h:
 
+/usr/include/c++/12/bits/locale_facets_nonio.h:
+
 /usr/include/c++/12/bits/exception.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qregularexpression.h:
 
 /usr/include/c++/12/bits/locale_classes.tcc:
 
@@ -2508,6 +2593,8 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MainWindow.cpp:
 
 /usr/include/c++/12/bits/stl_raw_storage_iter.h:
 
+/usr/include/c++/12/iomanip:
+
 /usr/include/c++/12/debug/debug.h:
 
 /usr/include/wchar.h:
@@ -2521,6 +2608,8 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MainWindow.cpp:
 /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_inline.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
+
+/usr/include/c++/12/bits/locale_conv.h:
 
 /usr/include/c++/12/bits/stl_uninitialized.h:
 
@@ -2563,6 +2652,8 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MainWindow.cpp:
 /usr/include/c++/12/bits/hash_bytes.h:
 
 /usr/include/x86_64-linux-gnu/bits/time64.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/QJsonArray:
 
 /usr/include/c++/12/bits/atomic_lockfree_defines.h:
 
@@ -2792,9 +2883,13 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MainWindow.cpp:
 
 /usr/include/x86_64-linux-gnu/bits/environments.h:
 
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qdatetime.h:
+
 /usr/include/c++/12/bits/new_allocator.h:
 
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/qfile.h:
 
 /usr/include/c++/12/cstddef:
 
@@ -2805,6 +2900,8 @@ PROJECT_CPP_autogen/UVLADIE3JM/moc_MainWindow.cpp:
 /usr/include/x86_64-linux-gnu/qt6/QtCore/qcontainertools_impl.h:
 
 /usr/include/x86_64-linux-gnu/bits/syscall.h:
+
+/usr/include/x86_64-linux-gnu/qt6/QtCore/QJsonDocument:
 
 /usr/include/c++/12/bits/std_mutex.h:
 
