@@ -56,10 +56,8 @@ void MyScene::keyReleaseEvent(QKeyEvent *event) {
 }
 
 void MyScene::createMap(){
-    //Load and parse json file
     QFile file("../map/bonmap.json");
     file.open(QIODevice::ReadOnly);
-
     QJsonDocument document = QJsonDocument::fromJson(file.readAll());
     QJsonObject mapObject = document.object();
 
@@ -70,7 +68,6 @@ void MyScene::createMap(){
     int tileHeight = mapObject["tileheight"].toInt();
     int numberTileWidth = mapObject["width"].toInt();
     int numberTileHeight = mapObject["height"].toInt();
-
     this->backgroundWidth = numberTileWidth * tileWidth;
     this->backgroundHeight = numberTileHeight * tileHeight;
 
@@ -78,7 +75,6 @@ void MyScene::createMap(){
     QJsonArray tilesets = mapObject["tilesets"].toArray();
     for(QJsonValue tilesetValue : tilesets){
         QJsonObject tileset = tilesetValue.toObject();
-
         int firstGid = tileset["firstgid"].toInt();
         QString source = tileset["image"].toString();
         QPixmap tilesetImage(source); //load image
@@ -86,10 +82,8 @@ void MyScene::createMap(){
             qDebug() << "Error loading tileset image: " << source;
             continue;
         }
-
         int numColumns = tilesetImage.width() / tileWidth;
         int numRows = tilesetImage.height() / tileHeight;
-
         for (int row = 0; row < numRows; ++row) {
             for (int column = 0; column < numColumns; ++column) {
                 int tileID = firstGid + (row * numColumns) + column;
@@ -101,15 +95,12 @@ void MyScene::createMap(){
             }
         }
     }
-
     QJsonArray layers = mapObject["layers"].toArray();
     for(QJsonValue layerValue : layers){
         QJsonObject layer = layerValue.toObject();
-
         if(layer["type"] == "tilelayer"){
             int width = layer["width"].toInt();
             int height = layer["height"].toInt();
-
             QJsonArray data = layer["data"].toArray();
             for(int y = 0; y < height; y++){ //line
                 for(int x = 0; x < width; x++){ //column
@@ -122,20 +113,16 @@ void MyScene::createMap(){
                     }
                 }
             }
-
-            //Add collisions objects
+            //Ajouts des collision
         } else if(layer["type"] == "objectgroup" && layer["name"] == "collisions"){
             QJsonArray objects = layer["objects"].toArray();
-
             for(QJsonValue objectValue : objects){
                 QJsonObject object = objectValue.toObject();
-
                 int x = object["x"].toInt();
                 int y = object["y"].toInt();
                 int width = object["width"].toInt();
                 int height = object["height"].toInt();
                 bool isEllipse = object.contains("ellipse") && object["ellipse"].toBool();
-
                 if (isEllipse) {
                     QGraphicsEllipseItem* ellipse = new QGraphicsEllipseItem(x, y, width, height);
                     ellipse->setBrush(Qt::red);
@@ -154,7 +141,6 @@ void MyScene::createMap(){
             }
         }
     }
-
     file.close();
 }
 
