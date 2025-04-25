@@ -426,17 +426,6 @@
                  "width":960,
                  "x":0,
                  "y":928
-                }, 
-                {
-                 "height":0,
-                 "id":31,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":448,
-                 "y":-192
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -454,7 +443,7 @@
         {
          "columns":8,
          "firstgid":1,
-         "image":"../map/TX Tileset Grass.png",
+         "image":"..\/..\/..\/..\/Downloads\/Texture\/TX Tileset Grass.png",
          "imageheight":256,
          "imagewidth":256,
          "margin":0,
@@ -467,7 +456,7 @@
         {
          "columns":8,
          "firstgid":65,
-         "image":"../map/TX Tileset Stone Ground.png",
+         "image":"..\/..\/..\/..\/Downloads\/Texture\/TX Tileset Stone Ground.png",
          "imageheight":256,
          "imagewidth":256,
          "margin":0,
@@ -480,7 +469,7 @@
         {
          "columns":16,
          "firstgid":129,
-         "image":"../map/TX Plant.png",
+         "image":"..\/..\/..\/..\/Downloads\/Texture\/TX Plant.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -493,7 +482,7 @@
         {
          "columns":16,
          "firstgid":385,
-         "image":"../map/TX Shadow Plant.png",
+         "image":"..\/..\/..\/..\/Downloads\/Texture\/TX Shadow Plant.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,

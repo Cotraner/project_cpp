@@ -8,26 +8,24 @@
 #include "QJsonDocument"
 #include "QFile"
 #include "QJsonArray"
+#include "QMovie"
+#include "player.h"
 
 MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
-    map = new QGraphicsPixmapItem();
-    map->setPixmap(QPixmap("../map/WIN_20250227_10_22_20_Pro.jpg")); //ajout d'une image
-    this->addItem(map);
-
-    qgri = new QGraphicsRectItem(10, 100, 300, 200); //ajout d'un carré
+    /*qgri = new QGraphicsRectItem(1, 1, 1920, 1080); //ajout d'un carré
     this->addItem(qgri);
 
-
     qgti = new QGraphicsTextItem("CIR2 Nantes");     //ajout d'un texte
-    this->addItem(qgti);
-
+    this->addItem(qgti);*/
+    createMap();
+    createPersonage();
 
     QTimer* timer;
     timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    //connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(30); //toutes les 30 millisecondes
 
-    createMap();
+
 }
 
 void MyScene::update(){
@@ -40,7 +38,7 @@ void MyScene::update(){
 
 void MyScene::keyPressEvent(QKeyEvent *event) {
     if(event->key() == Qt::Key_S) {
-        //code pour descendre
+        this->personage->setPos(personage->pos().rx(), personage->pos().ry()+1);
     }
     if(event->key() == Qt::Key_Z) {
         //code pour monter
@@ -61,7 +59,7 @@ void MyScene::createMap(){
     QJsonDocument document = QJsonDocument::fromJson(file.readAll());
     QJsonObject mapObject = document.object();
 
-    //listPixmap will contains every tiles
+    //initialise une liste avec des tuiles
     QMap<int, QPixmap> listPixmap;
 
     int tileWidth = mapObject["tilewidth"].toInt();
@@ -71,7 +69,6 @@ void MyScene::createMap(){
     this->backgroundWidth = numberTileWidth * tileWidth;
     this->backgroundHeight = numberTileHeight * tileHeight;
 
-    //First we get every tiles to add it into listPixmap
     QJsonArray tilesets = mapObject["tilesets"].toArray();
     for(QJsonValue tilesetValue : tilesets){
         QJsonObject tileset = tilesetValue.toObject();
@@ -113,6 +110,7 @@ void MyScene::createMap(){
                     }
                 }
             }
+
             //Ajouts des collision
         } else if(layer["type"] == "objectgroup" && layer["name"] == "collisions"){
             QJsonArray objects = layer["objects"].toArray();
@@ -142,6 +140,18 @@ void MyScene::createMap(){
         }
     }
     file.close();
+}
+
+void MyScene::createPersonage() {
+    QMovie* movie = new QMovie("../anim/personage_down.gif");
+    player* personage = new player(10,5);
+    this->addItem(personage);
+
+    // Connecte le signal pour changer le pixmap à chaque frame
+    connect(movie, &QMovie::frameChanged, [=](int){
+        personage->setPixmap(movie->currentPixmap());
+    });
+    movie->start();
 }
 
 MyScene::~MyScene() {

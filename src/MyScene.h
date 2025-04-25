@@ -13,6 +13,7 @@ public:
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
     void createMap();
+    void createPersonage();
 
     public slots:
     void update();
