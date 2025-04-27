@@ -2,6 +2,7 @@
 #define CPP_QT_TPMINIPROJET_MYSCENE_H
 
 #include <QGraphicsScene>
+#include "player.h"
 
 
 class MyScene : public QGraphicsScene {
@@ -16,7 +17,7 @@ public:
     void createPersonage();
 
     public slots:
-    void update();
+    void update(QPointF wall);
 
 private:
     QGraphicsTextItem* qgti;
@@ -25,6 +26,7 @@ private:
     QTimer* timer;
     int backgroundWidth;
     int backgroundHeight;
+    player* personage;
 };
 
 

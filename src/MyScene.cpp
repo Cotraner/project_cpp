@@ -10,6 +10,7 @@
 #include "QJsonArray"
 #include "QMovie"
 #include "player.h"
+#include <QGraphicsPixmapItem>
 
 MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     /*qgri = new QGraphicsRectItem(1, 1, 1920, 1080); //ajout d'un carré
@@ -28,26 +29,6 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
 
 }
 
-void MyScene::update(){
-    QPointF pos = qgti->pos();
-    qgti->setPos(pos.rx(), pos.ry()+1);
-    if (qgti->collidesWithItem(qgri)) {
-        qDebug() << "Collision !";
-    }
-}
-
-void MyScene::keyPressEvent(QKeyEvent *event) {
-    if(event->key() == Qt::Key_S) {
-        this->personage->setPos(personage->pos().rx(), personage->pos().ry()+1);
-    }
-    if(event->key() == Qt::Key_Z) {
-        //code pour monter
-    }
-    if(event->key() == Qt::Key_Escape) {
-        timer->stop();
-    }
-    //...
-}
 
 void MyScene::keyReleaseEvent(QKeyEvent *event) {
     
@@ -143,16 +124,40 @@ void MyScene::createMap(){
 }
 
 void MyScene::createPersonage() {
-    QMovie* movie = new QMovie("../anim/personage_down.gif");
-    player* personage = new player(10,5);
+    this->personage = new player(3, 1);
     this->addItem(personage);
-
-    // Connecte le signal pour changer le pixmap à chaque frame
-    connect(movie, &QMovie::frameChanged, [=](int){
-        personage->setPixmap(movie->currentPixmap());
-    });
-    movie->start();
+    personage->setZValue(10);
+    personage->setPos(200, 200);
 }
+
+void MyScene::update(QPointF wall){
+    QPointF posperso = personage->pos();
+
+
+
+}
+
+
+void MyScene::keyPressEvent(QKeyEvent *event) {
+    if(event->key() == Qt::Key_S || event->key() == Qt::Key_Down) {
+        this->personage->setPos(personage->pos().rx(), personage->pos().ry()+1);
+    }
+    if(event->key() == Qt::Key_Z || event->key() == Qt::Key_Up) {
+        this->personage->setPos(personage->pos().rx(), personage->pos().ry()-1);
+    }
+    if(event->key() == Qt::Key_Q || event->key() == Qt::Key_Left) {
+        this->personage->setPos(personage->pos().rx()-1, personage->pos().ry());
+    }
+    if(event->key() == Qt::Key_D || event->key() == Qt::Key_Right) {
+        this->personage->setPos(personage->pos().rx()+1, personage->pos().ry());
+    }
+    if(event->key() == Qt::Key_Escape) {
+        qDebug() << "Le jeu à été quitté";
+        timer->stop();
+    }
+    //...
+}
+
 
 MyScene::~MyScene() {
 

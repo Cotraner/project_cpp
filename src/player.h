@@ -5,29 +5,27 @@
 #include <QGraphicsObject>
 #include <QGraphicsPixmapItem>
 #include <QMovie>
+#include "QPainter"
 
 class player : public QGraphicsObject {
-    Q_OBJECT
-    
+Q_OBJECT
+
 private:
     int life;
     int attack;
+    QPixmap pixmap;
+    QMovie* currentMovie;
+    QMap<QString, QMovie*> movies; // <--- Map des animations par direction
 
 public:
-    player(int life, int attack) : life(life), attack(attack) {
-        setPos(200,200);
-    }
+    player(int life, int attack);
+    ~player();
+
     int getLife();
+    void setAnimation(const QString& direction);
 
-//redefine paint and boundingRect
-
-
-    QRectF boundingRect() const override {
-        return QRectF(0, 0, 32, 32);
-    }
-
-
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override {
-
+    QRectF boundingRect() const override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
 };
+
 #endif //PROJECT_CPP_PLAYER_H
