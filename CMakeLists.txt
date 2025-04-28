@@ -7,7 +7,7 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
-file (GLOB_RECURSE sourceCode src/*.cpp src/*.h player.cpp)
+file (GLOB_RECURSE sourceCode src/*.cpp src/*.h)
 
 qt_standard_project_setup()
 

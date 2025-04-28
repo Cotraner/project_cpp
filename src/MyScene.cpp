@@ -130,7 +130,7 @@ void MyScene::createPersonage() {
     personage->setPos(200, 200);
 }
 
-void MyScene::update(QPointF wall){
+void MyScene::update(){
     QPointF posperso = personage->pos();
 
 

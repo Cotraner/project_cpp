@@ -17,7 +17,7 @@ public:
     void createPersonage();
 
     public slots:
-    void update(QPointF wall);
+    void update();
 
 private:
     QGraphicsTextItem* qgti;
