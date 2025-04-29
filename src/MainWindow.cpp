@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->mainView->setScene(mainScene);
 
     this->setCentralWidget(mainView);
-    this->setWindowTitle("My main window");
+    this->setWindowTitle("My game");
     this->resize(1920/2, 1080/2);
 
     helpMenu = menuBar()->addMenu(tr("&Help"));

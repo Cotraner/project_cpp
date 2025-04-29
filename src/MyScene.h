@@ -15,6 +15,7 @@ public:
     void keyReleaseEvent(QKeyEvent* event);
     void createMap();
     void createPersonage();
+    void checkPosPlayer();
 
     public slots:
     void update();

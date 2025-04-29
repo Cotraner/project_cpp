@@ -93,7 +93,7 @@ void MyScene::createMap(){
             }
 
             //Ajouts des collision
-        } else if(layer["type"] == "objectgroup" && layer["name"] == "collisions"){
+        } else if(layer["type"] == "objectgroup" && layer["name"] == "collision"){
             QJsonArray objects = layer["objects"].toArray();
             for(QJsonValue objectValue : objects){
                 QJsonObject object = objectValue.toObject();
@@ -126,17 +126,17 @@ void MyScene::createMap(){
 void MyScene::createPersonage() {
     this->personage = new player(3, 1);
     this->addItem(personage);
-    personage->setZValue(10);
-    personage->setPos(200, 200);
+    personage->setZValue(100);
+    //personage->setPos(200, 200);
 }
 
 void MyScene::update(){
-    QPointF posperso = personage->pos();
-
-
-
+    checkPosPlayer();
 }
 
+void MyScene::checkPosPlayer() {
+
+}
 
 void MyScene::keyPressEvent(QKeyEvent *event) {
     if(event->key() == Qt::Key_S || event->key() == Qt::Key_Down) {
