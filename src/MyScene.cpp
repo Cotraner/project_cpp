@@ -11,6 +11,7 @@
 #include "QMovie"
 #include "player.h"
 #include <QGraphicsPixmapItem>
+#include "mainWindow.h"
 
 MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     /*qgri = new QGraphicsRectItem(1, 1, 1920, 1080); //ajout d'un carré
@@ -20,6 +21,8 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     this->addItem(qgti);*/
     createMap();
     createPersonage();
+    this->addItem(personage);
+
 
     QTimer* timer;
     timer = new QTimer(this);
@@ -27,6 +30,10 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     timer->start(30); //toutes les 30 millisecondes
 
 
+}
+
+player* MyScene::getPlayer() {
+    return this->personage;
 }
 
 
@@ -127,11 +134,10 @@ void MyScene::createPersonage() {
     this->personage = new player(3, 1);
     this->addItem(personage);
     personage->setZValue(100);
-    //personage->setPos(200, 200);
 }
 
 void MyScene::update(){
-    checkPosPlayer();
+    //checkPosPlayer();
 }
 
 void MyScene::checkPosPlayer() {

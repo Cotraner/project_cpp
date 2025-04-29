@@ -22,9 +22,11 @@ private :
 public:
     MainWindow(QWidget* parent = nullptr);
     virtual ~MainWindow();
+    void focusOnPlayer(player* playerCharacter, double zoomLevel = 2.0);
 
 public slots:
     void slot_aboutMenu();
+    void updatePlayerFocus();
 };
 
 

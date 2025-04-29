@@ -24,8 +24,24 @@ public:
     int getLife();
     void setAnimation(const QString& direction);
 
+    player* getPlayer() {
+        return this;
+    }
+    void setPos(qreal x, qreal y) {
+        QGraphicsItem::setPos(x, y);
+        emit positionChanged();
+    }
+
+    void setPos(const QPointF &pos) {
+        QGraphicsItem::setPos(pos);
+        emit positionChanged();
+    }
+
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
+signals:
+    void positionChanged();
+
 };
 
 #endif //PROJECT_CPP_PLAYER_H

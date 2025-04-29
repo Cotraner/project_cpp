@@ -16,6 +16,7 @@ public:
     void createMap();
     void createPersonage();
     void checkPosPlayer();
+    player* getPlayer();
 
     public slots:
     void update();
