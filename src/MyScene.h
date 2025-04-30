@@ -15,20 +15,20 @@ public:
     void keyReleaseEvent(QKeyEvent* event);
     void createMap();
     void createPersonage();
-    void checkPosPlayer();
     player* getPlayer();
+
 
     public slots:
     void update();
 
 private:
-    QGraphicsTextItem* qgti;
     QGraphicsPixmapItem* map;
-    QGraphicsRectItem* qgri;
     QTimer* timer;
     int backgroundWidth;
     int backgroundHeight;
     player* personage;
+    QList<QGraphicsItem*> collisionItems;
+    bool checkCollision(QPointF newPos);
 };
 
 

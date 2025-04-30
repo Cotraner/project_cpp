@@ -23,11 +23,10 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     createPersonage();
     this->addItem(personage);
 
-
-    QTimer* timer;
     timer = new QTimer(this);
-    //connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(30); //toutes les 30 millisecondes
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+
 
 
 }
@@ -81,17 +80,17 @@ void MyScene::createMap(){
         }
     }
     QJsonArray layers = mapObject["layers"].toArray();
-    for(QJsonValue layerValue : layers){
+    for(QJsonValue layerValue : layers) {
         QJsonObject layer = layerValue.toObject();
-        if(layer["type"] == "tilelayer"){
+        if (layer["type"] == "tilelayer") {
             int width = layer["width"].toInt();
             int height = layer["height"].toInt();
             QJsonArray data = layer["data"].toArray();
-            for(int y = 0; y < height; y++){ //line
-                for(int x = 0; x < width; x++){ //column
+            for (int y = 0; y < height; y++) { //line
+                for (int x = 0; x < width; x++) { //column
                     int tileID = data[width * y + x].toInt();
-                    if(tileID != 0){
-                        QGraphicsPixmapItem* tile = new QGraphicsPixmapItem(listPixmap[tileID]);
+                    if (tileID != 0) {
+                        QGraphicsPixmapItem *tile = new QGraphicsPixmapItem(listPixmap[tileID]);
                         tile->setPos(x * 32, y * 32);
                         tile->setOpacity(layer["opacity"].toDouble());
                         this->addItem(tile);//draw the tile at the right position
@@ -100,29 +99,32 @@ void MyScene::createMap(){
             }
 
             //Ajouts des collision
-        } else if(layer["type"] == "objectgroup" && layer["name"] == "collision"){
+        } else if (layer["type"] == "objectgroup" && layer["name"] == "collision") {
             QJsonArray objects = layer["objects"].toArray();
-            for(QJsonValue objectValue : objects){
+            for (QJsonValue objectValue: objects) {
                 QJsonObject object = objectValue.toObject();
                 int x = object["x"].toInt();
                 int y = object["y"].toInt();
                 int width = object["width"].toInt();
                 int height = object["height"].toInt();
                 bool isEllipse = object.contains("ellipse") && object["ellipse"].toBool();
+
                 if (isEllipse) {
-                    QGraphicsEllipseItem* ellipse = new QGraphicsEllipseItem(x, y, width, height);
-                    ellipse->setBrush(Qt::red);
+                    QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(x, y, width, height);
+                    ellipse->setBrush(Qt::transparent); // Transparent pour ne pas les voir en jeu
                     ellipse->setPen(Qt::NoPen);
                     ellipse->setData(0, "collision");
                     ellipse->setZValue(100);
                     this->addItem(ellipse);
+                    collisionItems.append(ellipse); // Ajout à la liste de collision
                 } else {
-                    QGraphicsRectItem* rect = new QGraphicsRectItem(x, y, width, height);
-                    rect->setBrush(Qt::red);
+                    QGraphicsRectItem *rect = new QGraphicsRectItem(x, y, width, height);
+                    rect->setBrush(Qt::transparent); // Transparent pour ne pas les voir en jeu
                     rect->setPen(Qt::NoPen);
                     rect->setData(0, "collision");
                     rect->setZValue(100);
                     this->addItem(rect);
+                    collisionItems.append(rect); // Ajout à la liste de collision
                 }
             }
         }
@@ -140,28 +142,48 @@ void MyScene::update(){
     //checkPosPlayer();
 }
 
-void MyScene::checkPosPlayer() {
+bool MyScene::checkCollision(QPointF newPos) {
+    QRectF playerRect = personage->boundingRect();
+    playerRect.moveTopLeft(newPos);
 
+            foreach(QGraphicsItem* item, collisionItems) {
+            if (item->collidesWithItem(personage, Qt::IntersectsItemBoundingRect)) {
+                return true; // Collision détectée
+            }
+        }
+
+    return false; // Pas de collision
 }
 
 void MyScene::keyPressEvent(QKeyEvent *event) {
+    QPointF currentPos = personage->pos();
+    QPointF newPos = currentPos;
+
     if(event->key() == Qt::Key_S || event->key() == Qt::Key_Down) {
-        this->personage->setPos(personage->pos().rx(), personage->pos().ry()+1);
+        newPos.setY(currentPos.y() + 5); // Déplacement plus important pour être visible
+        personage->setPos(newPos);
     }
-    if(event->key() == Qt::Key_Z || event->key() == Qt::Key_Up) {
-        this->personage->setPos(personage->pos().rx(), personage->pos().ry()-1);
+    else if(event->key() == Qt::Key_Z || event->key() == Qt::Key_Up) {
+        newPos.setY(currentPos.y() - 5);
+        personage->setPos(newPos);
     }
-    if(event->key() == Qt::Key_Q || event->key() == Qt::Key_Left) {
-        this->personage->setPos(personage->pos().rx()-1, personage->pos().ry());
+    else if(event->key() == Qt::Key_Q || event->key() == Qt::Key_Left) {
+        newPos.setX(currentPos.x() - 5);
+        personage->setPos(newPos);
     }
-    if(event->key() == Qt::Key_D || event->key() == Qt::Key_Right) {
-        this->personage->setPos(personage->pos().rx()+1, personage->pos().ry());
+    else if(event->key() == Qt::Key_D || event->key() == Qt::Key_Right) {
+        newPos.setX(currentPos.x() + 5);
+        personage->setPos(newPos);
     }
-    if(event->key() == Qt::Key_Escape) {
+    else if(event->key() == Qt::Key_Escape) {
         qDebug() << "Le jeu à été quitté";
         timer->stop();
     }
-    //...
+
+    // Vérifiez s'il y a une collision avant de déplacer le personnage
+    if (!checkCollision(newPos)) {
+        personage->setPos(newPos);
+    }
 }
 
 

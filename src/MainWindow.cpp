@@ -4,7 +4,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
 
     this->mainScene = new MyScene;
-
     this->mainView = new QGraphicsView;
     this->mainView->setScene(mainScene);
 

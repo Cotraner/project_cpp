@@ -7,7 +7,6 @@
 #include <QMenuBar>
 #include <QAction>
 #include <QMessageBox>
-
 #include "MyScene.h"
 
 class MainWindow : public QMainWindow {
