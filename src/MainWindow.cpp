@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->mainView = new QGraphicsView;
     this->mainView->setScene(mainScene);
 
+
     // Activer les transformations de vue
     this->mainView->setRenderHint(QPainter::Antialiasing);
     this->mainView->setRenderHint(QPainter::SmoothPixmapTransform);
@@ -20,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     connect(mainScene->getPlayer(), SIGNAL(positionChanged()), this, SLOT(updatePlayerFocus()));
     this->focusOnPlayer(mainScene->getPlayer(), 2.0);
+    this->setCursor(Qt::BlankCursor);
 
 
     this->setCentralWidget(mainView);

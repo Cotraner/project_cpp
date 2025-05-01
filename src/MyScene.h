@@ -16,6 +16,7 @@ public:
     void createMap();
     void createPersonage();
     player* getPlayer();
+    QTimer* timer;
 
 
     public slots:
@@ -23,7 +24,7 @@ public:
 
 private:
     QGraphicsPixmapItem* map;
-    QTimer* timer;
+
     int backgroundWidth;
     int backgroundHeight;
     player* personage;

@@ -22,10 +22,11 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     createMap();
     createPersonage();
     this->addItem(personage);
-
+    QTimer* timer;
     timer = new QTimer(this);
-    timer->start(30); //toutes les 30 millisecondes
+
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(30); //toutes les 30 millisecondes
 
 
 
@@ -143,15 +144,17 @@ void MyScene::update(){
 }
 
 bool MyScene::checkCollision(QPointF newPos) {
+    // On crée un rectangle correspondant à la hitbox du personnage à la nouvelle position
     QRectF playerRect = personage->boundingRect();
     playerRect.moveTopLeft(newPos);
-
+    // Vérifier si ce rectangle entre en collision avec un des objets de collision
             foreach(QGraphicsItem* item, collisionItems) {
-            if (item->collidesWithItem(personage, Qt::IntersectsItemBoundingRect)) {
+            QRectF itemRect = item->sceneBoundingRect();
+            if (playerRect.intersects(itemRect)) {
+                qDebug() << "Collision détectée avec l'objet à" << itemRect;
                 return true; // Collision détectée
             }
         }
-
     return false; // Pas de collision
 }
 
@@ -159,27 +162,54 @@ void MyScene::keyPressEvent(QKeyEvent *event) {
     QPointF currentPos = personage->pos();
     QPointF newPos = currentPos;
 
-    if(event->key() == Qt::Key_S || event->key() == Qt::Key_Down) {
-        newPos.setY(currentPos.y() + 5); // Déplacement plus important pour être visible
-        personage->setPos(newPos);
-    }
-    else if(event->key() == Qt::Key_Z || event->key() == Qt::Key_Up) {
-        newPos.setY(currentPos.y() - 5);
-        personage->setPos(newPos);
-    }
-    else if(event->key() == Qt::Key_Q || event->key() == Qt::Key_Left) {
-        newPos.setX(currentPos.x() - 5);
-        personage->setPos(newPos);
-    }
-    else if(event->key() == Qt::Key_D || event->key() == Qt::Key_Right) {
-        newPos.setX(currentPos.x() + 5);
-        personage->setPos(newPos);
-    }
-    else if(event->key() == Qt::Key_Escape) {
+    if(event->key() == Qt::Key_Escape) {
         qDebug() << "Le jeu à été quitté";
         timer->stop();
     }
-
+    if(event->key()== Qt::Key_S && event->key()== Qt::Key_D){
+        newPos.setX(currentPos.x() + 5);
+        newPos.setY(currentPos.y() + 5);
+    }
+    if(event->key()== Qt::Key_Down && event->key()== Qt::Key_Right){
+        newPos.setX(currentPos.x() + 5);
+        newPos.setY(currentPos.y() + 5);
+    }
+    if(event->key()== Qt::Key_Z && event->key()== Qt::Key_D){
+        newPos.setX(currentPos.x() + 5);
+        newPos.setY(currentPos.y() - 5);
+    }
+    if(event->key()== Qt::Key_Up && event->key()== Qt::Key_Right){
+        newPos.setX(currentPos.x() + 5);
+        newPos.setY(currentPos.y() - 5);
+    }
+    if(event->key()== Qt::Key_Z && event->key()== Qt::Key_Q){
+        newPos.setX(currentPos.x() - 5);
+        newPos.setY(currentPos.y() - 5);
+    }
+    if(event->key()== Qt::Key_Up && event->key()== Qt::Key_Left){
+        newPos.setX(currentPos.x() - 5);
+        newPos.setY(currentPos.y() - 5);
+    }
+    if(event->key()== Qt::Key_S && event->key()== Qt::Key_Q){
+        newPos.setX(currentPos.x() - 5);
+        newPos.setY(currentPos.y() + 5);
+    }
+    if(event->key()== Qt::Key_Down && event->key()== Qt::Key_Left){
+        newPos.setX(currentPos.x() - 5);
+        newPos.setY(currentPos.y() + 5);
+    }
+    else if(event->key() == Qt::Key_S || event->key() == Qt::Key_Down) {
+        newPos.setY(currentPos.y() + 5);
+    }
+    else if(event->key() == Qt::Key_Z || event->key() == Qt::Key_Up) {
+        newPos.setY(currentPos.y() - 5);
+    }
+    else if(event->key() == Qt::Key_Q || event->key() == Qt::Key_Left) {
+        newPos.setX(currentPos.x() - 5);
+    }
+    else if(event->key() == Qt::Key_D || event->key() == Qt::Key_Right) {
+        newPos.setX(currentPos.x() + 5);
+    }
     // Vérifiez s'il y a une collision avant de déplacer le personnage
     if (!checkCollision(newPos)) {
         personage->setPos(newPos);
