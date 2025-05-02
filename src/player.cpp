@@ -7,7 +7,7 @@
 #include <QMovie>
 
 player::player(int life, int attack): life(life), attack(attack), currentMovie(nullptr){
-    setPos(200, 200); // position de base
+    setPos(500, 200); // position de base
 
     // Charger toutes les directions
     movies["down"] = new QMovie("../anim/personage_down.gif");
@@ -18,7 +18,7 @@ player::player(int life, int attack): life(life), attack(attack), currentMovie(n
     // Démarrer une animation par défaut
     setAnimation("down");
 
-    setScale(1.2);
+    setScale(1.4);
     setTransformOriginPoint(16, 16);
 }
 
