@@ -11,7 +11,7 @@ player::player(int life, int attack): life(life), attack(attack), currentMovie(n
 
     // Charger toutes les directions
     movies["down"] = new QMovie("../anim/personage_down.gif");
-    //movies["up"] = new QMovie("../anim/personage_up.gif");
+    movies["up"] = new QMovie("../anim/personage_up.gif");
     //movies["left"] = new QMovie("../anim/personage_left.gif");
     //movies["right"] = new QMovie("../anim/personage_right.gif");
 
@@ -56,4 +56,9 @@ void player::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
 
 int player::getLife() {
     return life;
+}
+
+void player::setLife(int newLife) {
+    life = newLife;
+    emit lifeChanged();
 }

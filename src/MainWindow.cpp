@@ -1,4 +1,6 @@
+#include <QStackedLayout>
 #include "MainWindow.h"
+#include "overlay.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -19,14 +21,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // Désactiver le scrolling
     this->mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    connect(mainScene->getPlayer(), SIGNAL(positionChanged()), this, SLOT(updatePlayerFocus()));
-    this->focusOnPlayer(mainScene->getPlayer(), 2.0);
+    auto player = mainScene->getPlayer();
+    if (player) {
+        connect(mainScene->getPlayer(), SIGNAL(positionChanged(player*)), this, SLOT(updatePlayerFocus(player*)));
+        this->focusOnPlayer(player, 2.0);
+    } else {
+        qDebug() << "Le joueur n'a pas été initialisé dans la scène !";
+    }
+
     this->setCursor(Qt::BlankCursor);
+
+    // afficher l'overlay
 
 
     this->setCentralWidget(mainView);
     this->setWindowTitle("My game");
-    this->resize(1920/2, 1080/2);
+    this->resize(800, 600);
 
     helpMenu = menuBar()->addMenu(tr("&Help"));
     QAction* actionHelp = new QAction(tr("&About"), this);
@@ -50,15 +60,14 @@ void MainWindow::focusOnPlayer(player* playerCharacter, double zoomLevel)
     mainView->centerOn(playerCharacter);
 }
 
-void MainWindow::updatePlayerFocus()
+void MainWindow::updatePlayerFocus(player* playerCharacter)
 {
-    // Récupérer le joueur depuis l'émetteur du signal
-    player* playerCharacter = qobject_cast<player*>(sender());
     if (playerCharacter) {
-        // Juste centrer, sans modifier le niveau de zoom
         mainView->centerOn(playerCharacter);
+
     }
 }
+
 
 MainWindow::~MainWindow(){
 

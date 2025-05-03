@@ -33,7 +33,11 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
 }
 
 player* MyScene::getPlayer() {
-    return this->personage;
+    if(this->personage != nullptr) {
+        return this->personage;
+    }
+    qDebug() << "Error: player not found";
+    return nullptr;
 }
 
 
@@ -140,7 +144,7 @@ void MyScene::createPersonage() {
 }
 
 void MyScene::update(){
-    //checkPosPlayer();
+
 }
 
 bool MyScene::checkCollision(QPointF newPos) {
@@ -199,9 +203,11 @@ void MyScene::keyPressEvent(QKeyEvent *event) {
         newPos.setY(currentPos.y() + 5);
     }
     else if(event->key() == Qt::Key_S || event->key() == Qt::Key_Down) {
+        this->personage->setAnimation("down");
         newPos.setY(currentPos.y() + 5);
     }
     else if(event->key() == Qt::Key_Z || event->key() == Qt::Key_Up) {
+        this->personage->setAnimation("up");
         newPos.setY(currentPos.y() - 5);
     }
     else if(event->key() == Qt::Key_Q || event->key() == Qt::Key_Left) {
@@ -213,6 +219,7 @@ void MyScene::keyPressEvent(QKeyEvent *event) {
     // Vérifiez s'il y a une collision avant de déplacer le personnage
     if (!checkCollision(newPos)) {
         personage->setPos(newPos);
+
     }
 }
 

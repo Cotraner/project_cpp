@@ -22,6 +22,7 @@ public:
     ~player();
 
     int getLife();
+    void setLife(int newLife);
     void setAnimation(const QString& direction);
 
     player* getPlayer() {
@@ -29,18 +30,19 @@ public:
     }
     void setPos(qreal x, qreal y) {
         QGraphicsItem::setPos(x, y);
-        emit positionChanged();
+        emit positionChanged(this);  // Émet le signal avec le joueur en paramètre
     }
 
     void setPos(const QPointF &pos) {
         QGraphicsItem::setPos(pos);
-        emit positionChanged();
+        emit positionChanged(this);  // Émet le signal avec le joueur en paramètre
     }
 
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
 signals:
-    void positionChanged();
+    void positionChanged(player* playerCharacter);  // Ajoute le joueur comme argument
+    void lifeChanged();
 
 };
 

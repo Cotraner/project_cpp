@@ -25,7 +25,7 @@ public:
 
 public slots:
     void slot_aboutMenu();
-    void updatePlayerFocus();
+    void updatePlayerFocus(player* playerCharacter);
 };
 
 
