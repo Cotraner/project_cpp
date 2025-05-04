@@ -138,7 +138,7 @@ void MyScene::createMap(){
 }
 
 void MyScene::createPersonage() {
-    this->personage = new player(3, 1);
+    this->personage = new player(100, 10);
     this->addItem(personage);
     personage->setZValue(100);
 }

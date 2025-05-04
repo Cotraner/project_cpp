@@ -1,28 +1,30 @@
 #include <QStackedLayout>
+#include <QTimer>
 #include "MainWindow.h"
 #include "overlay.h"
 
+#include "QGraphicsProxyWidget"
+
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-
     this->mainScene = new MyScene;
     this->mainView = new QGraphicsView;
     this->mainView->setScene(mainScene);
-
 
     // Activer les transformations de vue
     this->mainView->setRenderHint(QPainter::Antialiasing);
     this->mainView->setRenderHint(QPainter::SmoothPixmapTransform);
 
-    //config de zoom
+    // Config de zoom
     this->mainView->setTransformationAnchor(QGraphicsView::AnchorViewCenter);
     this->mainView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
 
     // Désactiver le scrolling
     this->mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    auto player = mainScene->getPlayer();
 
+    auto player = mainScene->getPlayer();
     if (player) {
         connect(mainScene->getPlayer(), SIGNAL(positionChanged(player*)), this, SLOT(updatePlayerFocus(player*)));
         this->focusOnPlayer(player, 2.0);
@@ -31,10 +33,29 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     }
     this->setCursor(Qt::BlankCursor);
 
-    // afficher l'overlay
+    // Configurer la fenêtre principale
+    this->setCentralWidget(this->mainView);
 
+    // Créer le LifeCircle et l'attacher au viewport de la vue
+    // Le viewport est le widget où la scène est effectivement dessinée
+    LifeCircle* life = new LifeCircle(this->mainView->viewport());
+    life->setHP(this->mainScene->getPlayer()->getLife());
+    life->setMaxHP(life->getMaxHP());
+    life->resize(100, 100); // Taille du cercle de vie
 
-    this->setCentralWidget(mainView);
+    // Positionner le cercle en haut à gauche du viewport
+    life->move(20, 20);
+    life->raise(); // Mettre au premier plan
+    life->show();
+    
+    // Connecter la mise à jour de vie du joueur au cercle
+    connect(this->mainScene->getPlayer(), SIGNAL(lifeChanged(int)), life, SLOT(setHP(int)));
+
+    // Appliquer un délai pour que la vue comprenne la taille de la scène
+    QTimer::singleShot(0, this, [=]() {
+        this->focusOnPlayer(player, 2.0);
+    });
+
     this->setWindowTitle("My game");
     this->resize(800, 600);
 
@@ -42,7 +63,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     QAction* actionHelp = new QAction(tr("&About"), this);
     connect(actionHelp, SIGNAL(triggered()), this, SLOT(slot_aboutMenu()));
     helpMenu->addAction(actionHelp);
-
 }
 
 void MainWindow::focusOnPlayer(player* playerCharacter, double zoomLevel)
