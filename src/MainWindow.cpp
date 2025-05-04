@@ -22,13 +22,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     auto player = mainScene->getPlayer();
+
     if (player) {
         connect(mainScene->getPlayer(), SIGNAL(positionChanged(player*)), this, SLOT(updatePlayerFocus(player*)));
         this->focusOnPlayer(player, 2.0);
     } else {
         qDebug() << "Le joueur n'a pas été initialisé dans la scène !";
     }
-
     this->setCursor(Qt::BlankCursor);
 
     // afficher l'overlay
@@ -60,12 +60,9 @@ void MainWindow::focusOnPlayer(player* playerCharacter, double zoomLevel)
     mainView->centerOn(playerCharacter);
 }
 
-void MainWindow::updatePlayerFocus(player* playerCharacter)
-{
-    if (playerCharacter) {
-        mainView->centerOn(playerCharacter);
-
-    }
+void MainWindow::updatePlayerFocus(player* perso){
+    qDebug() << "updatePlayerFocus called!";
+    mainView->centerOn(perso);
 }
 
 

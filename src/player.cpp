@@ -12,8 +12,8 @@ player::player(int life, int attack): life(life), attack(attack), currentMovie(n
     // Charger toutes les directions
     movies["down"] = new QMovie("../anim/personage_down.gif");
     movies["up"] = new QMovie("../anim/personage_up.gif");
-    //movies["left"] = new QMovie("../anim/personage_left.gif");
-    //movies["right"] = new QMovie("../anim/personage_right.gif");
+    movies["left"] = new QMovie("../anim/personage_left.gif");
+    movies["right"] = new QMovie("../anim/personage_right.gif");
 
     // Démarrer une animation par défaut
     setAnimation("down");

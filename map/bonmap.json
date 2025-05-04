@@ -443,7 +443,7 @@
         {
          "columns":8,
          "firstgid":1,
-         "image":"..\/TX Tileset Grass.png",
+         "image":"../map/TX Tileset Grass.png",
          "imageheight":256,
          "imagewidth":256,
          "margin":0,
@@ -456,7 +456,7 @@
         {
          "columns":8,
          "firstgid":65,
-         "image":"..\/TX Tileset Stone Ground.png",
+         "image":"../map/TX Tileset Stone Ground.png",
          "imageheight":256,
          "imagewidth":256,
          "margin":0,
@@ -469,7 +469,7 @@
         {
          "columns":16,
          "firstgid":129,
-         "image":"..\/TX Plant.png",
+         "image":"../map/TX Plant.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
@@ -482,7 +482,7 @@
         {
          "columns":16,
          "firstgid":385,
-         "image":"..\/TX Shadow Plant.png",
+         "image":"..\/map\/TX Shadow Plant.png",
          "imageheight":512,
          "imagewidth":512,
          "margin":0,
