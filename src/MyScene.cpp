@@ -25,7 +25,7 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     QTimer* timer;
     timer = new QTimer(this);
 
-    //connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+   // connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(30); //toutes les 30 millisecondes
 
 
@@ -138,7 +138,7 @@ void MyScene::createMap(){
 }
 
 void MyScene::createPersonage() {
-    this->personage = new player(100, 10);
+    this->personage = new player(50, 10);
     this->addItem(personage);
     personage->setZValue(100);
 }

@@ -2,6 +2,7 @@
 #include <QTimer>
 #include "MainWindow.h"
 #include "overlay.h"
+#include "MyScene.h"
 
 #include "QGraphicsProxyWidget"
 
@@ -36,16 +37,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // Configurer la fenêtre principale
     this->setCentralWidget(this->mainView);
 
-    // Créer le LifeCircle et l'attacher au viewport de la vue
     // Le viewport est le widget où la scène est effectivement dessinée
-    LifeCircle* life = new LifeCircle(this->mainView->viewport());
+    LifeCircle* life = new LifeCircle(this->mainView);
     life->setHP(this->mainScene->getPlayer()->getLife());
     life->setMaxHP(life->getMaxHP());
-    life->resize(100, 100); // Taille du cercle de vie
-
-    // Positionner le cercle en haut à gauche du viewport
-    life->move(20, 20);
-    life->raise(); // Mettre au premier plan
     life->show();
     
     // Connecter la mise à jour de vie du joueur au cercle
@@ -55,7 +50,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     QTimer::singleShot(0, this, [=]() {
         this->focusOnPlayer(player, 2.0);
     });
-
     this->setWindowTitle("My game");
     this->resize(800, 600);
 
@@ -80,9 +74,9 @@ void MainWindow::focusOnPlayer(player* playerCharacter, double zoomLevel)
     mainView->centerOn(playerCharacter);
 }
 
-void MainWindow::updatePlayerFocus(player* perso){
+void MainWindow::updatePlayerFocus(player* p){
     qDebug() << "updatePlayerFocus called!";
-    mainView->centerOn(perso);
+    mainView->centerOn(p);
 }
 
 
