@@ -40,9 +40,10 @@ public:
 
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
-signals:
-    void positionChanged(player* playerCharacter);  // Ajoute le joueur comme argument
-    void lifeChanged();
+
+    signals:
+    void positionChanged(player* playerCharacter);
+    void lifeChanged(int newLife);
 
 };
 

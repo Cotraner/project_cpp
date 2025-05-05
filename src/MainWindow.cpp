@@ -1,9 +1,7 @@
-#include <QStackedLayout>
 #include <QTimer>
 #include "MainWindow.h"
 #include "overlay.h"
 #include "MyScene.h"
-
 #include "QGraphicsProxyWidget"
 
 
@@ -44,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     life->show();
     
     // Connecter la mise à jour de vie du joueur au cercle
-    connect(this->mainScene->getPlayer(), SIGNAL(lifeChanged(int)), life, SLOT(setHP(int)));
+    connect(mainScene->getPlayer(), SIGNAL(lifeChanged(int)), life, SLOT(setHP(int)));
+
 
     // Appliquer un délai pour que la vue comprenne la taille de la scène
     QTimer::singleShot(0, this, [=]() {

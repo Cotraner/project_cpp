@@ -1,9 +1,7 @@
 #ifndef CPP_QT_TPMINIPROJET_MYSCENE_H
 #define CPP_QT_TPMINIPROJET_MYSCENE_H
-
 #include <QGraphicsScene>
 #include "player.h"
-
 
 class MyScene : public QGraphicsScene {
     Q_OBJECT

@@ -1,17 +1,13 @@
 #include <QJsonObject>
 #include "MyScene.h"
 #include "QGraphicsRectItem"
-#include "QGraphicsPixmapItem"
 #include "QTimer"
 #include "QDebug"
 #include "QKeyEvent"
 #include "QJsonDocument"
 #include "QFile"
 #include "QJsonArray"
-#include "QMovie"
 #include "player.h"
-#include <QGraphicsPixmapItem>
-#include "mainWindow.h"
 
 MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     /*qgri = new QGraphicsRectItem(1, 1, 1920, 1080); //ajout d'un carré
@@ -155,6 +151,7 @@ bool MyScene::checkCollision(QPointF newPos) {
             foreach(QGraphicsItem* item, collisionItems) {
             QRectF itemRect = item->sceneBoundingRect();
             if (playerRect.intersects(itemRect)) {
+                personage->setLife(personage->getLife() - 5);
                 qDebug() << "Collision détectée avec l'objet à" << itemRect;
                 return true; // Collision détectée
             }
