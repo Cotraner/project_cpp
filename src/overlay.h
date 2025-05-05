@@ -9,9 +9,12 @@ Q_OBJECT
 
 public:
     LifeCircle(QWidget* parent = nullptr);
-    void setHP(int value);
+
     void setMaxHP(int value);
     int getMaxHP() const;
+
+    public slots:
+    void setHP(int value);
 
 protected:
     void paintEvent(QPaintEvent* event) override;

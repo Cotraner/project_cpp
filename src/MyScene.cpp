@@ -20,13 +20,14 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     this->addItem(personage);
     QTimer* timer;
     timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &MyScene::Movement);
 
    // connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(30); //toutes les 30 millisecondes
 
-
-
 }
+
+
 
 player* MyScene::getPlayer() {
     if(this->personage != nullptr) {
@@ -34,11 +35,6 @@ player* MyScene::getPlayer() {
     }
     qDebug() << "Error: player not found";
     return nullptr;
-}
-
-
-void MyScene::keyReleaseEvent(QKeyEvent *event) {
-    
 }
 
 void MyScene::createMap(){
@@ -159,67 +155,52 @@ bool MyScene::checkCollision(QPointF newPos) {
     return false; // Pas de collision
 }
 
-void MyScene::keyPressEvent(QKeyEvent *event) {
+void MyScene::keyPressEvent(QKeyEvent* event) {
+    if (event->isAutoRepeat())
+        return;
+
+    if (event->key() == Qt::Key_Escape) {
+        qDebug() << "Le jeu a été quitté";
+        movementTimer->stop();
+        return;
+    }
+
+    pressedKeys.insert(event->key());
+}
+
+void MyScene::Movement() {
+    if (!personage) return;
+
     QPointF currentPos = personage->pos();
     QPointF newPos = currentPos;
 
-    if(event->key() == Qt::Key_Escape) {
-        qDebug() << "Le jeu à été quitté";
-        timer->stop();
+    if (pressedKeys.contains(Qt::Key_S) || pressedKeys.contains(Qt::Key_Down)) {
+        personage->setAnimation("down");
+        newPos.setY(newPos.y() + 2);
     }
-    if(event->key()== Qt::Key_S && event->key()== Qt::Key_D){
-        newPos.setX(currentPos.x() + 5);
-        newPos.setY(currentPos.y() + 5);
+    if (pressedKeys.contains(Qt::Key_Z) || pressedKeys.contains(Qt::Key_Up)) {
+        personage->setAnimation("up");
+        newPos.setY(newPos.y() - 2);
     }
-    if(event->key()== Qt::Key_Down && event->key()== Qt::Key_Right){
-        newPos.setX(currentPos.x() + 5);
-        newPos.setY(currentPos.y() + 5);
+    if (pressedKeys.contains(Qt::Key_Q) || pressedKeys.contains(Qt::Key_Left)) {
+        personage->setAnimation("left");
+        newPos.setX(newPos.x() - 2);
     }
-    if(event->key()== Qt::Key_Z && event->key()== Qt::Key_D){
-        newPos.setX(currentPos.x() + 5);
-        newPos.setY(currentPos.y() - 5);
+    if (pressedKeys.contains(Qt::Key_D) || pressedKeys.contains(Qt::Key_Right)) {
+        personage->setAnimation("right");
+        newPos.setX(newPos.x() + 2);
     }
-    if(event->key()== Qt::Key_Up && event->key()== Qt::Key_Right){
-        newPos.setX(currentPos.x() + 5);
-        newPos.setY(currentPos.y() - 5);
-    }
-    if(event->key()== Qt::Key_Z && event->key()== Qt::Key_Q){
-        newPos.setX(currentPos.x() - 5);
-        newPos.setY(currentPos.y() - 5);
-    }
-    if(event->key()== Qt::Key_Up && event->key()== Qt::Key_Left){
-        newPos.setX(currentPos.x() - 5);
-        newPos.setY(currentPos.y() - 5);
-    }
-    if(event->key()== Qt::Key_S && event->key()== Qt::Key_Q){
-        newPos.setX(currentPos.x() - 5);
-        newPos.setY(currentPos.y() + 5);
-    }
-    if(event->key()== Qt::Key_Down && event->key()== Qt::Key_Left){
-        newPos.setX(currentPos.x() - 5);
-        newPos.setY(currentPos.y() + 5);
-    }
-    else if(event->key() == Qt::Key_S || event->key() == Qt::Key_Down) {
-        this->personage->setAnimation("down");
-        newPos.setY(currentPos.y() + 5);
-    }
-    else if(event->key() == Qt::Key_Z || event->key() == Qt::Key_Up) {
-        this->personage->setAnimation("up");
-        newPos.setY(currentPos.y() - 5);
-    }
-    else if(event->key() == Qt::Key_Q || event->key() == Qt::Key_Left) {
-        this->personage->setAnimation("left");
-        newPos.setX(currentPos.x() - 5);
-    }
-    else if(event->key() == Qt::Key_D || event->key() == Qt::Key_Right) {
-        this->personage->setAnimation("right");
-        newPos.setX(currentPos.x() + 5);
-    }
-    // Vérifiez s'il y a une collision avant de déplacer le personnage
-    if (!checkCollision(newPos)) {
-        personage->setPos(newPos);
 
+    if (newPos != currentPos && !checkCollision(newPos)) {
+        personage->setPos(newPos);
     }
+}
+
+void MyScene::keyReleaseEvent(QKeyEvent* event) {
+    if (event->isAutoRepeat())
+        return;
+
+    pressedKeys.remove(event->key());
 }
 
 
