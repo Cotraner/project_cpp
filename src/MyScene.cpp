@@ -22,7 +22,7 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MyScene::Movement);
 
-   // connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(30); //toutes les 30 millisecondes
 
 }
@@ -189,6 +189,9 @@ void MyScene::Movement() {
     if (pressedKeys.contains(Qt::Key_D) || pressedKeys.contains(Qt::Key_Right)) {
         personage->setAnimation("right");
         newPos.setX(newPos.x() + 2);
+    }
+    if (pressedKeys.contains(Qt::Key_P)) {
+        personage->setAnimation("p");
     }
 
     if (newPos != currentPos && !checkCollision(newPos)) {

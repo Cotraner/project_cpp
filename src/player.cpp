@@ -11,6 +11,9 @@ player::player(int life, int attack): life(life), attack(attack), currentMovie(n
     movies["up"] = new QMovie("../anim/personage_up.gif");
     movies["left"] = new QMovie("../anim/personage_left.gif");
     movies["right"] = new QMovie("../anim/personage_right.gif");
+    movies["p"] = new QMovie("../anim/personage_p.gif");
+    //movies["die"] = new QMovie("../anim/personage_die.gif");
+    //movies["wait"] = new QMovie("../anim/personage_wait.gif");
 
     // Démarrer une animation par défaut
     setAnimation("down");
@@ -42,7 +45,7 @@ void player::setAnimation(const QString& direction) {
 }
 
 QRectF player::boundingRect() const {
-    return QRectF(0, 0, 32, 32);
+    return QRectF(0, 0, 25, 32);
 }
 
 void player::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) {
@@ -56,6 +59,8 @@ int player::getLife() {
 }
 
 void player::setLife(int newLife) {
-    life = newLife;
-    emit lifeChanged(newLife);
+    if(newLife>=0) { // Assure que la vie ne soit pas négative
+        life = newLife;
+        emit lifeChanged(newLife);
+    }
 }
