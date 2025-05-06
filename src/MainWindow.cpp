@@ -1,8 +1,8 @@
-#include <QTimer>
 #include "MainWindow.h"
-#include "overlay.h"
 #include "MyScene.h"
+#include "overlay.h"
 #include "QGraphicsProxyWidget"
+#include <QTimer>
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
