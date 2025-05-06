@@ -1,9 +1,6 @@
 #include "player.h"
 #include <iostream>
-#include <QGraphicsObject>
 #include <QPainter>
-#include <QGraphicsPixmapItem>
-#include "player.h"
 #include <QMovie>
 
 player::player(int life, int attack): life(life), attack(attack), currentMovie(nullptr){
@@ -60,5 +57,5 @@ int player::getLife() {
 
 void player::setLife(int newLife) {
     life = newLife;
-    emit lifeChanged();
+    emit lifeChanged(newLife);
 }

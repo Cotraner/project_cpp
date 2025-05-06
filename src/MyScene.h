@@ -1,9 +1,9 @@
 #ifndef CPP_QT_TPMINIPROJET_MYSCENE_H
 #define CPP_QT_TPMINIPROJET_MYSCENE_H
-
 #include <QGraphicsScene>
 #include "player.h"
-
+#include <QSet>
+#include <QTimer>
 
 class MyScene : public QGraphicsScene {
     Q_OBJECT
@@ -17,10 +17,15 @@ public:
     void createPersonage();
     player* getPlayer();
     QTimer* timer;
+    QSet<int> pressedKeys;
+    QTimer* movementTimer;
 
 
     public slots:
     void update();
+
+private slots:
+    void Movement();
 
 private:
     QGraphicsPixmapItem* map;
@@ -30,7 +35,10 @@ private:
     player* personage;
     QList<QGraphicsItem*> collisionItems;
     bool checkCollision(QPointF newPos);
+
+
 };
+
 
 
 #endif //CPP_QT_TPMINIPROJET_MYSCENE_H
