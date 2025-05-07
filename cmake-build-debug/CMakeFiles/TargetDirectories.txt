@@ -1,4 +1,0 @@
-/mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles/PROJECT_CPP.dir
-/mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles/edit_cache.dir
-/mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug/CMakeFiles/PROJECT_CPP_autogen.dir
