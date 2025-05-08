@@ -8,6 +8,8 @@
 #include "QFile"
 #include "QJsonArray"
 #include "player.h"
+#include "projectiles.h"
+#include "QGraphicsSceneMouseEvent"
 
 MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     /*qgri = new QGraphicsRectItem(1, 1, 1920, 1080); //ajout d'un carré
@@ -193,7 +195,6 @@ void MyScene::Movement() {
     if (pressedKeys.contains(Qt::Key_P)) {
         personage->setAnimation("p");
     }
-
     if (newPos != currentPos && !checkCollision(newPos)) {
         personage->setPos(newPos);
     }
@@ -205,6 +206,43 @@ void MyScene::keyReleaseEvent(QKeyEvent* event) {
 
     pressedKeys.remove(event->key());
 }
+
+void MyScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+    if (event->button() == Qt::RightButton) {
+        QPointF playerPos = getPlayer()->pos();  // Position du joueur
+        QPointF mouseScenePos = event->scenePos();  // Position de la souris dans la scène
+
+        // Appliquer la réduction de distance
+        QPointF reducedTarget = reduceLengthAttack(playerPos, mouseScenePos);
+
+        // Créer et lancer le Molotov vers la position ajustée
+        Molotov* molotov = new Molotov(50, "../anim/molotov.gif");
+        molotov->launchTowards(playerPos, reducedTarget);
+        this->addItem(molotov);
+    }
+
+    QGraphicsScene::mousePressEvent(event);  // Appel à la méthode parente
+}
+
+
+QPointF MyScene::reduceLengthAttack(const QPointF& playerPos, const QPointF& targetPos) {
+    QPointF direction = targetPos - playerPos;
+    double dx = direction.x();
+    double dy = direction.y();
+    double distance = sqrt(dx * dx + dy * dy);
+
+    // Limite de distance (par exemple, 250 pixels)
+    if (distance > 100.0) {
+        double scale = 100.0 / distance; // Proportionner la direction
+        direction.setX(dx * scale);
+        direction.setY(dy * scale);
+    }
+
+    return playerPos + direction; // Retourne la position ajustée
+}
+
+
+
 
 
 MyScene::~MyScene() {

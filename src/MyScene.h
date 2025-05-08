@@ -19,6 +19,8 @@ public:
     QTimer* timer;
     QSet<int> pressedKeys;
     QTimer* movementTimer;
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    QPointF reduceLengthAttack(const QPointF& playerPos, const QPointF& targetPos);
 
 
     public slots:

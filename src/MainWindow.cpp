@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     } else {
         qDebug() << "Le joueur n'a pas été initialisé dans la scène !";
     }
-    this->setCursor(Qt::BlankCursor);
+    //this->setCursor(Qt::BlankCursor);
 
     // Configurer la fenêtre principale
     this->setCentralWidget(this->mainView);
