@@ -1,5 +1,0 @@
-C:\Windows\system32\wsl.exe --distribution Debian --exec /bin/bash -c "export CMAKE_COLOR_DIAGNOSTICS=ON && export CLION_IDE=TRUE && export JETBRAINS_IDE=TRUE && cd /mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug && /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G 'CodeBlocks - Unix Makefiles' -S /mnt/c/Users/Surface/Documents/GitHub/project_cpp -B /mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug"
--- Could NOT find XKB (missing: XKB_LIBRARY XKB_INCLUDE_DIR) (Required is at least version "0.5.0")
--- Configuring done
--- Generating done
--- Build files have been written to: /mnt/c/Users/Surface/Documents/GitHub/project_cpp/cmake-build-debug
