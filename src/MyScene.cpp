@@ -1,4 +1,5 @@
 #include <QJsonObject>
+#include <QtGui>
 #include "MyScene.h"
 #include "QGraphicsRectItem"
 #include "QTimer"
@@ -132,7 +133,7 @@ void MyScene::createMap(){
 }
 
 void MyScene::createPersonage() {
-    this->personage = new player(50, 10);
+    this->personage = new player(100);
     this->addItem(personage);
     personage->setZValue(100);
 }
@@ -150,7 +151,7 @@ bool MyScene::checkCollision(QPointF newPos) {
             QRectF itemRect = item->sceneBoundingRect();
             if (playerRect.intersects(itemRect)) {
                 personage->setLife(personage->getLife() - 5);
-                qDebug() << "Collision détectée avec l'objet à" << itemRect;
+                //qDebug() << "Collision détectée avec l'objet à" << itemRect;
                 return true; // Collision détectée
             }
         }
@@ -219,6 +220,7 @@ void MyScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         Molotov* molotov = new Molotov(50, "../anim/molotov.gif");
         molotov->launchTowards(playerPos, reducedTarget);
         this->addItem(molotov);
+
     }
 
     QGraphicsScene::mousePressEvent(event);  // Appel à la méthode parente

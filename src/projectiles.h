@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QGraphicsObject>
 #include <QMovie>
+#include "player.h"
 
 class Molotov : public QGraphicsObject {
 Q_OBJECT
@@ -23,6 +24,8 @@ public:
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    void startExplosion();
+    void checkCollisionWithPlayer(player* player);
 
 private slots:
     void updateFrame();

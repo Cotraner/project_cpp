@@ -44,10 +44,35 @@ void Molotov::launchTowards(const QPointF& startPos, const QPointF& targetPos) {
     animation->setEndValue(targetPos);
     animation->setEasingCurve(QEasingCurve::Linear);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
-
-    // Optionnel : suppression après fin
-    connect(animation, &QPropertyAnimation::finished, this, [this]() {
-        scene()->removeItem(this);
-        delete this;
+    connect(movie, &QMovie::frameChanged, this, [=](int frameNumber) {
+        if (frameNumber == movie->frameCount() - 1) {
+            startExplosion();  // Appelle l’explosion quand le GIF est fini
+        }
     });
+}
+
+void Molotov::startExplosion() {
+    QRectF impactZone = mapToScene(boundingRect()).boundingRect();
+    QList<QGraphicsItem*> itemsInZone = scene()->items(impactZone);
+
+    for (QGraphicsItem* item : itemsInZone) {
+        if (item == this) continue;
+
+        QObject* obj = dynamic_cast<QObject*>(item);
+        if (player* p = qobject_cast<player*>(obj)) {
+            p->damaged(p->getLife() -getDamage());
+        }
+    }
+
+    scene()->removeItem(this);
+    deleteLater();
+}
+
+void Molotov::checkCollisionWithPlayer(player* player) {
+    if (!player) return;
+
+    // Vérifie si le boundingRect du Molotov intersecte avec celui du joueur
+    if (this->collidesWithItem(player)) {
+        player->damaged(player->getLife() - getDamage());  // Déclenche automatiquement lifeChanged
+    }
 }

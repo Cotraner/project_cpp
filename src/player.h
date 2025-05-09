@@ -8,17 +8,16 @@
 #include "QPainter"
 
 class player : public QGraphicsObject {
-Q_OBJECT
+    Q_OBJECT
 
 private:
     int life;
-    int attack;
     QPixmap pixmap;
     QMovie* currentMovie;
     QMap<QString, QMovie*> movies; // <--- Map des animations par direction
 
 public:
-    player(int life, int attack);
+    player(int life);
     ~player();
 
     int getLife();
@@ -40,10 +39,12 @@ public:
 
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
+    void damaged(int newLife);
 
     signals:
     void positionChanged(player* playerCharacter);
     void lifeChanged(int newLife);
+    void died();
 
 };
 

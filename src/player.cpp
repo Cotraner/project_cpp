@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QMovie>
 
-player::player(int life, int attack): life(life), attack(attack), currentMovie(nullptr){
+player::player(int life): life(life), currentMovie(nullptr){
     setPos(500, 200); // position de base
 
     // Charger toutes les directions
@@ -63,4 +63,11 @@ void player::setLife(int newLife) {
         life = newLife;
         emit lifeChanged(newLife);
     }
+    else{
+        emit died();
+    }
+}
+
+void player::damaged(int newLife){
+    setLife(newLife);
 }
