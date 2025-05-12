@@ -12,7 +12,7 @@ player::player(int life): life(life), currentMovie(nullptr){
     movies["left"] = new QMovie("../anim/personage_left.gif");
     movies["right"] = new QMovie("../anim/personage_right.gif");
     movies["p"] = new QMovie("../anim/personage_p.gif");
-    //movies["die"] = new QMovie("../anim/personage_die.gif");
+    movies["die"] = new QMovie("../anim/personage_die.gif");
     //movies["wait"] = new QMovie("../anim/personage_wait.gif");
 
     // Démarrer une animation par défaut
@@ -59,11 +59,12 @@ int player::getLife() {
 }
 
 void player::setLife(int newLife) {
-    if(newLife>=0) { // Assure que la vie ne soit pas négative
+    if(newLife>0) { // Assure que la vie ne soit pas négative
         life = newLife;
         emit lifeChanged(newLife);
     }
     else{
+        emit lifeChanged(newLife);
         emit died();
     }
 }

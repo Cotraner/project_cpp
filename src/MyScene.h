@@ -21,6 +21,10 @@ public:
     QTimer* movementTimer;
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     QPointF reduceLengthAttack(const QPointF& playerPos, const QPointF& targetPos);
+    void showGameOverMessage();
+
+    signals:
+    void gameOver();
 
 
     public slots:
@@ -28,6 +32,7 @@ public:
 
 private slots:
     void Movement();
+    void handlePlayerDeath();
 
 private:
     QGraphicsPixmapItem* map;
@@ -37,6 +42,7 @@ private:
     player* personage;
     QList<QGraphicsItem*> collisionItems;
     bool checkCollision(QPointF newPos);
+    bool isGameActive = true;
 
 
 };

@@ -52,10 +52,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->setWindowTitle("My game");
     this->resize(800, 600);
 
+//show menu
     helpMenu = menuBar()->addMenu(tr("&Help"));
     QAction* actionHelp = new QAction(tr("&About"), this);
     connect(actionHelp, SIGNAL(triggered()), this, SLOT(slot_aboutMenu()));
     helpMenu->addAction(actionHelp);
+
+    //Game Over
+    connect(mainScene, &MyScene::gameOver, this, &MainWindow::onGameOver);
+
 }
 
 void MainWindow::focusOnPlayer(player* playerCharacter, double zoomLevel)
@@ -88,4 +93,29 @@ void MainWindow::slot_aboutMenu(){
     msgBox.setText("A small QT/C++ projet...");
     msgBox.setModal(true); // on souhaite que la fenetre soit modale i.e qu'on ne puisse plus cliquer ailleurs
     msgBox.exec();
+}
+
+void MainWindow::onGameOver() {
+    QWidget* overlay = new QWidget(mainView);
+    overlay->setStyleSheet("background-color: rgba(0, 0, 0, 150);");
+    overlay->setAttribute(Qt::WA_TransparentForMouseEvents);
+    overlay->setGeometry(mainView->viewport()->geometry());
+    overlay->show();
+
+    QGraphicsTextItem* dieMsg = new QGraphicsTextItem("Game Over");
+    dieMsg->setDefaultTextColor(Qt::red);
+    dieMsg->setFont(QFont("Arial", 30));
+    dieMsg->setZValue(1000);
+
+    // Positionner le texte au centre de la vue
+    QSize viewSize = mainView->viewport()->size();
+    QPointF center = mainView->mapToScene(viewSize.width() / 2, viewSize.height() / 2);
+    dieMsg->setPos(center - QPointF(dieMsg->boundingRect().width() / 2,
+                                    dieMsg->boundingRect().height() / 2));
+
+    mainScene->addItem(dieMsg);
+
+    QTimer::singleShot(5000, this, [=]() {
+        mainScene->timer->stop();
+    });
 }

@@ -14,10 +14,6 @@ Molotov::Molotov(int damage, const QString& gifPath)
     connect(movie, &QMovie::frameChanged, this, &Molotov::updateFrame);
 }
 
-Molotov::~Molotov() {
-    delete movie;
-}
-
 QRectF Molotov::boundingRect() const {
     if (movie && movie->currentPixmap().isNull()) return QRectF();
     return QRectF(0, 0, movie->currentPixmap().width(), movie->currentPixmap().height());
@@ -75,4 +71,15 @@ void Molotov::checkCollisionWithPlayer(player* player) {
     if (this->collidesWithItem(player)) {
         player->damaged(player->getLife() - getDamage());  // Déclenche automatiquement lifeChanged
     }
+}
+
+Molotov::~Molotov(){
+    delete movie;
+    movie = nullptr;
+}
+
+Sword::Sword(int damage, const QString& gifPath): damage(damage){
+    movie = new QMovie(gifPath);
+    movie->start();
+
 }

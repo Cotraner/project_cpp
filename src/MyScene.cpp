@@ -1,5 +1,6 @@
 #include <QJsonObject>
 #include <QtGui>
+#include <QMessageBox>
 #include "MyScene.h"
 #include "QGraphicsRectItem"
 #include "QTimer"
@@ -26,7 +27,9 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     connect(timer, &QTimer::timeout, this, &MyScene::Movement);
 
    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(30); //toutes les 30 millisecondes
+   timer->start(30); //toutes les 30 millisecondes
+   connect(personage, &player::died, this, &MyScene::handlePlayerDeath);
+
 
 }
 
@@ -150,8 +153,6 @@ bool MyScene::checkCollision(QPointF newPos) {
             foreach(QGraphicsItem* item, collisionItems) {
             QRectF itemRect = item->sceneBoundingRect();
             if (playerRect.intersects(itemRect)) {
-                personage->setLife(personage->getLife() - 5);
-                //qDebug() << "Collision détectée avec l'objet à" << itemRect;
                 return true; // Collision détectée
             }
         }
@@ -159,9 +160,9 @@ bool MyScene::checkCollision(QPointF newPos) {
 }
 
 void MyScene::keyPressEvent(QKeyEvent* event) {
-    if (event->isAutoRepeat())
+    if (!isGameActive || event->isAutoRepeat()) {
         return;
-
+    }
     if (event->key() == Qt::Key_Escape) {
         qDebug() << "Le jeu a été quitté";
         movementTimer->stop();
@@ -172,8 +173,9 @@ void MyScene::keyPressEvent(QKeyEvent* event) {
 }
 
 void MyScene::Movement() {
-    if (!personage) return;
-
+    if (!isGameActive || !personage){
+        return;
+    }
     QPointF currentPos = personage->pos();
     QPointF newPos = currentPos;
 
@@ -202,13 +204,16 @@ void MyScene::Movement() {
 }
 
 void MyScene::keyReleaseEvent(QKeyEvent* event) {
-    if (event->isAutoRepeat())
+    if (!isGameActive || event->isAutoRepeat()) {
         return;
-
+    }
     pressedKeys.remove(event->key());
 }
 
 void MyScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+    if (!isGameActive) {
+        return;
+    }
     if (event->button() == Qt::RightButton) {
         QPointF playerPos = getPlayer()->pos();  // Position du joueur
         QPointF mouseScenePos = event->scenePos();  // Position de la souris dans la scène
@@ -222,7 +227,6 @@ void MyScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         this->addItem(molotov);
 
     }
-
     QGraphicsScene::mousePressEvent(event);  // Appel à la méthode parente
 }
 
@@ -239,8 +243,24 @@ QPointF MyScene::reduceLengthAttack(const QPointF& playerPos, const QPointF& tar
         direction.setX(dx * scale);
         direction.setY(dy * scale);
     }
-
     return playerPos + direction; // Retourne la position ajustée
+}
+
+void MyScene::handlePlayerDeath() {
+    isGameActive = false; // bloque les mouvements et les attaques
+    personage->setAnimation("die");
+    QTimer::singleShot(1000, this, [this]() {
+        emit gameOver();
+    });
+}
+
+void MyScene::showGameOverMessage() {
+    QGraphicsTextItem* dieMsg = new QGraphicsTextItem("Game Over");
+    dieMsg->setDefaultTextColor(Qt::red);
+    dieMsg->setFont(QFont("Arial", 30));
+    dieMsg->setPos(backgroundWidth / 2 - 100, backgroundHeight / 2 - 50);
+    dieMsg->setZValue(1000);
+    this->addItem(dieMsg);
 }
 
 

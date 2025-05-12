@@ -31,5 +31,15 @@ private slots:
     void updateFrame();
 };
 
+class Sword : public QGraphicsObject {
+Q_OBJECT
+private:
+    int damage;
+    QMovie* movie;
+public:
+    Sword(int damage, const QString& gifPath);
+    ~Sword();
+};
+
 #endif //PROJECT_CPP_PROJECTILES_H
 
