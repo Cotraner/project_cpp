@@ -83,3 +83,8 @@ Sword::Sword(int damage, const QString& gifPath): damage(damage){
     movie->start();
 
 }
+
+Sword::~Sword(){
+    delete movie;
+    movie = nullptr;
+}

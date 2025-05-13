@@ -1,10 +1,13 @@
 #include "overlay.h"
 #include <QPainter>
 #include <QPen>
+#include <QMovie>
 
 LifeCircle::LifeCircle(QWidget* parent) : QWidget(parent) {
     this->setFixedSize(100, 100);
     this->setAttribute(Qt::WA_TransparentForMouseEvents);
+    hearth = new QMovie("../anim/hearth.gif");
+    hearth->start();
 }
 
 void LifeCircle::setHP(int value) {
@@ -25,15 +28,22 @@ void LifeCircle::paintEvent(QPaintEvent*) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    QRectF rect(10, 10, width() - 20, height() - 20); // espace autour
+    QRectF rect(10, 10, width() - 20, height() - 20);
 
     QPen pen(Qt::red, 8);
     painter.setPen(pen);
 
-    // angle dans Qt : 16*degrés (sens horaire depuis 3h)
     float percent = static_cast<float>(hp) / maxHp;
     int spanAngle = static_cast<int>(360.0 * percent * 16);
 
-    painter.drawArc(rect, 90 * 16, -spanAngle); // commence à 12h, sens anti-horaire
+    painter.drawArc(rect, 90 * 16, -spanAngle);
+
+    // Centre du rectangle
+    QPixmap frame = hearth->currentPixmap();
+    QPoint center = rect.center().toPoint();
+    QPoint topLeft(center.x() - frame.width() / 2, center.y() - frame.height() / 2);
+
+    painter.drawPixmap(topLeft, frame);
 }
+
 

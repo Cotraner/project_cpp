@@ -2,8 +2,8 @@
 #include "MyScene.h"
 #include "overlay.h"
 #include "QGraphicsProxyWidget"
+#include <QPushButton>
 #include <QTimer>
-
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -11,11 +11,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->mainView = new QGraphicsView;
     this->mainView->setScene(mainScene);
 
-    // Activer les transformations de vue
+    // Configurer la scène
     this->mainView->setRenderHint(QPainter::Antialiasing);
     this->mainView->setRenderHint(QPainter::SmoothPixmapTransform);
 
-    // Config de zoom
+    // zoom
     this->mainView->setTransformationAnchor(QGraphicsView::AnchorViewCenter);
     this->mainView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
 
@@ -105,17 +105,16 @@ void MainWindow::onGameOver() {
     QGraphicsTextItem* dieMsg = new QGraphicsTextItem("Game Over");
     dieMsg->setDefaultTextColor(Qt::red);
     dieMsg->setFont(QFont("Arial", 30));
-    dieMsg->setZValue(1000);
 
     // Positionner le texte au centre de la vue
     QSize viewSize = mainView->viewport()->size();
     QPointF center = mainView->mapToScene(viewSize.width() / 2, viewSize.height() / 2);
-    dieMsg->setPos(center - QPointF(dieMsg->boundingRect().width() / 2,
-                                    dieMsg->boundingRect().height() / 2));
+    dieMsg->setPos(center - QPointF(dieMsg->boundingRect().width() / 2,dieMsg->boundingRect().height() / 3));
 
     mainScene->addItem(dieMsg);
 
     QTimer::singleShot(5000, this, [=]() {
         mainScene->timer->stop();
+        //~MainWindow();
     });
 }

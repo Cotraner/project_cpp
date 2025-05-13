@@ -26,9 +26,9 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MyScene::Movement);
 
-   connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-   timer->start(30); //toutes les 30 millisecondes
-   connect(personage, &player::died, this, &MyScene::handlePlayerDeath);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    timer->start(30); //toutes les 30 millisecondes
+    connect(personage, &player::died, this, &MyScene::handlePlayerDeath);
 
 
 }
@@ -101,8 +101,32 @@ void MyScene::createMap(){
                 }
             }
 
-            //Ajouts des collision
-        } else if (layer["type"] == "objectgroup" && layer["name"] == "collision") {
+        }
+        //place les arbres au dessus du joueur
+        if (layer["type"] == "tilelayer") {
+            QString layerName = layer["name"].toString();
+            bool isTreeLayer = (layerName == "arbres");
+
+            int width = layer["width"].toInt();
+            int height = layer["height"].toInt();
+            QJsonArray data = layer["data"].toArray();
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    int tileID = data[width * y + x].toInt();
+                    if (tileID != 0) {
+                        QGraphicsPixmapItem *tile = new QGraphicsPixmapItem(listPixmap[tileID]);
+                        tile->setPos(x * 32, y * 32);
+                        tile->setOpacity(layer["opacity"].toDouble());
+                        if (isTreeLayer) {
+                            tile->setZValue(10);
+                        }
+                        this->addItem(tile);
+                    }
+                }
+            }
+        }
+            //Ajouts des collisions
+        else if (layer["type"] == "objectgroup" && layer["name"] == "collision") {
             QJsonArray objects = layer["objects"].toArray();
             for (QJsonValue objectValue: objects) {
                 QJsonObject object = objectValue.toObject();
@@ -125,7 +149,7 @@ void MyScene::createMap(){
                     rect->setBrush(Qt::transparent); // Transparent pour ne pas les voir en jeu
                     rect->setPen(Qt::NoPen);
                     rect->setData(0, "collision");
-                    rect->setZValue(100);
+                    rect->setZValue(11);
                     this->addItem(rect);
                     collisionItems.append(rect); // Ajout à la liste de collision
                 }
@@ -138,7 +162,7 @@ void MyScene::createMap(){
 void MyScene::createPersonage() {
     this->personage = new player(100);
     this->addItem(personage);
-    personage->setZValue(100);
+    personage->setZValue(5);
 }
 
 void MyScene::update(){

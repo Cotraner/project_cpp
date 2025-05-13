@@ -12,7 +12,7 @@ public:
 
     void setMaxHP(int value);
     int getMaxHP() const;
-
+    QMovie* hearth;
     public slots:
     void setHP(int value);
 
