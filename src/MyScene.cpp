@@ -19,10 +19,11 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
 
     qgti = new QGraphicsTextItem("CIR2 Nantes");     //ajout d'un texte
     this->addItem(qgti);*/
+
     //initialisation du jeu
     createMap();
     createPersonage();
-    this->addItem(personage);
+    createEnnemies(100, 100, 200, 200, 300, 300, 400, 400, 450, 450);
 
     QTimer* timer;
     timer = new QTimer(this);
@@ -160,9 +161,37 @@ void MyScene::createMap(){
 }
 
 void MyScene::createPersonage() {
-    this->personage = new player(100);
+    this->personage = new player(100,'p');
     this->addItem(personage);
     personage->setZValue(5);
+}
+
+void MyScene::createEnnemies(int x1, int y1,int x2,int y2,int x3,int y3,int x4,int y4,int x5,int y5) {
+    //1
+    this->enemy1 = new player(50,'e');
+    this->addItem(enemy1);
+    enemy1->setZValue(5);
+    enemy1->setPos(x1, y1);
+    //2
+    this->enemy2 = new player(50,'e');
+    this->addItem(enemy2);
+    enemy2->setZValue(5);
+    enemy2->setPos(x2, y2);
+    //3
+    this->enemy3 = new player(50,'e');
+    this->addItem(enemy3);
+    enemy3->setZValue(5);
+    enemy3->setPos(x3, y3);
+    //4
+    this->enemy4 = new player(50,'e');
+    this->addItem(enemy4);
+    enemy4->setZValue(5);
+    enemy4->setPos(x4, y4);
+    //5
+    this->enemy5 = new player(50,'e');
+    this->addItem(enemy5);
+    enemy5->setZValue(5);
+    enemy5->setPos(x5, y5);
 }
 
 void MyScene::update(){
@@ -235,7 +264,7 @@ void MyScene::Movement() {
             newPos.setY(newPos.y() - 2);
         }
         if (pressedKeys.contains(Qt::Key_Q) || pressedKeys.contains(Qt::Key_Left)) {
-        personage->setAnimation("left");
+            personage->setAnimation("left");
             newPos.setX(newPos.x() - 2);
         }
         if (pressedKeys.contains(Qt::Key_D) || pressedKeys.contains(Qt::Key_Right)) {

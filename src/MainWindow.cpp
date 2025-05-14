@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+
     auto player = mainScene->getPlayer();
     if (player) {
         connect(mainScene->getPlayer(), SIGNAL(positionChanged(player*)), this, SLOT(updatePlayerFocus(player*)));
