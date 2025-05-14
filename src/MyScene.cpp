@@ -184,15 +184,14 @@ bool MyScene::checkCollision(QPointF newPos) {
 }
 
 void MyScene::keyPressEvent(QKeyEvent* event) {
-    if (!isGameActive || event->isAutoRepeat()) {
-        return;
-    }
     if (event->key() == Qt::Key_Escape) {
         qDebug() << "Le jeu a été quitté";
         movementTimer->stop();
         return;
     }
-
+    if (!isGameActive || event->isAutoRepeat()) {
+        return;
+    }
     pressedKeys.insert(event->key());
 }
 
@@ -203,21 +202,46 @@ void MyScene::Movement() {
     QPointF currentPos = personage->pos();
     QPointF newPos = currentPos;
 
-    if (pressedKeys.contains(Qt::Key_S) || pressedKeys.contains(Qt::Key_Down)) {
-        personage->setAnimation("down");
-        newPos.setY(newPos.y() + 2);
-    }
-    if (pressedKeys.contains(Qt::Key_Z) || pressedKeys.contains(Qt::Key_Up)) {
+    //mouvement diagonal
+    if ((pressedKeys.contains(Qt::Key_Q) && pressedKeys.contains(Qt::Key_Z)) || (pressedKeys.contains(Qt::Key_Up) && pressedKeys.contains(Qt::Key_Left))) {
         personage->setAnimation("up");
-        newPos.setY(newPos.y() - 2);
+        newPos.setY(newPos.y() - sqrt(2));
+        newPos.setX(newPos.x() - sqrt(2));
     }
-    if (pressedKeys.contains(Qt::Key_Q) || pressedKeys.contains(Qt::Key_Left)) {
+    else if ((pressedKeys.contains(Qt::Key_D) && pressedKeys.contains(Qt::Key_S)) || (pressedKeys.contains(Qt::Key_Down) && pressedKeys.contains(Qt::Key_Right))) {
+        personage->setAnimation("down");
+        newPos.setY(newPos.y() + sqrt(2));
+        newPos.setX(newPos.x() + sqrt(2));
+    }
+    else if ((pressedKeys.contains(Qt::Key_D) && pressedKeys.contains(Qt::Key_Z)) || (pressedKeys.contains(Qt::Key_Up) && pressedKeys.contains(Qt::Key_Right))) {
+        personage->setAnimation("up");
+        newPos.setY(newPos.y() - sqrt(2));
+        newPos.setX(newPos.x() + sqrt(2));
+    }
+    else if ((pressedKeys.contains(Qt::Key_Q) && pressedKeys.contains(Qt::Key_S)) || (pressedKeys.contains(Qt::Key_Down) && pressedKeys.contains(Qt::Key_Left))) {
+        personage->setAnimation("down");
+        newPos.setY(newPos.y() + sqrt(2));
+        newPos.setX(newPos.x() - sqrt(2));
+    }
+
+    else{
+    //mouvement ligne droite
+        if (pressedKeys.contains(Qt::Key_S) || pressedKeys.contains(Qt::Key_Down)) {
+            personage->setAnimation("down");
+            newPos.setY(newPos.y() + 2);
+        }
+        if (pressedKeys.contains(Qt::Key_Z) || pressedKeys.contains(Qt::Key_Up)) {
+            personage->setAnimation("up");
+            newPos.setY(newPos.y() - 2);
+        }
+        if (pressedKeys.contains(Qt::Key_Q) || pressedKeys.contains(Qt::Key_Left)) {
         personage->setAnimation("left");
-        newPos.setX(newPos.x() - 2);
-    }
-    if (pressedKeys.contains(Qt::Key_D) || pressedKeys.contains(Qt::Key_Right)) {
-        personage->setAnimation("right");
-        newPos.setX(newPos.x() + 2);
+            newPos.setX(newPos.x() - 2);
+        }
+        if (pressedKeys.contains(Qt::Key_D) || pressedKeys.contains(Qt::Key_Right)) {
+            personage->setAnimation("right");
+            newPos.setX(newPos.x() + 2);
+        }
     }
     if (pressedKeys.contains(Qt::Key_P)) {
         personage->setAnimation("p");
