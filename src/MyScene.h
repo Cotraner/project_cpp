@@ -22,6 +22,7 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     QPointF reduceLengthAttack(const QPointF& playerPos, const QPointF& targetPos);
     void showGameOverMessage();
+    void createEnnemies(int x1, int y1,int x2,int y2,int x3,int y3,int x4,int y4,int x5,int y5);
 
     signals:
     void gameOver();
@@ -39,10 +40,20 @@ private:
 
     int backgroundWidth;
     int backgroundHeight;
+    //all entity
     player* personage;
+    player* enemy1;
+    player* enemy2;
+    player* enemy3;
+    player* enemy4;
+    player* enemy5;
+    player* boss;
+
     QList<QGraphicsItem*> collisionItems;
     bool checkCollision(QPointF newPos);
     bool isGameActive = true;
+
+
 
 
 };

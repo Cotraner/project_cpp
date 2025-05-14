@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 #include "MyScene.h"
-#include "overlay.h"
 #include "QGraphicsProxyWidget"
 #include <QPushButton>
 #include <QTimer>
@@ -23,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+
     auto player = mainScene->getPlayer();
     if (player) {
         connect(mainScene->getPlayer(), SIGNAL(positionChanged(player*)), this, SLOT(updatePlayerFocus(player*)));
@@ -44,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // Connecter la mise à jour de vie du joueur au cercle
     connect(mainScene->getPlayer(), SIGNAL(lifeChanged(int)), life, SLOT(setHP(int)));
 
-
     // Appliquer un délai pour que la vue comprenne la taille de la scène
     QTimer::singleShot(0, this, [=]() {
         this->focusOnPlayer(player, 2.0);
@@ -63,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 }
 
+
 void MainWindow::focusOnPlayer(player* playerCharacter, double zoomLevel)
 {
     if (!playerCharacter || !mainView)
@@ -79,7 +79,6 @@ void MainWindow::focusOnPlayer(player* playerCharacter, double zoomLevel)
 }
 
 void MainWindow::updatePlayerFocus(player* p){
-    qDebug() << "updatePlayerFocus called!";
     mainView->centerOn(p);
 }
 
@@ -113,8 +112,4 @@ void MainWindow::onGameOver() {
 
     mainScene->addItem(dieMsg);
 
-    QTimer::singleShot(5000, this, [=]() {
-        mainScene->timer->stop();
-        //~MainWindow();
-    });
 }

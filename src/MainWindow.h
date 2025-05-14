@@ -8,6 +8,8 @@
 #include <QAction>
 #include <QMessageBox>
 #include "MyScene.h"
+#include "overlay.h"
+
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -16,6 +18,7 @@ private :
     MyScene* mainScene;
     QGraphicsView* mainView;
     QMenu* helpMenu;
+
 
 
 public:

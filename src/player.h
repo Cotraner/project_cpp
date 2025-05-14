@@ -17,7 +17,7 @@ private:
     QMap<QString, QMovie*> movies; // <--- Map des animations par direction
 
 public:
-    player(int life);
+    player(int life,char type);
     ~player();
 
     int getLife();
