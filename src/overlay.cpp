@@ -3,6 +3,7 @@
 #include <QPen>
 #include <QMovie>
 
+
 LifeCircle::LifeCircle(QWidget* parent) : QWidget(parent) {
     this->setFixedSize(100, 100);
     this->setAttribute(Qt::WA_TransparentForMouseEvents);
@@ -12,7 +13,13 @@ LifeCircle::LifeCircle(QWidget* parent) : QWidget(parent) {
 
 void LifeCircle::setHP(int value) {
     hp = value;
-    update();
+    showDamageFlash = true;
+    update(); //dessiner le flash
+
+    QTimer::singleShot(100, this, [this]() {
+        showDamageFlash = false;
+        update(); //enleve le flash
+    });
 }
 
 void LifeCircle::setMaxHP(int value) {
@@ -30,6 +37,13 @@ void LifeCircle::paintEvent(QPaintEvent*) {
 
     QRectF rect(10, 10, width() - 20, height() - 20);
 
+    if (showDamageFlash) { //dessine la prise de dégats si true
+        QBrush redFlash(QColor(255, 0, 0, 100)); // Rouge translucide
+        painter.setBrush(redFlash);
+        painter.setPen(Qt::NoPen);
+        painter.drawEllipse(rect); // Ou drawRect(rect) si tu veux tout le widget en rouge
+    }
+
     QPen pen(Qt::red, 8);
     painter.setPen(pen);
 
@@ -42,7 +56,6 @@ void LifeCircle::paintEvent(QPaintEvent*) {
     QPixmap frame = hearth->currentPixmap();
     QPoint center = rect.center().toPoint();
     QPoint topLeft(center.x() - frame.width() / 2, center.y() - frame.height() / 2);
-
     painter.drawPixmap(topLeft, frame);
 }
 

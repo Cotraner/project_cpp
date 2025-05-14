@@ -19,17 +19,17 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
 
     qgti = new QGraphicsTextItem("CIR2 Nantes");     //ajout d'un texte
     this->addItem(qgti);*/
+    //initialisation du jeu
     createMap();
     createPersonage();
     this->addItem(personage);
+
     QTimer* timer;
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MyScene::Movement);
-
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(30); //toutes les 30 millisecondes
     connect(personage, &player::died, this, &MyScene::handlePlayerDeath);
-
 
 }
 
