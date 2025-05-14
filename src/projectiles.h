@@ -31,6 +31,7 @@ private slots:
     void updateFrame();
 };
 
+
 class Sword : public QGraphicsObject {
 Q_OBJECT
 private:
@@ -39,6 +40,14 @@ private:
 public:
     Sword(int damage, const QString& gifPath);
     ~Sword();
+
+    void setDamage(int damage) { this->damage = damage; }
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
+
+private slots:
+    void updateFrame();
+
 };
 
 #endif //PROJECT_CPP_PROJECTILES_H

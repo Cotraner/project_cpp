@@ -82,9 +82,29 @@ Sword::Sword(int damage, const QString& gifPath): damage(damage){
     movie = new QMovie(gifPath);
     movie->start();
 
+    connect(movie, &QMovie::frameChanged, this, &Sword::updateFrame);
 }
 
 Sword::~Sword(){
     delete movie;
     movie = nullptr;
 }
+
+void Sword::updateFrame() {
+    update(); // Redessine l'objet avec la nouvelle frame du GIF
+}
+
+QRectF Sword::boundingRect() const {
+    if (movie && movie->currentPixmap().isNull()) return QRectF();
+    return QRectF{0, 0, static_cast<qreal>(movie->currentPixmap().width()), static_cast<qreal>(movie->currentPixmap().height())};
+}
+
+void Sword::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
+    if (movie) {
+        painter->drawPixmap(0, 0, movie->currentPixmap());
+        painter->setPen(QPen(Qt::red));  // Couleur du contour
+        painter->setBrush(QBrush(QColor(255, 0, 0, 50)));  // Couleur semi-transparente pour l'intérieur
+        painter->drawRect(boundingRect());  // Dessiner le rectangle de détection
+    }
+}
+
