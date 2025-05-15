@@ -25,7 +25,6 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     createPersonage();
     createEnnemies(100, 100, 200, 200, 300, 300, 400, 400, 450, 450);
 
-    QTimer* timer;
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MyScene::Movement);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
