@@ -5,6 +5,7 @@
 
 player::player(int life,char type): life(life), currentMovie(nullptr){
     setPos(500, 200); // position de base
+    setType(type); //initialise le type
     if(type == 'p') {
         // Charger toutes les directions
         movies["down"] = new QMovie("../anim/personage_down.gif");
@@ -16,6 +17,7 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
         //movies["wait"] = new QMovie("../anim/personage_wait.gif");
 
         // Démarrer une animation par défaut
+
         setAnimation("down");
         setScale(1.4);
     }
@@ -33,10 +35,17 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
     }
 
     setTransformOriginPoint(16, 16);
+    //BUG ennemies non détectable
+    setFlag(QGraphicsItem::ItemIsSelectable);
+    setFlag(QGraphicsItem::ItemIsFocusable);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+    setFlag(QGraphicsItem::ItemIsMovable);
+    setFlag(QGraphicsItem::ItemHasNoContents, false); // assure que le contenu est visible
+
 }
 
 player::~player() {
-    for (auto movie : movies) {
+    for (QMovie* movie : movies) {
         delete movie;
     }
 }
@@ -64,6 +73,9 @@ QRectF player::boundingRect() const {
 void player::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) {
     if (!pixmap.isNull()) {
         painter->drawPixmap(0, 0, pixmap);
+        // Ajoute ce rectangle de debug autour de chaque entité, même avec image
+        painter->setPen(Qt::green);
+        painter->drawRect(boundingRect());
     } else {
         painter->setBrush(Qt::red);
         painter->drawRect(0, 0, 32, 32);  // Debug visible
@@ -77,14 +89,24 @@ int player::getLife() {
 void player::setLife(int newLife) {
     if(newLife>0) { // Assure que la vie ne soit pas négative
         life = newLife;
+        qDebug() << "Life updated : " << getPlayer();
         emit lifeChanged(newLife);
     }
     else{
-        emit lifeChanged(newLife);
-        emit died();
+        life = 0;
+        emit lifeChanged(0);
+        if(getType() == 'p'){
+            emit died();
+        }
+        else {
+            delete this;
+        }
     }
+
 }
 
 void player::damaged(int newLife){
     setLife(newLife);
 }
+
+

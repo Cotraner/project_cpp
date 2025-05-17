@@ -14,7 +14,10 @@ private:
     int life;
     QPixmap pixmap;
     QMovie* currentMovie;
-    QMap<QString, QMovie*> movies; // <--- Map des animations par direction
+    QMap<QString, QMovie*> movies; // Map des animations par action
+    char type;
+
+
 
 public:
     player(int life,char type);
@@ -36,10 +39,18 @@ public:
         QGraphicsItem::setPos(pos);
         emit positionChanged(this);  // Émet le signal avec le joueur en paramètre
     }
+    void setType(char type) {
+        this->type = type;
+    }
+
+    char getType() {
+        return this->type;
+    }
 
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
     void damaged(int newLife);
+
 
     signals:
     void positionChanged(player* playerCharacter);

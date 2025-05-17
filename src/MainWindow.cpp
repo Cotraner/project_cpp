@@ -3,25 +3,13 @@
 #include "QGraphicsProxyWidget"
 #include <QPushButton>
 #include <QTimer>
+#include <QWheelEvent>
+#include <qfontdatabase.h>
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
-{
-    this->mainScene = new MyScene;
-    this->mainView = new QGraphicsView;
-    this->mainView->setScene(mainScene);
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyScene(this)), mainView(new MyGraphicsView(this)){
 
-    // Configurer la scène
-    this->mainView->setRenderHint(QPainter::Antialiasing);
-    this->mainView->setRenderHint(QPainter::SmoothPixmapTransform);
-
-    // zoom
-    this->mainView->setTransformationAnchor(QGraphicsView::AnchorViewCenter);
-    this->mainView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
-
-    // Désactiver le scrolling
-    this->mainView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    this->mainView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
+    mainView->setScene(mainScene);
+    setCentralWidget(mainView);
 
     auto player = mainScene->getPlayer();
     if (player) {
@@ -30,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     } else {
         qDebug() << "Le joueur n'a pas été initialisé dans la scène !";
     }
-    //this->setCursor(Qt::BlankCursor);
 
     // Configurer la fenêtre principale
     this->setCentralWidget(this->mainView);
@@ -40,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     life->setHP(this->mainScene->getPlayer()->getLife());
     life->setMaxHP(life->getMaxHP());
     life->show();
-    
     // Connecter la mise à jour de vie du joueur au cercle
     connect(mainScene->getPlayer(), SIGNAL(lifeChanged(int)), life, SLOT(setHP(int)));
 
@@ -62,29 +48,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 }
 
-
 void MainWindow::focusOnPlayer(player* playerCharacter, double zoomLevel)
 {
     if (!playerCharacter || !mainView)
         return;
-
     // Réinitialiser toute transformation précédente
     mainView->resetTransform();
-
     // Appliquer le niveau de zoom
     mainView->scale(zoomLevel, zoomLevel);
-
     // Centrer la vue sur le joueur
     mainView->centerOn(playerCharacter);
 }
 
 void MainWindow::updatePlayerFocus(player* p){
     mainView->centerOn(p);
-}
-
-
-MainWindow::~MainWindow(){
-
 }
 
 void MainWindow::slot_aboutMenu(){
@@ -99,11 +76,22 @@ void MainWindow::onGameOver() {
     overlay->setStyleSheet("background-color: rgba(0, 0, 0, 150);");
     overlay->setAttribute(Qt::WA_TransparentForMouseEvents);
     overlay->setGeometry(mainView->viewport()->geometry());
+
     overlay->show();
 
     QGraphicsTextItem* dieMsg = new QGraphicsTextItem("Game Over");
     dieMsg->setDefaultTextColor(Qt::red);
-    dieMsg->setFont(QFont("Arial", 30));
+    // Charger la police "Game Over"
+    int fontId = QFontDatabase::addApplicationFont("../fonts/game_over.ttf");
+    if (fontId != -1) {
+        QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
+        QFont gameOverFont(family, 90); // Taille 30
+        dieMsg->setFont(gameOverFont);
+    } else {
+        qWarning() << "Échec du chargement de la police Game Over.";
+        dieMsg->setFont(QFont("Arial", 30)); // Police de secours
+    }
+    dieMsg->setZValue(1000);
 
     // Positionner le texte au centre de la vue
     QSize viewSize = mainView->viewport()->size();
@@ -111,5 +99,8 @@ void MainWindow::onGameOver() {
     dieMsg->setPos(center - QPointF(dieMsg->boundingRect().width() / 2,dieMsg->boundingRect().height() / 3));
 
     mainScene->addItem(dieMsg);
+}
+
+MainWindow::~MainWindow(){
 
 }

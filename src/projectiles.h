@@ -25,7 +25,8 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     void startExplosion();
-    void checkCollisionWithPlayer(player* player);
+    void checkCollisionWithPlayer(const QList<player*>& enemies);
+    QList<player*> getEnemiesFromScene()const;
 
 private slots:
     void updateFrame();

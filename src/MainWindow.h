@@ -9,27 +9,27 @@
 #include <QMessageBox>
 #include "MyScene.h"
 #include "overlay.h"
-
+#include "MyGraphicsView.h"
+#include "player.h"
 
 class MainWindow : public QMainWindow {
-    Q_OBJECT
-
-private :
-    MyScene* mainScene;
-    QGraphicsView* mainView;
-    QMenu* helpMenu;
-
-
+Q_OBJECT
 
 public:
-    MainWindow(QWidget* parent = nullptr);
-    virtual ~MainWindow();
-    void focusOnPlayer(player* playerCharacter, double zoomLevel = 2.0);
+    explicit MainWindow(QWidget* parent = nullptr);
+    ~MainWindow() override;
 
-public slots:
-    void slot_aboutMenu();
+private slots:
     void updatePlayerFocus(player* p);
+    void slot_aboutMenu();
     void onGameOver();
+
+private:
+    void focusOnPlayer(player* playerCharacter, double zoomLevel = 1.0);
+
+    MyScene* mainScene;
+    MyGraphicsView* mainView;
+    QMenu* helpMenu;
 };
 
 

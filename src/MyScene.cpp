@@ -25,6 +25,10 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     createPersonage();
     createEnnemies(100, 100, 200, 200, 300, 300, 400, 400, 450, 450);
 
+    addToList(entities, personage, enemy1, enemy2, enemy3, enemy4, enemy5);
+
+
+
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MyScene::Movement);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -33,7 +37,14 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
 
 }
 
-
+void MyScene::addToList(QList<player*>& entities, player* p,player* p1, player* p2, player* p3, player* p4, player* p5){
+    entities.append(p);
+    entities.append(p1);
+    entities.append(p2);
+    entities.append(p3);
+    entities.append(p4);
+    entities.append(p5);
+}
 
 player* MyScene::getPlayer() {
     if(this->personage != nullptr) {
@@ -300,6 +311,7 @@ void MyScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         // Créer et lancer le Molotov vers la position ajustée
         Molotov* molotov = new Molotov(50, "../anim/molotov.gif");
         molotov->launchTowards(playerPos, reducedTarget);
+        molotov->setZValue(5);
         this->addItem(molotov);
 
     }

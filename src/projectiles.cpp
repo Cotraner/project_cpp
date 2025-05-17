@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <QPropertyAnimation>
 #include <QTimer>
+#include "MyScene.h"
 
 Molotov::Molotov(int damage, const QString& gifPath)
         : damage(damage)
@@ -47,16 +48,25 @@ void Molotov::launchTowards(const QPointF& startPos, const QPointF& targetPos) {
     });
 }
 
+QList<player*> Molotov::getEnemiesFromScene() const {
+    QList<player*> enemies;
+    // On caste la scène en MyScene pour accéder à son vecteur d'ennemis
+    if (auto* myScene = dynamic_cast<MyScene*>(scene())) {
+        enemies = myScene->getEnemies();  // Méthode à ajouter en public dans MyScene
+    }
+    return enemies;
+}
+
+
 void Molotov::startExplosion() {
-    QRectF impactZone = mapToScene(boundingRect()).boundingRect();
-    QList<QGraphicsItem*> itemsInZone = scene()->items(impactZone);
+    QList<QGraphicsItem*> colliding = collidingItems();
+    qDebug() << "Molotov colliding with" << colliding.size() << "items";
 
-    for (QGraphicsItem* item : itemsInZone) {
-        if (item == this) continue;
-
-        QObject* obj = dynamic_cast<QObject*>(item);
-        if (player* p = qobject_cast<player*>(obj)) {
-            p->damaged(p->getLife() -getDamage());
+    for (QGraphicsItem* item : colliding) {
+        qDebug() << "→ Collision avec" << item;
+        if (player* enemy = dynamic_cast<player*>(item)) {
+            qDebug() << "→→→ Dégâts appliqués à " << enemy << " | Vie avant : " << enemy->getLife() << " | Dégâts : " << getDamage();
+            enemy->damaged(enemy->getLife() - damage);
         }
     }
 
@@ -64,14 +74,17 @@ void Molotov::startExplosion() {
     deleteLater();
 }
 
-void Molotov::checkCollisionWithPlayer(player* player) {
-    if (!player) return;
 
-    // Vérifie si le boundingRect du Molotov intersecte avec celui du joueur
-    if (this->collidesWithItem(player)) {
-        player->damaged(player->getLife() - getDamage());  // Déclenche automatiquement lifeChanged
+
+void Molotov::checkCollisionWithPlayer(const QList<player*>& enemies) {
+    for (player* enemy : enemies) {
+        if (this->collidesWithItem(enemy)) {
+            qDebug() << "Collision détectée avec l'ennemi :" << enemy;
+            enemy->damaged(enemy->getLife() - getDamage());
+        }
     }
 }
+
 
 Molotov::~Molotov(){
     delete movie;

@@ -23,6 +23,8 @@ public:
     QPointF reduceLengthAttack(const QPointF& playerPos, const QPointF& targetPos);
     void showGameOverMessage();
     void createEnnemies(int x1, int y1,int x2,int y2,int x3,int y3,int x4,int y4,int x5,int y5);
+    void addToList(QList<player*>& entities, player* p,player* p1, player* p2, player* p3, player* p4, player* p5);
+    QList<player*> getEnemies() const { return entities; }
 
     signals:
     void gameOver();
@@ -40,6 +42,7 @@ private:
 
     int backgroundWidth;
     int backgroundHeight;
+    QList<player*> entities;
     //all entity
     player* personage;
     player* enemy1;
