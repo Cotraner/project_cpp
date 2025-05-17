@@ -16,7 +16,9 @@ Molotov::Molotov(int damage, const QString& gifPath)
 }
 
 QRectF Molotov::boundingRect() const {
-    if (movie && movie->currentPixmap().isNull()) return QRectF();
+    if (movie && movie->currentPixmap().isNull()){
+        return QRectF();
+    }
     return QRectF(0, 0, movie->currentPixmap().width(), movie->currentPixmap().height());
 }
 
@@ -93,9 +95,23 @@ Molotov::~Molotov(){
 
 Sword::Sword(int damage, const QString& gifPath): damage(damage){
     movie = new QMovie(gifPath);
+    movie->setCacheMode(QMovie::CacheAll);
     movie->start();
 
     connect(movie, &QMovie::frameChanged, this, &Sword::updateFrame);
+
+    int totalDuration = 0;
+    for (int i = 0; i < movie->frameCount(); ++i) {
+        totalDuration += movie->nextFrameDelay();
+    }
+
+// Supprimer l’objet après la lecture complète
+    QTimer::singleShot(totalDuration, this, [this]() {
+        if (scene()) {
+            scene()->removeItem(this);
+        }
+        delete this;
+    });
 }
 
 Sword::~Sword(){
@@ -108,7 +124,9 @@ void Sword::updateFrame() {
 }
 
 QRectF Sword::boundingRect() const {
-    if (movie && movie->currentPixmap().isNull()) return QRectF();
+    if (movie && movie->currentPixmap().isNull()) {
+        return QRectF();
+    }
     return QRectF{0, 0, static_cast<qreal>(movie->currentPixmap().width()), static_cast<qreal>(movie->currentPixmap().height())};
 }
 

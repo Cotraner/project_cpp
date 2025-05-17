@@ -31,7 +31,7 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
 
         // Démarrer une animation par défaut
         setAnimation("base");
-        setScale(2);
+        setScale(1.4);
     }
 
     setTransformOriginPoint(16, 16);
@@ -91,18 +91,16 @@ void player::setLife(int newLife) {
         life = newLife;
         qDebug() << "Life updated : " << getPlayer();
         emit lifeChanged(newLife);
-    }
-    else{
+    } else{
         life = 0;
         emit lifeChanged(0);
         if(getType() == 'p'){
             emit died();
         }
         else {
-            delete this;
+            delete this; // Suppression de l'ennemi
         }
     }
-
 }
 
 void player::damaged(int newLife){

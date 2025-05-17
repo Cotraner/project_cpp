@@ -268,17 +268,21 @@ void MyScene::Movement() {
         if (pressedKeys.contains(Qt::Key_S) || pressedKeys.contains(Qt::Key_Down)) {
             personage->setAnimation("down");
             newPos.setY(newPos.y() + 2);
+            setLookingDirection('b');
         }
         if (pressedKeys.contains(Qt::Key_Z) || pressedKeys.contains(Qt::Key_Up)) {
             personage->setAnimation("up");
             newPos.setY(newPos.y() - 2);
+            setLookingDirection('h');
         }
         if (pressedKeys.contains(Qt::Key_Q) || pressedKeys.contains(Qt::Key_Left)) {
             personage->setAnimation("left");
             newPos.setX(newPos.x() - 2);
+            setLookingDirection('g');
         }
         if (pressedKeys.contains(Qt::Key_D) || pressedKeys.contains(Qt::Key_Right)) {
             personage->setAnimation("right");
+            setLookingDirection('d');
             newPos.setX(newPos.x() + 2);
         }
     }
@@ -288,6 +292,10 @@ void MyScene::Movement() {
     if (newPos != currentPos && !checkCollision(newPos)) {
         personage->setPos(newPos);
     }
+}
+
+void MyScene::setLookingDirection(char direction){
+    lookingDirection = direction;
 }
 
 void MyScene::keyReleaseEvent(QKeyEvent* event) {
@@ -309,11 +317,33 @@ void MyScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         QPointF reducedTarget = reduceLengthAttack(playerPos, mouseScenePos);
 
         // Créer et lancer le Molotov vers la position ajustée
-        Molotov* molotov = new Molotov(50, "../anim/molotov.gif");
+        Molotov* molotov = new Molotov(10, "../anim/molotov.gif");
         molotov->launchTowards(playerPos, reducedTarget);
         molotov->setZValue(5);
         this->addItem(molotov);
 
+    }
+    if(event->button() == Qt::LeftButton){
+        QPointF playerPos = getPlayer()->pos();
+
+        Sword* sword = new Sword(50, "../anim/sword.gif");
+
+        sword->setZValue(5);
+        switch(getLookingDirection()) {
+            case 'd':
+                sword->setPos(playerPos.x() +25, playerPos.y());
+                break;
+            case 'g':
+                sword->setPos(playerPos.x() - 25, playerPos.y());
+                break;
+            case 'h':
+                sword->setPos(playerPos.x(), playerPos.y() - 25);
+                break;
+            case 'b':
+                sword->setPos(playerPos.x(), playerPos.y() + 25);
+                break;
+        }
+        this->addItem(sword);
     }
     QGraphicsScene::mousePressEvent(event);  // Appel à la méthode parente
 }
