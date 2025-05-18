@@ -28,6 +28,7 @@ public:
     char getLookingDirection() const { return lookingDirection; }
     QList<player*> getEnemies()const;
     void removeEnemy(player* enemy);
+    void moveEnemies();
 
     signals:
     void gameOver();
@@ -42,7 +43,7 @@ private slots:
 
 private:
     QGraphicsPixmapItem* map;
-
+    QTimer* enemyTimer;
     int backgroundWidth;
     int backgroundHeight;
     QList<player*> entities;

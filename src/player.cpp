@@ -8,13 +8,13 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
     setType(type); //initialise le type
     if(type == 'p') {
         // Charger toutes les directions
-        movies["down"] = new QMovie("../anim/personage_down.gif");
-        movies["up"] = new QMovie("../anim/personage_up.gif");
-        movies["left"] = new QMovie("../anim/personage_left.gif");
-        movies["right"] = new QMovie("../anim/personage_right.gif");
-        movies["p"] = new QMovie("../anim/personage_p.gif");
-        movies["die"] = new QMovie("../anim/personage_die.gif");
-        //movies["wait"] = new QMovie("../anim/personage_wait.gif");
+        movies["down"] = new QMovie("../anim/personage_down.gif",QByteArray(),this);
+        movies["up"] = new QMovie("../anim/personage_up.gif",QByteArray(),this);
+        movies["left"] = new QMovie("../anim/personage_left.gif",QByteArray(),this);
+        movies["right"] = new QMovie("../anim/personage_right.gif",QByteArray(),this);
+        movies["p"] = new QMovie("../anim/personage_p.gif",QByteArray(),this);
+        movies["die"] = new QMovie("../anim/personage_die.gif",QByteArray(),this);
+        //movies["wait"] = new QMovie("../anim/personage_wait.gif",QByteArray(),this);
 
         // Démarrer une animation par défaut
 
@@ -23,11 +23,15 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
     }
     if(type == 'e') {
         // Charger toutes les directions
-        movies["down"] = new QMovie("../anim/sbire_down.gif");
-        movies["up"] = new QMovie("../anim/sbire_up.gif");
-        movies["left"] = new QMovie("../anim/sbire_left.gif");
-        movies["right"] = new QMovie("../anim/sbire_right.gif");
-        movies["base"] = new QMovie("../anim/sbire_base.gif");
+        movies["down"] = new QMovie("../anim/sbire_down.gif",QByteArray(),this);
+        movies["up"] = new QMovie("../anim/sbire_up.gif",QByteArray(),this);
+        movies["left"] = new QMovie("../anim/sbire_left.gif",QByteArray(),this);
+        movies["right"] = new QMovie("../anim/sbire_right.gif",QByteArray(),this);
+        movies["base"] = new QMovie("../anim/sbire_base.gif",QByteArray(),this);
+        movies["attackRight"] = new QMovie("../anim/sbire_attack_right.gif",QByteArray(),this);
+        movies["attackLeft"] = new QMovie("../anim/sbire_attack_left.gif",QByteArray(),this);
+        movies["attackUp"] = new QMovie("../anim/sbire_attack_up.gif",QByteArray(),this);
+        movies["attackDown"] = new QMovie("../anim/sbire_attack_down.gif",QByteArray(),this);
 
         // Démarrer une animation par défaut
         setAnimation("base");
@@ -45,9 +49,8 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
 }
 
 player::~player() {
-    for (QMovie* movie : movies) {
-        delete movie;
-    }
+    qDebug() << "Player deleted";
+    movies.clear();
 }
 
 void player::setAnimation(const QString& direction) {
@@ -99,9 +102,9 @@ void player::setLife(int newLife) {
         emit lifeChanged(0);
         if(getType() == 'p'){
             emit died();
+            this->deleteLater();
         }
         else {
-
             this->deleteLater(); // Suppression de l'ennemi avec un delai pour evité le crash de colliding
             isDying = true;
         }

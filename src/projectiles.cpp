@@ -61,18 +61,27 @@ QList<player*> Molotov::getEnemiesFromScene() const {
 
 
 void Molotov::startExplosion() {
+    if (!scene()) {
+        return;
+    }
+
     QList<QGraphicsItem*> colliding = collidingItems();
     qDebug() << "Molotov colliding with" << colliding.size() << "items";
 
+    // Parcours sécurisé
     for (QGraphicsItem* item : colliding) {
-        if (player* enemy = dynamic_cast<player*>(item)) {
-            qDebug() << "ennemy touché";
-            enemy->damaged(enemy->getLife() - damage);
+        player* enemy = dynamic_cast<player*>(item);
+        if (enemy && enemy->getType() != 'p') {
+            qDebug() << "touché";
+            enemy->damaged(enemy->getLife() - getDamage());
         }
     }
 
-    scene()->removeItem(this);
-    deleteLater();
+    // Sécuriser la suppression
+    if (scene()) {
+        scene()->removeItem(this);
+    }
+    this->deleteLater();  // À faire après retrait de la scène
 }
 
 

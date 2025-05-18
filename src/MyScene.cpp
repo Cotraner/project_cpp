@@ -34,6 +34,9 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(30); //toutes les 30 millisecondes
     connect(personage, &player::died, this, &MyScene::handlePlayerDeath);
+    enemyTimer = new QTimer(this);
+    connect(enemyTimer, &QTimer::timeout, this, &MyScene::moveEnemies);
+    enemyTimer->start(900); // toutes les 500 ms
 
 }
 
@@ -305,6 +308,7 @@ void MyScene::keyReleaseEvent(QKeyEvent* event) {
 }
 
 void MyScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+    qDebug() << "Mouse pressed at: ";
     if (!isGameActive) {
         return;
     }
@@ -396,6 +400,96 @@ void MyScene::removeEnemy(player* enemy) {
         enemy->deleteLater();
     }
 }
+
+void MyScene::moveEnemies() {
+    player* playerCharacter = nullptr;
+
+    for (player* p : getEnemies()) {
+        if (p->getType() == 'p') {
+            playerCharacter = p;
+            break;
+        }
+    }
+    if (!playerCharacter) return;
+
+    QPointF playerPos = playerCharacter->pos();
+
+    for (player* enemy : getEnemies()) {
+        if (!enemy || enemy->isDying || enemy->getType() == 'p') continue;
+
+        QPointF enemyPos = enemy->pos();
+        QPointF newPos = enemyPos;
+
+        qreal distance = QLineF(enemyPos, playerPos).length();
+
+        if (distance < 50.0) {
+            // Direction vers joueur
+            QPointF dir = playerPos - enemyPos;
+
+            if (std::abs(dir.x()) > std::abs(dir.y())) {
+                if (dir.x() > 0)
+                    enemy->setAnimation("attackRight");
+                else
+                    enemy->setAnimation("attackLeft");
+            } else {
+                if (dir.y() > 0)
+                    enemy->setAnimation("attackDown");
+                else
+                    enemy->setAnimation("attackUp");
+            }
+            playerCharacter->damaged(playerCharacter->getLife() - 5);
+
+        } else if (distance < 150.0) {
+            // Poursuite
+            QPointF direction = playerPos - enemyPos;
+            qreal length = std::sqrt(direction.x()*direction.x() + direction.y()*direction.y());
+            if (length != 0) {
+                direction /= length;
+                newPos += direction * 10.0; // vitesse d’approche
+            }
+
+            if (std::abs(direction.x()) > std::abs(direction.y())) {
+                if (direction.x() > 0)
+                    enemy->setAnimation("right");
+                else
+                    enemy->setAnimation("left");
+            } else {
+                if (direction.y() > 0)
+                    enemy->setAnimation("down");
+                else
+                    enemy->setAnimation("up");
+            }
+
+        } else {
+            // Errance aléatoire
+            int dir = QRandomGenerator::global()->bounded(4);
+            switch (dir) {
+                case 0:
+                    enemy->setAnimation("up");
+                    newPos.setY(enemyPos.y() - 2);
+                    break;
+                case 1:
+                    enemy->setAnimation("down");
+                    newPos.setY(enemyPos.y() + 2);
+                    break;
+                case 2:
+                    enemy->setAnimation("left");
+                    newPos.setX(enemyPos.x() - 2);
+                    break;
+                case 3:
+                    enemy->setAnimation("right");
+                    newPos.setX(enemyPos.x() + 2);
+                    break;
+            }
+        }
+
+        if (!checkCollision(newPos)) {
+            enemy->setPos(newPos);
+        }
+    }
+}
+
+
 
 
 MyScene::~MyScene() {

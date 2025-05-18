@@ -11,6 +11,7 @@ Q_OBJECT
 
 private:
     int damage;
+    QList<player*> toDelete;
     QMovie* movie;
 
 public:
