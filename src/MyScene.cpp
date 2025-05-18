@@ -205,7 +205,6 @@ void MyScene::createEnnemies(int x1, int y1,int x2,int y2,int x3,int y3,int x4,i
 }
 
 void MyScene::update(){
-
 }
 
 bool MyScene::checkCollision(QPointF newPos) {
@@ -380,9 +379,23 @@ void MyScene::showGameOverMessage() {
     dieMsg->setZValue(1000);
     this->addItem(dieMsg);
 }
+QList<player*> MyScene::getEnemies() const {
+    // Retourne uniquement les ennemis vivants (pas en cours de suppression)
+    QList<player*> aliveEnemies;
+    for (player* enemy : entities) {
+        if (enemy && !enemy->isDying && enemy->getLife() > 0) {
+            aliveEnemies.append(enemy);
+        }
+    }
+    return aliveEnemies;
+}
 
-
-
+void MyScene::removeEnemy(player* enemy) {
+    entities.removeAll(enemy);
+    if (enemy) {
+        enemy->deleteLater();
+    }
+}
 
 
 MyScene::~MyScene() {

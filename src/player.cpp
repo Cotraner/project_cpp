@@ -87,6 +87,9 @@ int player::getLife() {
 }
 
 void player::setLife(int newLife) {
+    if (isDying) {
+        return; // Si le joueur est déjà en train de mourir, ne pas changer la vie
+    }
     if(newLife>0) { // Assure que la vie ne soit pas négative
         life = newLife;
         qDebug() << "Life updated : " << getPlayer();
@@ -98,7 +101,9 @@ void player::setLife(int newLife) {
             emit died();
         }
         else {
-            delete this; // Suppression de l'ennemi
+
+            this->deleteLater(); // Suppression de l'ennemi avec un delai pour evité le crash de colliding
+            isDying = true;
         }
     }
 }

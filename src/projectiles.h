@@ -43,8 +43,11 @@ public:
     ~Sword();
 
     void setDamage(int damage) { this->damage = damage; }
+    int getDamage() const { return damage; }
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
+    void checkCollisionWithPlayer(const QList<player*>& enemies);
+    QList<player*> getEnemiesFromScene()const;
 
 private slots:
     void updateFrame();

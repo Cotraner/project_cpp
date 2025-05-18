@@ -65,9 +65,8 @@ void Molotov::startExplosion() {
     qDebug() << "Molotov colliding with" << colliding.size() << "items";
 
     for (QGraphicsItem* item : colliding) {
-        qDebug() << "→ Collision avec" << item;
         if (player* enemy = dynamic_cast<player*>(item)) {
-            qDebug() << "→→→ Dégâts appliqués à " << enemy << " | Vie avant : " << enemy->getLife() << " | Dégâts : " << getDamage();
+            qDebug() << "ennemy touché";
             enemy->damaged(enemy->getLife() - damage);
         }
     }
@@ -100,6 +99,11 @@ Sword::Sword(int damage, const QString& gifPath): damage(damage){
 
     connect(movie, &QMovie::frameChanged, this, &Sword::updateFrame);
 
+    QTimer::singleShot(0, this, [this]() {
+        QList<player*> enemies = getEnemiesFromScene();
+        checkCollisionWithPlayer(enemies);
+    });
+
     int totalDuration = 0;
     for (int i = 0; i < movie->frameCount(); ++i) {
         totalDuration += movie->nextFrameDelay();
@@ -110,8 +114,11 @@ Sword::Sword(int damage, const QString& gifPath): damage(damage){
         if (scene()) {
             scene()->removeItem(this);
         }
-        delete this;
+        QTimer::singleShot(0, this, [this]() {
+            this->deleteLater();
+        });
     });
+
 }
 
 Sword::~Sword(){
@@ -138,4 +145,26 @@ void Sword::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *
         painter->drawRect(boundingRect());  // Dessiner le rectangle de détection
     }
 }
+
+QList<player*> Sword::getEnemiesFromScene() const {
+    QList<player*> enemies;
+    if (auto* myScene = dynamic_cast<MyScene*>(scene())) {
+        enemies = myScene->getEnemies();  // Liste mise à jour à chaque appel
+    }
+    return enemies;
+}
+
+
+void Sword::checkCollisionWithPlayer(const QList<player*>& enemies) {
+    auto* myScene = dynamic_cast<MyScene*>(scene());
+    for (player* enemy : enemies) {
+        if (!enemy->isDying && collidesWithItem(enemy) && enemy->getType() != 'p') {
+            qDebug() << "→ Collision détectée avec :" << enemy;
+            myScene->removeEnemy(enemy); // Suppression de l'ennemi
+            enemy->damaged(enemy->getLife() - getDamage());
+
+        }
+    }
+}
+
 

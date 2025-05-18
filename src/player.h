@@ -26,6 +26,7 @@ public:
     int getLife();
     void setLife(int newLife);
     void setAnimation(const QString& direction);
+    bool isDying = false;
 
     player* getPlayer() {
         return this;
