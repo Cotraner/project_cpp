@@ -5,11 +5,23 @@
 #include <QTimer>
 #include <QWheelEvent>
 #include <qfontdatabase.h>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyScene(this)), mainView(new MyGraphicsView(this)){
-
+    showStartMenu(); // Afficher le menu d'accueil au lancement
     mainView->setScene(mainScene);
     setCentralWidget(mainView);
+
+
+    // Configurer la fenêtre principale
+    this->setCentralWidget(this->mainView);
+    this->setWindowTitle("Albert's Adventure");
+    this->resize(1000, 800);
+    //show menu
+    helpMenu = menuBar()->addMenu(tr("&Help"));
+    QAction* actionHelp = new QAction(tr("&About"), this);
+    connect(actionHelp, SIGNAL(triggered()), this, SLOT(slot_aboutMenu()));
+    helpMenu->addAction(actionHelp);
 
     auto player = mainScene->getPlayer();
     if (player) {
@@ -18,9 +30,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
     } else {
         qDebug() << "Le joueur n'a pas été initialisé dans la scène !";
     }
-
-    // Configurer la fenêtre principale
-    this->setCentralWidget(this->mainView);
 
     // Le viewport est le widget où la scène est effectivement dessinée
     LifeCircle* life = new LifeCircle(this->mainView);
@@ -32,19 +41,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
 
     // Appliquer un délai pour que la vue comprenne la taille de la scène
     QTimer::singleShot(0, this, [=]() {
-        this->focusOnPlayer(player, 2.0);
+        this->focusOnPlayer(player, 3.5);
     });
-    this->setWindowTitle("My game");
-    this->resize(800, 600);
 
-//show menu
-    helpMenu = menuBar()->addMenu(tr("&Help"));
-    QAction* actionHelp = new QAction(tr("&About"), this);
-    connect(actionHelp, SIGNAL(triggered()), this, SLOT(slot_aboutMenu()));
-    helpMenu->addAction(actionHelp);
+
+
 
     //Game Over
     connect(mainScene, &MyScene::gameOver, this, &MainWindow::onGameOver);
+    mainScene->start();
+
+
 
 }
 
@@ -85,7 +92,7 @@ void MainWindow::onGameOver() {
     int fontId = QFontDatabase::addApplicationFont("../fonts/game_over.ttf");
     if (fontId != -1) {
         QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
-        QFont gameOverFont(family, 90); // Taille 30
+        QFont gameOverFont(family, 90);
         dieMsg->setFont(gameOverFont);
     } else {
         qWarning() << "Échec du chargement de la police Game Over.";
@@ -100,6 +107,86 @@ void MainWindow::onGameOver() {
 
     mainScene->addItem(dieMsg);
 }
+
+void MainWindow::resizeEvent(QResizeEvent* event) {
+    QMainWindow::resizeEvent(event);
+    if (startMenu)
+        startMenu->resize(this->size());
+}
+
+void MainWindow::showStartMenu() {
+    // Création du menu
+    startMenu = new QWidget(this);
+    startMenu->resize(this->size());
+    startMenu->setGeometry(this->rect());
+
+    QLabel* backgroundLabel = new QLabel(startMenu);
+    QPixmap bgPixmap("../map/background_menu.png");
+    backgroundLabel->setPixmap(bgPixmap.scaled(
+            startMenu->size(),
+            Qt::IgnoreAspectRatio, // ou Qt::KeepAspectRatioByExpanding si tu veux éviter la déformation
+            Qt::SmoothTransformation
+    ));
+    backgroundLabel->setGeometry(0, 0, startMenu->width(), startMenu->height());
+
+    backgroundLabel->lower(); // Met le QLabel en arrière-plan
+    backgroundLabel->setScaledContents(true);
+    backgroundLabel->show();
+
+    // Titre
+    titleLabel = new QLabel("Albert's adventure", startMenu);
+    int fontId = QFontDatabase::addApplicationFont("../fonts/game_over.ttf");
+    QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
+    QFont gameOverFont(family, 90);
+    titleLabel->setFont(gameOverFont);
+    titleLabel->setStyleSheet("color: white;");
+    titleLabel->setAlignment(Qt::AlignCenter);
+
+    // Bouton "Jouer"
+    startButton = new QPushButton("JOUER", startMenu);
+    startButton->setFixedSize(200, 60);
+    startButton->setFont(gameOverFont);
+    startButton->setStyleSheet("font-size: 60px; background-color: #2ecc71; color: white; border-radius: 10px;");
+
+    // bouton règles
+    rulesButton = new QPushButton("Rules", startMenu);
+    rulesButton->setFixedSize(200, 60);
+    rulesButton->setFont(gameOverFont);
+    rulesButton->setStyleSheet("font-size: 60px; background-color: #3498db; color: white; border-radius: 10px;");
+
+    connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
+
+    // Layout vertical
+    QVBoxLayout* layout = new QVBoxLayout(startMenu);
+    layout->addStretch();
+    layout->addWidget(titleLabel, 0, Qt::AlignCenter);
+    layout->addSpacing(30);
+    layout->addWidget(startButton, 0, Qt::AlignCenter);
+    layout->addStretch();
+
+    startMenu->setLayout(layout);
+    startMenu->show();
+
+    // Masquer la vue tant que le menu est affiché
+    mainView->hide();
+}
+
+void MainWindow::startGame() {
+    // Démarrage du jeu
+    if (startMenu) {
+        startMenu->hide();
+        startMenu->deleteLater();
+        startMenu = nullptr;
+    }
+    mainView->setScene(mainScene);
+
+    mainView->show();
+    //focus le clavier a la fermeture du menu
+    mainView->setFocus();
+    mainScene->getPlayer()->setFocus();
+    this->focusOnPlayer(mainScene->getPlayer(), 2.0); // recentrer sur joueur
+}
+
 
 MainWindow::~MainWindow(){
 

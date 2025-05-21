@@ -7,7 +7,7 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
     setPos(500, 200); // position de base
     setType(type); //initialise le type
     if(type == 'p') {
-        // Charger toutes les directions
+        // Charger toutes les animations
         movies["down"] = new QMovie("../anim/personage_down.gif",QByteArray(),this);
         movies["up"] = new QMovie("../anim/personage_up.gif",QByteArray(),this);
         movies["left"] = new QMovie("../anim/personage_left.gif",QByteArray(),this);
@@ -20,9 +20,11 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
 
         setAnimation("down");
         setScale(1.4);
+        setFlag(QGraphicsItem::ItemIsFocusable);
+        setFocus();
     }
     if(type == 'e') {
-        // Charger toutes les directions
+        // Charger toutes les animations
         movies["down"] = new QMovie("../anim/sbire_down.gif",QByteArray(),this);
         movies["up"] = new QMovie("../anim/sbire_up.gif",QByteArray(),this);
         movies["left"] = new QMovie("../anim/sbire_left.gif",QByteArray(),this);
@@ -101,8 +103,7 @@ void player::setLife(int newLife) {
         life = 0;
         emit lifeChanged(0);
         if(getType() == 'p'){
-            emit died();
-            this->deleteLater();
+            playDeathAnimationForMainPlayer();
         }
         else {
             this->deleteLater(); // Suppression de l'ennemi avec un delai pour evité le crash de colliding
@@ -114,5 +115,28 @@ void player::setLife(int newLife) {
 void player::damaged(int newLife){
     setLife(newLife);
 }
+
+void player::playDeathAnimationForMainPlayer() {
+    QMovie* deathMovie = movies.value("die", nullptr);
+    if (!deathMovie) {
+        qWarning() << "Animation de mort introuvable!";
+        emit died();
+        return;
+    }
+    currentMovie = deathMovie;
+    currentMovie->stop();
+    currentMovie->start();
+    currentMovie->setCacheMode(QMovie::CacheAll);
+    connect(currentMovie, &QMovie::frameChanged, this, [this](int){
+        this->pixmap = currentMovie->currentPixmap();
+        this->update();
+    });
+    connect(currentMovie, &QMovie::finished, this, [this](){
+        emit died();  // Signal que la mort est terminée
+        this->hide();
+    });
+}
+
+
 
 

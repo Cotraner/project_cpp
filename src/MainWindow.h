@@ -18,6 +18,10 @@ Q_OBJECT
 public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
+    void setupMenu();
+    void startGame();
+    void showStartMenu();
+    void resizeEvent(QResizeEvent* event) override;
 
 private slots:
     void updatePlayerFocus(player* p);
@@ -26,10 +30,14 @@ private slots:
 
 private:
     void focusOnPlayer(player* playerCharacter, double zoomLevel = 1.0);
-
     MyScene* mainScene;
     MyGraphicsView* mainView;
+    MyScene* menuScene;
     QMenu* helpMenu;
+    QWidget* startMenu = nullptr;
+    QPushButton* startButton = nullptr;
+    QPushButton* rulesButton = nullptr;
+    QLabel* titleLabel = nullptr;
 };
 
 

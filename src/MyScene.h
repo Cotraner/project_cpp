@@ -29,6 +29,7 @@ public:
     QList<player*> getEnemies()const;
     void removeEnemy(player* enemy);
     void moveEnemies();
+    void start();
 
     signals:
     void gameOver();
@@ -36,6 +37,7 @@ public:
 
     public slots:
     void update();
+
 
 private slots:
     void Movement();

@@ -25,9 +25,9 @@ QRectF Molotov::boundingRect() const {
 void Molotov::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
     if (movie) {
         painter->drawPixmap(0, 0, movie->currentPixmap());
-        painter->setPen(QPen(Qt::red));  // Couleur du contour
-        painter->setBrush(QBrush(QColor(255, 0, 0, 50)));  // Couleur semi-transparente pour l'intérieur
-        painter->drawRect(boundingRect());  // Dessiner le rectangle de détection
+        //painter->setPen(QPen(Qt::red));  // Couleur du contour
+        //painter->setBrush(QBrush(QColor(255, 0, 0, 50)));  // Couleur semi-transparente pour l'intérieur
+        //painter->drawRect(boundingRect());  // Dessiner le rectangle de détection
     }
 }
 
@@ -71,7 +71,7 @@ void Molotov::startExplosion() {
     // Parcours sécurisé
     for (QGraphicsItem* item : colliding) {
         player* enemy = dynamic_cast<player*>(item);
-        if (enemy && enemy->getType() != 'p') {
+        if (enemy) {
             qDebug() << "touché";
             enemy->damaged(enemy->getLife() - getDamage());
         }
@@ -149,9 +149,9 @@ QRectF Sword::boundingRect() const {
 void Sword::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
     if (movie) {
         painter->drawPixmap(0, 0, movie->currentPixmap());
-        painter->setPen(QPen(Qt::red));  // Couleur du contour
-        painter->setBrush(QBrush(QColor(255, 0, 0, 50)));  // Couleur semi-transparente pour l'intérieur
-        painter->drawRect(boundingRect());  // Dessiner le rectangle de détection
+        //painter->setPen(QPen(Qt::red));  // Couleur du contour
+        //painter->setBrush(QBrush(QColor(255, 0, 0, 50)));  // Couleur semi-transparente pour l'intérieur
+        //painter->drawRect(boundingRect());  // Dessiner le rectangle de détection
     }
 }
 

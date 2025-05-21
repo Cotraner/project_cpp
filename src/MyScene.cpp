@@ -32,11 +32,10 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MyScene::Movement);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(30); //toutes les 30 millisecondes
     connect(personage, &player::died, this, &MyScene::handlePlayerDeath);
     enemyTimer = new QTimer(this);
     connect(enemyTimer, &QTimer::timeout, this, &MyScene::moveEnemies);
-    enemyTimer->start(900); // toutes les 500 ms
+
 
 }
 
@@ -488,6 +487,15 @@ void MyScene::moveEnemies() {
         }
     }
 }
+
+void MyScene::start() {
+    isGameActive = true;
+    timer->start(30);
+    enemyTimer->start(900);
+}
+
+
+
 
 
 

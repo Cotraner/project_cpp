@@ -28,6 +28,7 @@ public:
     void setAnimation(const QString& direction);
     bool isDying = false;
 
+
     player* getPlayer() {
         return this;
     }
@@ -51,6 +52,7 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
     void damaged(int newLife);
+    void playDeathAnimationForMainPlayer();
 
 
     signals:
