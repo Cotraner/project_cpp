@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
     this->setCentralWidget(this->mainView);
     this->setWindowTitle("Albert's Adventure");
     this->resize(1000, 800);
-    
+
     showStartMenu(); // Afficher le menu d'accueil au lancement
     mainView->setScene(mainScene);
     setCentralWidget(mainView);
@@ -149,14 +149,20 @@ void MainWindow::showStartMenu() {
     startButton->setFixedSize(200, 60);
     startButton->setFont(gameOverFont);
     startButton->setStyleSheet("font-size: 60px; background-color: #2ecc71; color: white; border-radius: 10px;");
+    connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
 
     // bouton règles
-    rulesButton = new QPushButton("Rules", startMenu);
+    rulesButton = new QPushButton("RULES", startMenu);
     rulesButton->setFixedSize(200, 60);
     rulesButton->setFont(gameOverFont);
     rulesButton->setStyleSheet("font-size: 60px; background-color: #3498db; color: white; border-radius: 10px;");
 
-    connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
+    // ScoreBoard
+    scoreButton = new QPushButton("SCOREBOARD", startMenu);
+    scoreButton->setFixedSize(200, 60);
+    scoreButton->setFont(gameOverFont);
+    scoreButton->setStyleSheet("font-size: 60px; background-color: #e74c3c; color: white; border-radius: 10px;");
+
 
     // Layout vertical
     QVBoxLayout* layout = new QVBoxLayout(startMenu);
@@ -164,7 +170,13 @@ void MainWindow::showStartMenu() {
     layout->addWidget(titleLabel, 0, Qt::AlignCenter);
     layout->addSpacing(30);
     layout->addWidget(startButton, 0, Qt::AlignCenter);
+    layout->addSpacing(20); // petit espace entre les deux boutons
+    layout->addWidget(rulesButton, 0, Qt::AlignCenter);
+    layout->addSpacing(20);
+    layout->addWidget(scoreButton, 0, Qt::AlignCenter);
     layout->addStretch();
+
+    startMenu->setLayout(layout);
 
     startMenu->setLayout(layout);
     startMenu->show();

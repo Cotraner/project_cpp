@@ -5,7 +5,7 @@
 #include <QFontDatabase>
 
 MainMenuScene::MainMenuScene(QObject* parent) : QGraphicsScene(parent) {
-    setSceneRect(0, 0, 800, 600);  // taille du menu
+    setSceneRect(0, 0, 1000, 800);  // taille du menu
 
     auto title = new QGraphicsTextItem("Mon Jeu RPG");
     title->setDefaultTextColor(Qt::white);

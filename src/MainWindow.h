@@ -37,6 +37,7 @@ private:
     QWidget* startMenu = nullptr;
     QPushButton* startButton = nullptr;
     QPushButton* rulesButton = nullptr;
+    QPushButton* scoreButton = nullptr;
     QLabel* titleLabel = nullptr;
 };
 
