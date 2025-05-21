@@ -8,15 +8,17 @@
 #include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyScene(this)), mainView(new MyGraphicsView(this)){
+    // Configurer la fenêtre principale
+    this->setCentralWidget(this->mainView);
+    this->setWindowTitle("Albert's Adventure");
+    this->resize(1000, 800);
+    
     showStartMenu(); // Afficher le menu d'accueil au lancement
     mainView->setScene(mainScene);
     setCentralWidget(mainView);
 
 
-    // Configurer la fenêtre principale
-    this->setCentralWidget(this->mainView);
-    this->setWindowTitle("Albert's Adventure");
-    this->resize(1000, 800);
+
     //show menu
     helpMenu = menuBar()->addMenu(tr("&Help"));
     QAction* actionHelp = new QAction(tr("&About"), this);
@@ -117,20 +119,20 @@ void MainWindow::resizeEvent(QResizeEvent* event) {
 void MainWindow::showStartMenu() {
     // Création du menu
     startMenu = new QWidget(this);
-    startMenu->resize(this->size());
-    startMenu->setGeometry(this->rect());
+    startMenu->setGeometry(this->rect()); // assure que ça prend toute la fenêtre
+
+// Utilise la taille de la fenêtre principale (MainWindow)
+    QSize windowSize = this->size();
 
     QLabel* backgroundLabel = new QLabel(startMenu);
     QPixmap bgPixmap("../map/background_menu.png");
     backgroundLabel->setPixmap(bgPixmap.scaled(
-            startMenu->size(),
-            Qt::IgnoreAspectRatio, // ou Qt::KeepAspectRatioByExpanding si tu veux éviter la déformation
+            windowSize,
+            Qt::IgnoreAspectRatio,  // ou Qt::KeepAspectRatioByExpanding selon ce que tu veux
             Qt::SmoothTransformation
     ));
-    backgroundLabel->setGeometry(0, 0, startMenu->width(), startMenu->height());
-
-    backgroundLabel->lower(); // Met le QLabel en arrière-plan
-    backgroundLabel->setScaledContents(true);
+    backgroundLabel->setGeometry(0, 0, windowSize.width(), windowSize.height());
+    backgroundLabel->lower(); // fond derrière les boutons
     backgroundLabel->show();
 
     // Titre
