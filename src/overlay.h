@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QBoxLayout>
 #include <QTimer>
+#include <QGraphicsTextItem>
+#include <QLabel>
 
 class LifeCircle : public QWidget {
 Q_OBJECT
@@ -26,6 +28,21 @@ private:
     int hp = 100;
     int maxHp = 100;
 };
+
+class Score : public QGraphicsTextItem {
+Q_OBJECT
+
+public:
+    Score(QGraphicsTextItem* parent = nullptr);
+    void setScore(int value);
+    int getScore() const { return score; }
+
+private:
+    int score;
+};
+
+
+
 
 
 #endif //PROJECT_CPP_OVERLAY_H

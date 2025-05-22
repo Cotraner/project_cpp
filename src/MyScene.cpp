@@ -184,26 +184,31 @@ void MyScene::createEnnemies(int x1, int y1,int x2,int y2,int x3,int y3,int x4,i
     this->addItem(enemy1);
     enemy1->setZValue(5);
     enemy1->setPos(x1, y1);
+    connect(enemy1, &player::enemyKilled, this->personage, &player::addPoints);
     //2
     this->enemy2 = new player(50,'e');
     this->addItem(enemy2);
     enemy2->setZValue(5);
     enemy2->setPos(x2, y2);
+    connect(enemy2, &player::enemyKilled, this->personage, &player::addPoints);
     //3
     this->enemy3 = new player(50,'e');
     this->addItem(enemy3);
     enemy3->setZValue(5);
     enemy3->setPos(x3, y3);
+    connect(enemy3, &player::enemyKilled, this->personage, &player::addPoints);
     //4
     this->enemy4 = new player(50,'e');
     this->addItem(enemy4);
     enemy4->setZValue(5);
     enemy4->setPos(x4, y4);
+    connect(enemy4, &player::enemyKilled, this->personage, &player::addPoints);
     //5
     this->enemy5 = new player(50,'e');
     this->addItem(enemy5);
     enemy5->setZValue(5);
     enemy5->setPos(x5, y5);
+    connect(enemy5, &player::enemyKilled, this->personage, &player::addPoints);
 }
 
 void MyScene::update(){
@@ -325,15 +330,31 @@ void MyScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         this->addItem(molotov);
 
     }
-    if(event->button() == Qt::LeftButton){
+    if(event->button() == Qt::LeftButton) {
         QPointF playerPos = getPlayer()->pos();
 
-        Sword* sword = new Sword(50, "../anim/sword.gif");
-
-        sword->setZValue(5);
+        QString swordGifPath;
         switch(getLookingDirection()) {
             case 'd':
-                sword->setPos(playerPos.x() +25, playerPos.y());
+                swordGifPath = "../anim/sword_right.gif";
+                break;
+            case 'g':
+                swordGifPath = "../anim/sword_left.gif";
+                break;
+            case 'h':
+                swordGifPath = "../anim/sword_up.gif";
+                break;
+            case 'b':
+                swordGifPath = "../anim/sword_down.gif";
+                break;
+        }
+
+        Sword* sword = new Sword(50, swordGifPath);
+        sword->setZValue(5);
+        // Positionnement du sprite
+        switch(getLookingDirection()) {
+            case 'd':
+                sword->setPos(playerPos.x() + 25, playerPos.y());
                 break;
             case 'g':
                 sword->setPos(playerPos.x() - 25, playerPos.y());
@@ -345,8 +366,10 @@ void MyScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
                 sword->setPos(playerPos.x(), playerPos.y() + 25);
                 break;
         }
+
         this->addItem(sword);
     }
+
     QGraphicsScene::mousePressEvent(event);  // Appel à la méthode parente
 }
 
@@ -491,7 +514,7 @@ void MyScene::moveEnemies() {
 void MyScene::start() {
     isGameActive = true;
     timer->start(30);
-    enemyTimer->start(900);
+    enemyTimer->start(100);
 }
 
 

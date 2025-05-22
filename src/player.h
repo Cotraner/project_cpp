@@ -5,6 +5,7 @@
 #include <QGraphicsObject>
 #include <QGraphicsPixmapItem>
 #include <QMovie>
+#include <QLabel>
 #include "QPainter"
 
 class player : public QGraphicsObject {
@@ -16,6 +17,13 @@ private:
     QMovie* currentMovie;
     QMap<QString, QMovie*> movies; // Map des animations par action
     char type;
+    int score;
+    QLabel* scoreLabel = nullptr;
+    void updateScoreLabel() {
+        if (scoreLabel) {
+            scoreLabel->setText(QString("SCORE : %1").arg(score));
+        }
+    }
 
 
 
@@ -31,6 +39,12 @@ public:
 
     player* getPlayer() {
         return this;
+    }
+    void setScore(int score) {
+        this->score = score;
+    }
+    int getScore() {
+        return this->score;
     }
     void setPos(qreal x, qreal y) {
         QGraphicsItem::setPos(x, y);
@@ -49,6 +63,20 @@ public:
         return this->type;
     }
 
+    void setScoreLabel(QLabel* label) {
+        scoreLabel = label;
+        updateScoreLabel();  // pour afficher le score initial
+    }
+
+    void addPoints(int pts) {
+        score += pts;
+        updateScoreLabel();
+    }
+
+    int getScore() const {
+        return score;
+    }
+
     QRectF boundingRect() const override;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
     void damaged(int newLife);
@@ -59,6 +87,7 @@ public:
     void positionChanged(player* playerCharacter);
     void lifeChanged(int newLife);
     void died();
+    void enemyKilled(int points);
 
 };
 

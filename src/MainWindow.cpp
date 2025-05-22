@@ -41,13 +41,31 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
     // Connecter la mise à jour de vie du joueur au cercle
     connect(mainScene->getPlayer(), SIGNAL(lifeChanged(int)), life, SLOT(setHP(int)));
 
+
+
+    // Connecter la mise à jour du score du joueur au label
+    connect(mainScene->getPlayer(), SIGNAL(scoreChanged(int)), scoreLabel, SLOT(setScore(int)));
+
+
+
     // Appliquer un délai pour que la vue comprenne la taille de la scène
     QTimer::singleShot(0, this, [=]() {
         this->focusOnPlayer(player, 3.5);
     });
 
+    // Créer un label pour le score
+    QLabel* scoreLabel = new QLabel(this->mainView);
+    int fontId = QFontDatabase::addApplicationFont("../fonts/game_over.ttf");
+    QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
+    QFont gameOverFont(family, 40);
+    scoreLabel->setFont(gameOverFont);
+    scoreLabel->setText("SCORE :");
+    scoreLabel->setStyleSheet("color: white;");
+    scoreLabel->setGeometry(880, 10, 200, 50);
 
 
+
+    this->mainScene->getPlayer()->setScoreLabel(scoreLabel);
 
     //Game Over
     connect(mainScene, &MyScene::gameOver, this, &MainWindow::onGameOver);

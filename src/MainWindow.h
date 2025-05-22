@@ -39,6 +39,7 @@ private:
     QPushButton* rulesButton = nullptr;
     QPushButton* scoreButton = nullptr;
     QLabel* titleLabel = nullptr;
+    Score* scoreLabel;
 };
 
 

@@ -19,6 +19,7 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
         // Démarrer une animation par défaut
 
         setAnimation("down");
+        setScore(0);
         setScale(1.4);
         setFlag(QGraphicsItem::ItemIsFocusable);
         setFocus();
@@ -105,7 +106,11 @@ void player::setLife(int newLife) {
         if(getType() == 'p'){
             playDeathAnimationForMainPlayer();
         }
+        else if(getType() == 'b'){
+            emit enemyKilled(50);
+        }
         else {
+            emit enemyKilled(10);
             this->deleteLater(); // Suppression de l'ennemi avec un delai pour evité le crash de colliding
             isDying = true;
         }

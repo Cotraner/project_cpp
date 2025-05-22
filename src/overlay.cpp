@@ -2,6 +2,8 @@
 #include <QPainter>
 #include <QPen>
 #include <QMovie>
+#include <QGraphicsTextItem>
+#include <QFontDatabase>
 
 
 LifeCircle::LifeCircle(QWidget* parent) : QWidget(parent) {
@@ -59,4 +61,16 @@ void LifeCircle::paintEvent(QPaintEvent*) {
     painter.drawPixmap(topLeft, frame);
 }
 
+Score::Score(QGraphicsTextItem* parent) :  score(0) {
+    QGraphicsTextItem* score = new QGraphicsTextItem("SCORE :");     //ajout d'un texte
+    int fontId = QFontDatabase::addApplicationFont("../fonts/game_over.ttf");
+    QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
+    QFont gameOverFont(family, 40);
+    setFont(gameOverFont);
+    setDefaultTextColor(Qt::white);
+}
 
+void Score::setScore(int value) {
+    score = value;
+
+}
