@@ -246,6 +246,9 @@ void MyScene::Movement() {
     }
     QPointF currentPos = personage->pos();
     QPointF newPos = currentPos;
+    if(pressedKeys.contains(Qt::Key_B)){
+        qDebug() << currentPos;
+    }
 
     //mouvement diagonal
     if ((pressedKeys.contains(Qt::Key_Q) && pressedKeys.contains(Qt::Key_Z)) || (pressedKeys.contains(Qt::Key_Up) && pressedKeys.contains(Qt::Key_Left))) {
@@ -514,7 +517,7 @@ void MyScene::moveEnemies() {
 void MyScene::start() {
     isGameActive = true;
     timer->start(30);
-    enemyTimer->start(100);
+    enemyTimer->start(300);
 }
 
 

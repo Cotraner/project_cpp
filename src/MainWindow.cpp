@@ -18,6 +18,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
     setCentralWidget(mainView);
 
 
+    connect(rulesButton, &QPushButton::clicked, this, [=]() {
+        startButton->hide();
+        rulesButton->hide();
+        scoreButton->hide();
+        titleLabel->hide();
+        rulesText->show();
+        closeRulesButton->show();
+    });
+
+    connect(closeRulesButton, &QPushButton::clicked, this, [=]() {
+        rulesText->hide();
+        closeRulesButton->hide();
+        titleLabel->show();
+        startButton->show();
+        rulesButton->show();
+        scoreButton->show();
+    });
+
+
+
+
 
     //show menu
     helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -201,6 +222,24 @@ void MainWindow::showStartMenu() {
 
     // Masquer la vue tant que le menu est affiché
     mainView->hide();
+
+    // Texte des règles
+    rulesText = new QLabel("Des ennemis sont répartis tout autour de la map, a vous de les débusquer pour que le boss apparaisse ! \n Commandes : \n - left Click : Sword attack\n - right Click : Molotov \n -Z/Up : Go up\n - Q/left : Go left\n - S/down : Go down\n - D/right : Go right", startMenu);
+    rulesText->setStyleSheet("color: white; font-size: 60px;");
+    rulesText->setFont(gameOverFont);
+    rulesText->setAlignment(Qt::AlignCenter);
+    rulesText->setWordWrap(true);
+    rulesText->setGeometry(startMenu->width() * 0.1, startMenu->height() * 0.3,
+                           startMenu->width() * 0.8, startMenu->height() * 0.4);
+    rulesText->hide();
+
+// Bouton de fermeture des règles
+    closeRulesButton = new QPushButton("X", startMenu);
+    closeRulesButton->setFixedSize(40, 40);
+    closeRulesButton->move(startMenu->width() - 60, 20);
+    closeRulesButton->setStyleSheet("background-color: transparent; color: white; font-weight: bold;");
+    closeRulesButton->hide();
+
 }
 
 void MainWindow::startGame() {

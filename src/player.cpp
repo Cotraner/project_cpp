@@ -4,10 +4,11 @@
 #include <QMovie>
 
 player::player(int life,char type): life(life), currentMovie(nullptr){
-    setPos(500, 200); // position de base
+     // position de base
     setType(type); //initialise le type
     if(type == 'p') {
         // Charger toutes les animations
+        setPos(798, 837); // position du spawn
         movies["down"] = new QMovie("../anim/personage_down.gif",QByteArray(),this);
         movies["up"] = new QMovie("../anim/personage_up.gif",QByteArray(),this);
         movies["left"] = new QMovie("../anim/personage_left.gif",QByteArray(),this);
@@ -40,7 +41,6 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
         setAnimation("base");
         setScale(1.4);
     }
-
     setTransformOriginPoint(16, 16);
     //BUG ennemies non détectable
     setFlag(QGraphicsItem::ItemIsSelectable);
@@ -48,7 +48,6 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemHasNoContents, false); // assure que le contenu est visible
-
 }
 
 player::~player() {
@@ -80,8 +79,8 @@ void player::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*)
     if (!pixmap.isNull()) {
         painter->drawPixmap(0, 0, pixmap);
         // Ajoute ce rectangle de debug autour de chaque entité, même avec image
-        painter->setPen(Qt::green);
-        painter->drawRect(boundingRect());
+        //painter->setPen(Qt::green);
+        //painter->drawRect(boundingRect());
     } else {
         painter->setBrush(Qt::red);
         painter->drawRect(0, 0, 32, 32);  // Debug visible
