@@ -70,15 +70,15 @@ void Molotov::startExplosion() {
     qDebug() << "Molotov colliding with" << colliding.size() << "items";
 
     for (QGraphicsItem* item : colliding) {
-        player* enemy = dynamic_cast<player*>(item);
-        if (enemy && !enemy->isDying && enemy->getType() != 'p') {
-            int newLife = enemy->getLife() - getDamage();
-            enemy->damaged(newLife);
+        player* entity = dynamic_cast<player*>(item);
+        if (!entity || entity->isDying) continue;
 
-            // Si c’est un ennemi basique, on le retire via la scène
-            if (newLife <= 0 && enemy->getType() != 'b') {
-                myScene->removeEnemy(enemy);
-            }
+        int newLife = entity->getLife() - getDamage();
+        entity->damaged(newLife);
+
+        // Si c’est un ennemi basique, on le retire
+        if (newLife <= 0 && entity->getType() == 'e') {
+            myScene->removeEnemy(entity);
         }
     }
 
@@ -86,14 +86,6 @@ void Molotov::startExplosion() {
     deleteLater();
 }
 
-void Molotov::checkCollisionWithPlayer(const QList<player*>& enemies) {
-    for (player* enemy : enemies) {
-        if (this->collidesWithItem(enemy)) {
-            qDebug() << "Collision détectée avec l'ennemi :" << enemy;
-            enemy->damaged(enemy->getLife() - getDamage());
-        }
-    }
-}
 
 
 Molotov::~Molotov(){
@@ -216,10 +208,8 @@ void BossProjectile::launch(const QPointF& start, const QPointF& end, player* p)
     anim->setDuration(3000);
     anim->setEasingCurve(QEasingCurve::Linear);
     anim->start(QAbstractAnimation::DeleteWhenStopped);
-
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
-
     connect(anim, &QPropertyAnimation::finished, this, [this]() {
         if (scene()) scene()->removeItem(this);
         deleteLater();
@@ -255,11 +245,6 @@ void BossProjectile::advance(int phase) {
         deleteLater();
     }
 }
-
-
-
-
-
 
 BossProjectile::~BossProjectile() {
     delete movie;

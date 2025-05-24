@@ -27,6 +27,8 @@ private slots:
     void updatePlayerFocus(player* p);
     void slot_aboutMenu();
     void onGameOver();
+    void showScoreboard();
+    void restartGame();
 
 private:
     void focusOnPlayer(player* playerCharacter, double zoomLevel = 1.0);
@@ -39,10 +41,10 @@ private:
     QPushButton* rulesButton = nullptr;
     QPushButton* scoreButton = nullptr;
     QLabel* titleLabel = nullptr;
-    Score* scoreLabel;
+    QLabel* scoreLabel;
     QLabel* rulesText;
     QPushButton* closeRulesButton;
-
+    LifeCircle* life;
 };
 
 

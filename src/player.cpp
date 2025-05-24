@@ -59,6 +59,7 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
     setFlag(QGraphicsItem::ItemHasNoContents, false); // assure que le contenu est visible
 }
 
+
 player::~player() {
     qDebug() << "Player deleted";
     movies.clear();
@@ -116,8 +117,10 @@ void player::setLife(int newLife) {
         }
         else if(getType() == 'b'){
             emit enemyKilled(50);
+
             this->deleteLater();
             isDying = true; // Marque le boss comme en train de mourir
+            bossDefeated();
         }
         else {
             emit enemyKilled(10);

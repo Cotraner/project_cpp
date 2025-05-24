@@ -35,6 +35,7 @@ public:
     void spawnBossProjectiles(player* boss);
     void handleBossAttacks();
     void ensureBossVisible();
+    void startInfiniteWaveMode();
 
     signals:
     void gameOver();

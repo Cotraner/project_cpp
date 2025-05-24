@@ -38,10 +38,7 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     //time pour les attacks du boss
     bossAttackTimer = new QTimer(this);
     connect(bossAttackTimer, &QTimer::timeout, this, &MyScene::handleBossAttacks);
-    bossAttackTimer->start(2000);  // Toutes les 2 secondes
-
-
-
+    bossAttackTimer->start(5000);  // Toutes les 5 secondes
 }
 
 void MyScene::addToList(QList<player*>& entities, player* p,player* p1, player* p2, player* p3, player* p4, player* p5){
@@ -252,6 +249,8 @@ bool MyScene::checkCollision(QPointF newPos) {
 void MyScene::keyPressEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Escape) {
         qDebug() << "Le jeu a été quitté";
+        isGameActive = false;
+        gameOver();
         movementTimer->stop();
         return;
     }

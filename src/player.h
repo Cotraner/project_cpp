@@ -13,6 +13,7 @@ class player : public QGraphicsObject {
 
 private:
     int life;
+    int damage;
     QPixmap pixmap;
     QMovie* currentMovie;
     QMap<QString, QMovie*> movies; // Map des animations par action
@@ -36,12 +37,16 @@ public:
     void setAnimation(const QString& direction);
     bool isDying = false;
 
+    void setDamage(int value) { damage = value; }
+    int getDamage() const { return damage; }
+
 
     player* getPlayer() {
         return this;
     }
     void setScore(int score) {
         this->score = score;
+        emit scoreChanged(score);
     }
     int getScore() {
         return this->score;
@@ -88,6 +93,8 @@ public:
     void lifeChanged(int newLife);
     void died();
     void enemyKilled(int points);
+    void scoreChanged(int);
+    void bossDefeated();
 
 };
 
