@@ -6,6 +6,7 @@
 #include <QWheelEvent>
 #include <qfontdatabase.h>
 #include <QLabel>
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyScene(this)), mainView(new MyGraphicsView(this)){
     // Configurer la fenêtre principale
@@ -64,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
 
 
 
-    // Connecter la mise à jour du score du joueur au label
+    // Connecter la mise à jour du leaderboard du joueur au label
     connect(mainScene->getPlayer(), SIGNAL(scoreChanged(int)), scoreLabel, SLOT(setScore(int)));
 
 
@@ -74,7 +75,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
         this->focusOnPlayer(player, 3.5);
     });
 
-    // Créer un label pour le score
+    // Créer un label pour le leaderboard
     QLabel* scoreLabel = new QLabel(this->mainView);
     int fontId = QFontDatabase::addApplicationFont("../fonts/game_over.ttf");
     QString family = QFontDatabase::applicationFontFamilies(fontId).at(0);
@@ -147,6 +148,41 @@ void MainWindow::onGameOver() {
     dieMsg->setPos(center - QPointF(dieMsg->boundingRect().width() / 2,dieMsg->boundingRect().height() / 3));
 
     mainScene->addItem(dieMsg);
+
+    int newScore = mainScene->getPlayer()->getScore();
+    QList<int> scores;
+
+// Lire les scores existants
+    QFile file("../leaderboard/leaderboard.txt");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            QString line = in.readLine().trimmed();
+            if (!line.isEmpty()) {
+                scores.append(line.toInt());
+            }
+        }
+        file.close();
+    }
+
+// Ajouter le nouveau leaderboard
+    scores.append(newScore);
+
+// Supprimer les doublons avec QSet
+    QSet<int> uniqueScores = QSet<int>(scores.begin(), scores.end());
+
+// Convertir en liste et trier
+    scores = uniqueScores.values();
+    std::sort(scores.begin(), scores.end(), std::greater<int>());
+
+// Réécrire dans le fichier
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+        QTextStream out(&file);
+        for (int score : scores) {
+            out << score << "\n";
+        }
+        file.close();
+    }
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event) {

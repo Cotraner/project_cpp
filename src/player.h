@@ -65,7 +65,7 @@ public:
 
     void setScoreLabel(QLabel* label) {
         scoreLabel = label;
-        updateScoreLabel();  // pour afficher le score initial
+        updateScoreLabel();  // pour afficher le leaderboard initial
     }
 
     void addPoints(int pts) {
