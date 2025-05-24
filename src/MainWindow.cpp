@@ -451,6 +451,53 @@ void MainWindow::showScoreboard() {
     });
 }
 
+void MainWindow::restartWithoutResetScore() {
+    qDebug() << "Redémarrage sans reset du score ni de la vie";
+
+    // Sauvegarder score et vie actuels
+    int currentScore = mainScene->getPlayer()->getScore();
+    int currentHP = mainScene->getPlayer()->getLife();
+
+    // Supprimer l'ancienne scène
+    mainScene->deleteLater();
+
+    // Nouvelle scène
+    mainScene = new MyScene(this);
+    mainView->setScene(mainScene);
+    connect(mainScene, &MyScene::gameOver, this, &MainWindow::onGameOver);
+    mainScene->start();
+
+    auto player = mainScene->getPlayer();
+    if (player) {
+        // ✅ Restaurer score et vie
+        player->setScore(currentScore);
+        player->setLife(currentHP);  // ⚠️ Cela ne doit pas relancer l'animation de mort
+
+        player->setScoreLabel(scoreLabel);
+
+        if (!scoreLabel) {
+            qWarning() << "ERREUR: scoreLabel est null ! Impossible de connecter.";
+        } else {
+            connect(player, &player::scoreChanged, this, [=](int newScore) {
+                scoreLabel->setText("SCORE : " + QString::number(newScore));
+            });
+        }
+
+        connect(player, SIGNAL(positionChanged(player*)), this, SLOT(updatePlayerFocus(player*)));
+        connect(player, SIGNAL(lifeChanged(int)), life, SLOT(setHP(int)));
+        connect(player, &player::bossDefeated, this, &MainWindow::restartWithoutResetScore);
+
+        life->setHP(currentHP);
+    }
+
+    mainView->setFocus();
+    player->setFocus();
+    focusOnPlayer(player, 2.0);
+}
+
+
+
+
 
 
 MainWindow::~MainWindow(){

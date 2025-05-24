@@ -29,6 +29,7 @@ private slots:
     void onGameOver();
     void showScoreboard();
     void restartGame();
+    void restartWithoutResetScore();
 
 private:
     void focusOnPlayer(player* playerCharacter, double zoomLevel = 1.0);
