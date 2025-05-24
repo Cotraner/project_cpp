@@ -61,30 +61,30 @@ QList<player*> Molotov::getEnemiesFromScene() const {
 
 
 void Molotov::startExplosion() {
-    if (!scene()) {
-        return;
-    }
+    if (!scene()) return;
+
+    auto* myScene = dynamic_cast<MyScene*>(scene());
+    if (!myScene) return;
 
     QList<QGraphicsItem*> colliding = collidingItems();
     qDebug() << "Molotov colliding with" << colliding.size() << "items";
 
-    // Parcours sécurisé
     for (QGraphicsItem* item : colliding) {
         player* enemy = dynamic_cast<player*>(item);
-        if (enemy) {
-            qDebug() << "touché";
-            enemy->damaged(enemy->getLife() - getDamage());
+        if (enemy && !enemy->isDying && enemy->getType() != 'p') {
+            int newLife = enemy->getLife() - getDamage();
+            enemy->damaged(newLife);
+
+            // Si c’est un ennemi basique, on le retire via la scène
+            if (newLife <= 0 && enemy->getType() != 'b') {
+                myScene->removeEnemy(enemy);
+            }
         }
     }
 
-    // Sécuriser la suppression
-    if (scene()) {
-        scene()->removeItem(this);
-    }
-    this->deleteLater();  // À faire après retrait de la scène
+    if (scene()) scene()->removeItem(this);
+    deleteLater();
 }
-
-
 
 void Molotov::checkCollisionWithPlayer(const QList<player*>& enemies) {
     for (player* enemy : enemies) {
@@ -230,52 +230,32 @@ bool BossProjectile::isWall(QGraphicsItem* item) {
     return item && item->data(0).isValid() && item->data(0).toString() == "collision";
 }
 
-
-
-
-void BossProjectile::checkCollisionWithPlayer(player* p) {
-    if (!scene() || hashit || !p || p->isDying || p->getLife() <= 0)
-        return;
-
-    for (QGraphicsItem* item : collidingItems()) {
-
-        if (item == p) {
-            qDebug() << "→ Collision avec le joueur";
-            p->damaged(p->getLife() - damage);
-            hashit = true;
-            if (scene()) scene()->removeItem(this);
-            deleteLater();
-            return;
-        }
-
-        if (isWall(item)) {
-            qDebug() << "→ Collision avec un mur";
-            hashit = true;
-            if (scene()) scene()->removeItem(this);
-            deleteLater();
-            return;
-        }
-    }
-}
-
-
-
-
 int BossProjectile::getDamage(){
     return damage;
 }
 
- void BossProjectile::advance(int phase) {
-    if (phase == 0 || hashit || !targetPlayer) return;
+void BossProjectile::advance(int phase) {
+    if (phase == 0 || hashit || !scene()) return;
 
-    if (collidesWithItem(targetPlayer)) {
-        qDebug() << "→ Collision pendant le mouvement !";
+    // Détection de collision avec un mur
+    for (QGraphicsItem* item : collidingItems()) {
+        if (isWall(item)) {
+            hashit = true;
+            scene()->removeItem(this);
+            deleteLater();
+            return;
+        }
+    }
+
+    // Détection de collision avec le joueur
+    if (targetPlayer && !targetPlayer->isDying && collidesWithItem(targetPlayer)) {
         targetPlayer->damaged(targetPlayer->getLife() - damage);
         hashit = true;
-        if (scene()) scene()->removeItem(this);
+        scene()->removeItem(this);
         deleteLater();
     }
 }
+
 
 
 

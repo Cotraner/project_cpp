@@ -34,6 +34,7 @@ public:
     bool areAllBasicEnemiesDead() const;
     void spawnBossProjectiles(player* boss);
     void handleBossAttacks();
+    void ensureBossVisible();
 
     signals:
     void gameOver();
