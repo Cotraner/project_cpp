@@ -553,7 +553,6 @@ void MyScene::moveEnemies() {
                 else
                     enemy->setAnimation("up");
             }
-
         } else {
             // Errance aléatoire
             int dir = QRandomGenerator::global()->bounded(4);
@@ -576,7 +575,6 @@ void MyScene::moveEnemies() {
                     break;
             }
         }
-
         if (!checkCollision(newPos)) {
             enemy->setPos(newPos);
         }
@@ -588,12 +586,6 @@ void MyScene::start() {
     timer->start(25);
     enemyTimer->start(300);
 }
-
-
-
-
-
-
 
 MyScene::~MyScene() {
 
