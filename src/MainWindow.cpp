@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
     setCentralWidget(mainView);
 
 
-    connect(rulesButton, &QPushButton::clicked, this, [=]() {
+    connect(rulesButton, &QPushButton::clicked, this, [this]() {
         startButton->hide();
         rulesButton->hide();
         scoreButton->hide();
@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
         closeRulesButton->show();
     });
 
-    connect(closeRulesButton, &QPushButton::clicked, this, [=]() {
+    connect(closeRulesButton, &QPushButton::clicked, this, [this]() {
         rulesText->hide();
         closeRulesButton->hide();
         titleLabel->show();

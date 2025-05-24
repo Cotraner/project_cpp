@@ -41,6 +41,15 @@ player::player(int life,char type): life(life), currentMovie(nullptr){
         setAnimation("base");
         setScale(1.4);
     }
+    if(type == 'b') {
+        // Charger toutes les animations
+        movies["base"] = new QMovie("../anim/boss_base.gif",QByteArray(),this);
+        movies["attack"] = new QMovie("../anim/attack_boss.gif",QByteArray(),this);
+
+        // Démarrer une animation par défaut
+        setAnimation("base");
+        setScale(1);
+    }
     setTransformOriginPoint(16, 16);
     //BUG ennemies non détectable
     setFlag(QGraphicsItem::ItemIsSelectable);
@@ -97,7 +106,7 @@ void player::setLife(int newLife) {
     }
     if(newLife>0) { // Assure que la vie ne soit pas négative
         life = newLife;
-        qDebug() << "Life updated : " << getPlayer();
+        qDebug() << "Life updated";
         emit lifeChanged(newLife);
     } else{
         life = 0;
@@ -107,6 +116,8 @@ void player::setLife(int newLife) {
         }
         else if(getType() == 'b'){
             emit enemyKilled(50);
+            this->deleteLater();
+            isDying = true; // Marque le boss comme en train de mourir
         }
         else {
             emit enemyKilled(10);
@@ -122,6 +133,9 @@ void player::damaged(int newLife){
 
 void player::playDeathAnimationForMainPlayer() {
     QMovie* deathMovie = movies.value("die", nullptr);
+    if (isDying) {
+        return; // Si le joueur est déjà en train de mourir, ne pas jouer l'animation
+    }
     if (!deathMovie) {
         qWarning() << "Animation de mort introuvable!";
         emit died();

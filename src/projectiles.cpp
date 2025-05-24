@@ -43,7 +43,7 @@ void Molotov::launchTowards(const QPointF& startPos, const QPointF& targetPos) {
     animation->setEndValue(targetPos);
     animation->setEasingCurve(QEasingCurve::Linear);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
-    connect(movie, &QMovie::frameChanged, this, [=](int frameNumber) {
+    connect(movie, &QMovie::frameChanged, this, [this](int frameNumber) {
         if (frameNumber == movie->frameCount() - 1) {
             startExplosion();  // Appelle l’explosion quand le GIF est fini
         }
@@ -169,11 +169,122 @@ void Sword::checkCollisionWithPlayer(const QList<player*>& enemies) {
     for (player* enemy : enemies) {
         if (!enemy->isDying && collidesWithItem(enemy) && enemy->getType() != 'p') {
             qDebug() << "→ Collision détectée avec :" << enemy;
-            myScene->removeEnemy(enemy); // Suppression de l'ennemi
-            enemy->damaged(enemy->getLife() - getDamage());
-
+            int newLife = enemy->getLife() - getDamage();
+            enemy->damaged(newLife);
+            // Supprime uniquement si la vie tombe à 0 ET ce n’est pas un boss
+            if (newLife <= 0 && enemy->getType() != 'b') {
+                myScene->removeEnemy(enemy);  // supprime l'ennemi de la liste
+            }
         }
     }
 }
+
+QRectF BossProjectile::boundingRect() const {
+    if (!movie || movie->currentPixmap().isNull())
+        return QRectF();
+
+    return QRectF(0, 0, movie->currentPixmap().width(), movie->currentPixmap().height());
+}
+
+void BossProjectile::paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) {
+    if (movie) {
+        painter->drawPixmap(0, 0, movie->currentPixmap());
+    }
+}
+
+BossProjectile::BossProjectile(int damage, const QString& gifPath)
+        : damage(damage) {
+    movie = new QMovie(gifPath);
+    movie->setCacheMode(QMovie::CacheAll);
+    movie->start();
+    connect(movie, &QMovie::frameChanged, this, [this]() {
+        this->update();
+    });
+}
+
+void BossProjectile::launch(const QPointF& start, const QPointF& end, player* p) {
+    this->targetPlayer = p;
+
+    QSize spriteSize = movie->currentPixmap().size();
+    QPointF centerOffset(spriteSize.width() / 2.0, spriteSize.height() / 2.0);
+
+    setPos(start - centerOffset);
+
+    auto* anim = new QPropertyAnimation(this, "pos");
+    anim->setStartValue(start - centerOffset);
+    anim->setEndValue(end - centerOffset);
+    anim->setDuration(3000);
+    anim->setEasingCurve(QEasingCurve::Linear);
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
+
+    setFlag(QGraphicsItem::ItemIsMovable);
+    setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
+
+    connect(anim, &QPropertyAnimation::finished, this, [this]() {
+        if (scene()) scene()->removeItem(this);
+        deleteLater();
+    });
+}
+
+bool BossProjectile::isWall(QGraphicsItem* item) {
+    return item && item->data(0).isValid() && item->data(0).toString() == "collision";
+}
+
+
+
+
+void BossProjectile::checkCollisionWithPlayer(player* p) {
+    if (!scene() || hashit || !p || p->isDying || p->getLife() <= 0)
+        return;
+
+    for (QGraphicsItem* item : collidingItems()) {
+
+        if (item == p) {
+            qDebug() << "→ Collision avec le joueur";
+            p->damaged(p->getLife() - damage);
+            hashit = true;
+            if (scene()) scene()->removeItem(this);
+            deleteLater();
+            return;
+        }
+
+        if (isWall(item)) {
+            qDebug() << "→ Collision avec un mur";
+            hashit = true;
+            if (scene()) scene()->removeItem(this);
+            deleteLater();
+            return;
+        }
+    }
+}
+
+
+
+
+int BossProjectile::getDamage(){
+    return damage;
+}
+
+ void BossProjectile::advance(int phase) {
+    if (phase == 0 || hashit || !targetPlayer) return;
+
+    if (collidesWithItem(targetPlayer)) {
+        qDebug() << "→ Collision pendant le mouvement !";
+        targetPlayer->damaged(targetPlayer->getLife() - damage);
+        hashit = true;
+        if (scene()) scene()->removeItem(this);
+        deleteLater();
+    }
+}
+
+
+
+
+
+BossProjectile::~BossProjectile() {
+    delete movie;
+}
+
+
 
 

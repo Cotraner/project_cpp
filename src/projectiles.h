@@ -55,5 +55,33 @@ private slots:
 
 };
 
+
+
+class BossProjectile : public QGraphicsObject {
+Q_OBJECT
+    Q_PROPERTY(QPointF pos READ pos WRITE setPos)
+
+private:
+    QMovie* movie;
+    int damage;
+    bool hashit;
+    QTimer* collisionTimer;
+    player* targetPlayer;
+
+public:
+    BossProjectile(int damage, const QString& gifPath);
+    void launch(const QPointF& start, const QPointF& end,player* p);
+    void checkCollisionWithPlayer(player* p);
+    int getDamage();
+    bool isWall(QGraphicsItem* item);
+
+    QRectF boundingRect() const override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
+    ~BossProjectile();
+protected:
+    void advance(int phase) override;
+};
+
+
 #endif //PROJECT_CPP_PROJECTILES_H
 

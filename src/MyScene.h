@@ -30,6 +30,10 @@ public:
     void removeEnemy(player* enemy);
     void moveEnemies();
     void start();
+    void spawnBossEnemy();
+    bool areAllBasicEnemiesDead() const;
+    void spawnBossProjectiles(player* boss);
+    void handleBossAttacks();
 
     signals:
     void gameOver();
@@ -62,6 +66,8 @@ private:
     bool checkCollision(QPointF newPos);
     bool isGameActive = true;
     char lookingDirection = 'b'; // Direction par défaut
+    bool bossSpawned = false;
+    QTimer* bossAttackTimer = nullptr;
 };
 
 

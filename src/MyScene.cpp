@@ -35,6 +35,11 @@ MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
     connect(personage, &player::died, this, &MyScene::handlePlayerDeath);
     enemyTimer = new QTimer(this);
     connect(enemyTimer, &QTimer::timeout, this, &MyScene::moveEnemies);
+    //time pour les attacks du boss
+    bossAttackTimer = new QTimer(this);
+    connect(bossAttackTimer, &QTimer::timeout, this, &MyScene::handleBossAttacks);
+    bossAttackTimer->start(2000);  // Toutes les 2 secondes
+
 
 
 }
@@ -173,9 +178,11 @@ void MyScene::createMap(){
 }
 
 void MyScene::createPersonage() {
-    this->personage = new player(100,'p');
-    this->addItem(personage);
-    personage->setZValue(5);
+
+        personage = new player(100, 'p');
+        this->addItem(personage);
+        personage->setZValue(5);
+
 }
 
 void MyScene::createEnnemies(int x1, int y1,int x2,int y2,int x3,int y3,int x4,int y4,int x5,int y5) {
@@ -211,7 +218,17 @@ void MyScene::createEnnemies(int x1, int y1,int x2,int y2,int x3,int y3,int x4,i
     connect(enemy5, &player::enemyKilled, this->personage, &player::addPoints);
 }
 
+bool MyScene::areAllBasicEnemiesDead() const {
+    for (player* enemy : entities) {
+        if (enemy && enemy->getType() == 'e' && !enemy->isDying && enemy->getLife() > 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void MyScene::update(){
+    advance();
 }
 
 bool MyScene::checkCollision(QPointF newPos) {
@@ -424,7 +441,59 @@ void MyScene::removeEnemy(player* enemy) {
     if (enemy) {
         enemy->deleteLater();
     }
+
+    // Vérifie si tous les ennemis 'e' sont morts
+    if (areAllBasicEnemiesDead() && !bossSpawned) {
+        spawnBossEnemy();  // Appelle la méthode pour créer le boss
+        bossSpawned = true;
+    }
 }
+
+void MyScene::spawnBossEnemy() {
+    player* boss = new player(200, 'b');
+    boss->setPos(400, 450);  // Choisis une position stratégique
+    boss->setZValue(5);
+    this->addItem(boss);
+    connect(boss, &player::enemyKilled, this->personage, &player::addPoints);
+    entities.append(boss);
+}
+
+void MyScene::handleBossAttacks() {
+    for (player* enemy : entities) {
+        if (enemy && enemy->getType() == 'b' && !enemy->isDying && enemy->getLife() > 0) {
+            spawnBossProjectiles(enemy);
+        }
+    }
+}
+
+void MyScene::spawnBossProjectiles(player* boss) {
+    QList<QPointF> directions = {
+            {1.0, 0.0}, {-1.0, 0.0}, {0.0, 1.0}, {0.0, -1.0},
+            {1.0, 1.0}, {-1.0, 1.0}, {-1.0, -1.0}, {1.0, -1.0}
+    };
+
+    QRectF bossRect = boss->boundingRect();
+    QPointF bossCenter = boss->pos() + QPointF(bossRect.width() / 2, bossRect.height() / 2);
+
+    for (const QPointF& dir : directions) {
+        QPointF normDir = dir / std::sqrt(dir.x()*dir.x() + dir.y()*dir.y());
+        QPointF start = bossCenter;
+        QPointF end = start + normDir * 150.0;
+
+        BossProjectile* proj = new BossProjectile(10, "../anim/proj_boss.gif");
+        proj->launch(start, end, getPlayer());
+        proj->setZValue(5);
+        this->addItem(proj);
+
+        //qDebug() << "Projectile spawned: from" << start << "to" << end;
+    }
+}
+
+
+
+
+
+
 
 void MyScene::moveEnemies() {
     player* playerCharacter = nullptr;
@@ -516,7 +585,7 @@ void MyScene::moveEnemies() {
 
 void MyScene::start() {
     isGameActive = true;
-    timer->start(30);
+    timer->start(25);
     enemyTimer->start(300);
 }
 
