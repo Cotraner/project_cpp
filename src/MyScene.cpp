@@ -228,7 +228,11 @@ bool MyScene::areAllBasicEnemiesDead() const {
 }
 
 void MyScene::update(){
-    advance();
+    QGraphicsScene::advance();
+    if (areAllBasicEnemiesDead() && !bossSpawned) {
+        ensureBossVisible();  // vérifie / réaffiche proprement
+        bossSpawned = true;
+    }
 }
 
 bool MyScene::checkCollision(QPointF newPos) {
@@ -444,17 +448,29 @@ void MyScene::removeEnemy(player* enemy) {
 
     // Vérifie si tous les ennemis 'e' sont morts
     if (areAllBasicEnemiesDead() && !bossSpawned) {
-        spawnBossEnemy();  // Appelle la méthode pour créer le boss
+        ensureBossVisible();  // Appelle la méthode pour créer le boss
         bossSpawned = true;
     }
 }
 
-void MyScene::spawnBossEnemy() {
+void MyScene::ensureBossVisible() {
+    // Si le boss existe déjà, le réaffiche ou le repositionne proprement
+    for (player* e : entities) {
+        if (e && e->getType() == 'b') {
+            if (!items().contains(e)) {
+                this->addItem(e);  // si jamais il a été supprimé de la scène
+            }
+            return;
+        }
+    }
+
+    // Sinon, créer un nouveau boss
+    qDebug() << "→ Création du boss";
     player* boss = new player(200, 'b');
-    boss->setPos(400, 450);  // Choisis une position stratégique
     boss->setZValue(5);
+    boss->setPos(400, 450);
     this->addItem(boss);
-    connect(boss, &player::enemyKilled, this->personage, &player::addPoints);
+    connect(boss, &player::enemyKilled, personage, &player::addPoints);
     entities.append(boss);
 }
 
@@ -475,25 +491,23 @@ void MyScene::spawnBossProjectiles(player* boss) {
     QRectF bossRect = boss->boundingRect();
     QPointF bossCenter = boss->pos() + QPointF(bossRect.width() / 2, bossRect.height() / 2);
 
+    boss->setAnimation("attack"); // Animation d'attaque du boss
     for (const QPointF& dir : directions) {
         QPointF normDir = dir / std::sqrt(dir.x()*dir.x() + dir.y()*dir.y());
         QPointF start = bossCenter;
         QPointF end = start + normDir * 150.0;
 
+        if(!isGameActive) {
+            return; // Si le jeu n'est pas actif, ne pas lancer de projectiles
+        }
         BossProjectile* proj = new BossProjectile(10, "../anim/proj_boss.gif");
         proj->launch(start, end, getPlayer());
-        proj->setZValue(5);
+        proj->setZValue(6);
         this->addItem(proj);
-
-        //qDebug() << "Projectile spawned: from" << start << "to" << end;
     }
+    boss->setAnimation("base");
+
 }
-
-
-
-
-
-
 
 void MyScene::moveEnemies() {
     player* playerCharacter = nullptr;

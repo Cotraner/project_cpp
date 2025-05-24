@@ -133,6 +133,7 @@ void player::damaged(int newLife){
 
 void player::playDeathAnimationForMainPlayer() {
     QMovie* deathMovie = movies.value("die", nullptr);
+
     if (isDying) {
         return; // Si le joueur est déjà en train de mourir, ne pas jouer l'animation
     }
