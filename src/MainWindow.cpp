@@ -7,6 +7,7 @@
 #include <qfontdatabase.h>
 #include <QLabel>
 #include <QFile>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyScene(this)), mainView(new MyGraphicsView(this)){
     // Configurer la fenêtre principale
@@ -143,32 +144,50 @@ void MainWindow::onGameOver() {
 
     mainScene->addItem(dieMsg);
 
-    int newScore = mainScene->getPlayer()->getScore();
-    QList<int> scores;
+    // Demander le pseudo
+    bool ok;
+    QString pseudo = QInputDialog::getText(this, "Score", "Entrez votre pseudo :", QLineEdit::Normal, "", &ok);
+    if (!ok || pseudo.trimmed().isEmpty()) {
+        pseudo = "Anonyme";
+    }
 
-// Lire les scores existants
+    int newScore = mainScene->getPlayer()->getScore();
+    QList<QPair<QString, int>> scores;
+
+// Lire le fichier existant
     QFile file("../leaderboard/leaderboard.txt");
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
         while (!in.atEnd()) {
             QString line = in.readLine().trimmed();
-            if (!line.isEmpty()) {
-                scores.append(line.toInt());
+            if (line.isEmpty()) continue;
+
+            QStringList parts = line.split(' ', Qt::SkipEmptyParts);
+            if (parts.size() >= 2) {
+                QString name = parts[0];
+                bool okInt;
+                int score = parts[1].toInt(&okInt);
+                if (okInt) {
+                    scores.append(qMakePair(name, score));
+                }
             }
         }
         file.close();
     }
 
-// Ajouter le nouveau leaderboard
-    scores.append(newScore);
+// Ajouter la nouvelle entrée sans filtrer
+    scores.append(qMakePair(pseudo, newScore));
 
-    std::sort(scores.begin(), scores.end(), std::greater<int>());
+// Trier par score décroissant
+    std::sort(scores.begin(), scores.end(), [](const QPair<QString, int>& a, const QPair<QString, int>& b) {
+        return a.second > b.second;
+    });
 
-// Réécrire dans le fichier
+// Réécrire tout (trié mais sans rien supprimer)
     if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
         QTextStream out(&file);
-        for (int score : scores) {
-            out << score << "\n";
+        for (const auto& entry : scores) {
+            out << entry.first << " " << entry.second << "\n";
         }
         file.close();
     }
