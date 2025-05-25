@@ -497,6 +497,7 @@ void MainWindow::restartWithoutResetScore() {
     mainView->setFocus();
     player->setFocus();
     focusOnPlayer(player, 2.0);
+    //connect(scoreButton, &QPushButton::clicked, this, &MainWindow::showScoreboard); le jeu ne tourne pas en boucle mais seulement une fois sinon il crash
 }
 
 
