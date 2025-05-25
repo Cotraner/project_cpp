@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
     scoreLabel->setGeometry(880, 10, 200, 50);
 
 
+    connect(mainScene, &MyScene::bossBeaten, this, &MainWindow::restartWithoutResetScore);
+
 
     connect(rulesButton, &QPushButton::clicked, this, [this]() {
         startButton->hide();
@@ -63,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), mainScene(new MyS
     } else {
         qDebug() << "Le joueur n'a pas été initialisé dans la scène !";
     }
+    connect(player, &player::bossDefeated, this, &MainWindow::restartWithoutResetScore);
 
     // Le viewport est le widget où la scène est effectivement dessinée
     life = new LifeCircle(this->mainView);
@@ -266,7 +269,7 @@ void MainWindow::restartGame() {
         if (!scoreLabel) {
             qWarning() << "ERREUR: scoreLabel est null ! Impossible de connecter.";
         } else {
-            connect(player, &player::scoreChanged, this, [=](int newScore) {
+            connect(player, &player::scoreChanged, this, [this](int newScore) {
                 scoreLabel->setText("SCORE : " + QString::number(newScore));
             });
         }
@@ -466,26 +469,27 @@ void MainWindow::restartWithoutResetScore() {
     mainView->setScene(mainScene);
     connect(mainScene, &MyScene::gameOver, this, &MainWindow::onGameOver);
     mainScene->start();
+    mainScene->upEnnemyDamage();
 
     auto player = mainScene->getPlayer();
     if (player) {
-        // ✅ Restaurer score et vie
+        // Restaurer score et vie
         player->setScore(currentScore);
-        player->setLife(currentHP);  // ⚠️ Cela ne doit pas relancer l'animation de mort
+        player->setLife(currentHP);
 
         player->setScoreLabel(scoreLabel);
 
         if (!scoreLabel) {
             qWarning() << "ERREUR: scoreLabel est null ! Impossible de connecter.";
         } else {
-            connect(player, &player::scoreChanged, this, [=](int newScore) {
+            connect(player, &player::scoreChanged, this, [this](int newScore) {
                 scoreLabel->setText("SCORE : " + QString::number(newScore));
             });
         }
 
         connect(player, SIGNAL(positionChanged(player*)), this, SLOT(updatePlayerFocus(player*)));
         connect(player, SIGNAL(lifeChanged(int)), life, SLOT(setHP(int)));
-        connect(player, &player::bossDefeated, this, &MainWindow::restartWithoutResetScore);
+
 
         life->setHP(currentHP);
     }

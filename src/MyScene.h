@@ -36,13 +36,18 @@ public:
     void handleBossAttacks();
     void ensureBossVisible();
     void startInfiniteWaveMode();
+    void upEnnemyDamage();
+    int getEnnemyDamage();
 
     signals:
     void gameOver();
+    void bossBeaten();
+
 
 
     public slots:
     void update();
+    void handleBossDefeated();
 
 
 
@@ -64,6 +69,7 @@ private:
     player* enemy4;
     player* enemy5;
     player* boss;
+    int ennemyDamage = 10;
 
     QList<QGraphicsItem*> collisionItems;
     bool checkCollision(QPointF newPos);

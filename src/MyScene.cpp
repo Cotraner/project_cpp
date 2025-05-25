@@ -14,31 +14,25 @@
 #include "QGraphicsSceneMouseEvent"
 
 MyScene::MyScene(QObject* parent) : QGraphicsScene(parent) {
-    /*qgri = new QGraphicsRectItem(1, 1, 1920, 1080); //ajout d'un carré
-    this->addItem(qgri);
-
-    qgti = new QGraphicsTextItem("CIR2 Nantes");     //ajout d'un texte
-    this->addItem(qgti);*/
-
     //initialisation du jeu
     createMap();
     createPersonage();
-    createEnnemies(100, 100, 200, 200, 300, 300, 400, 400, 450, 450);
-
+    createEnnemies(230, 733, 123, 345, 574, 94, 589, 385, 803, 572);
     addToList(entities, personage, enemy1, enemy2, enemy3, enemy4, enemy5);
-
-
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MyScene::Movement);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     connect(personage, &player::died, this, &MyScene::handlePlayerDeath);
+
     enemyTimer = new QTimer(this);
     connect(enemyTimer, &QTimer::timeout, this, &MyScene::moveEnemies);
     //time pour les attacks du boss
     bossAttackTimer = new QTimer(this);
     connect(bossAttackTimer, &QTimer::timeout, this, &MyScene::handleBossAttacks);
+
     bossAttackTimer->start(5000);  // Toutes les 5 secondes
+
 }
 
 void MyScene::addToList(QList<player*>& entities, player* p,player* p1, player* p2, player* p3, player* p4, player* p5){
@@ -50,6 +44,13 @@ void MyScene::addToList(QList<player*>& entities, player* p,player* p1, player* 
     entities.append(p5);
 }
 
+int MyScene::getEnnemyDamage(){
+    return ennemyDamage;
+}
+
+void MyScene::upEnnemyDamage(){
+    ennemyDamage = ennemyDamage + 5;
+}
 player* MyScene::getPlayer() {
     if(this->personage != nullptr) {
         return this->personage;
@@ -266,10 +267,6 @@ void MyScene::Movement() {
     }
     QPointF currentPos = personage->pos();
     QPointF newPos = currentPos;
-    if(pressedKeys.contains(Qt::Key_B)){
-        qDebug() << currentPos;
-    }
-
     //mouvement diagonal
     if ((pressedKeys.contains(Qt::Key_Q) && pressedKeys.contains(Qt::Key_Z)) || (pressedKeys.contains(Qt::Key_Up) && pressedKeys.contains(Qt::Key_Left))) {
         personage->setAnimation("up");
@@ -470,6 +467,9 @@ void MyScene::ensureBossVisible() {
     boss->setPos(400, 450);
     this->addItem(boss);
     connect(boss, &player::enemyKilled, personage, &player::addPoints);
+    //connect(boss, &player::bossDefeated, this, &MyScene::bossBeaten);
+    connect(boss, &player::bossDefeated, this, &MyScene::handleBossDefeated);
+
     entities.append(boss);
 }
 
@@ -499,7 +499,7 @@ void MyScene::spawnBossProjectiles(player* boss) {
         if(!isGameActive) {
             return; // Si le jeu n'est pas actif, ne pas lancer de projectiles
         }
-        BossProjectile* proj = new BossProjectile(10, "../anim/proj_boss.gif");
+        BossProjectile* proj = new BossProjectile(15, "../anim/proj_boss.gif");
         proj->launch(start, end, getPlayer());
         proj->setZValue(6);
         this->addItem(proj);
@@ -544,7 +544,7 @@ void MyScene::moveEnemies() {
                 else
                     enemy->setAnimation("attackUp");
             }
-            playerCharacter->damaged(playerCharacter->getLife() - 5);
+            playerCharacter->damaged(playerCharacter->getLife() - ennemyDamage);
 
         } else if (distance < 150.0) {
             // Poursuite
@@ -600,6 +600,9 @@ void MyScene::start() {
     enemyTimer->start(300);
 }
 
+void MyScene::handleBossDefeated() {
+    emit bossBeaten();  // Tu propages
+}
 
 MyScene::~MyScene() {
 

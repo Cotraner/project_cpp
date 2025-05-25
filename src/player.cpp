@@ -120,7 +120,7 @@ void player::setLife(int newLife) {
 
             this->deleteLater();
             isDying = true; // Marque le boss comme en train de mourir
-             emit bossDefeated();
+            emit bossDefeated();
             qDebug() << "Signal bossDefeated émis";
         }
         else {
