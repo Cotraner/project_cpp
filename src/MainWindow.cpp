@@ -111,7 +111,7 @@ void MainWindow::updatePlayerFocus(player* p){
 void MainWindow::slot_aboutMenu(){
     QMessageBox msgBox;
     msgBox.setText("A small QT/C++ projet...");
-    msgBox.setModal(true); // on souhaite que la fenetre soit modale i.e qu'on ne puisse plus cliquer ailleurs
+    msgBox.setModal(true); // on souhaite que la fenetre soit modale
     msgBox.exec();
 }
 
@@ -144,7 +144,7 @@ void MainWindow::onGameOver() {
 
     mainScene->addItem(dieMsg);
 
-    // Demander le pseudo
+    // Demander le pseudo à l'utilisateur
     bool ok;
     QString pseudo = QInputDialog::getText(this, "Score", "Entrez votre pseudo :", QLineEdit::Normal, "", &ok);
     if (!ok || pseudo.trimmed().isEmpty()) {
@@ -175,7 +175,7 @@ void MainWindow::onGameOver() {
         file.close();
     }
 
-// Ajouter la nouvelle entrée sans filtrer
+// Ajouter le nouveau score
     scores.append(qMakePair(pseudo, newScore));
 
 // Trier par score décroissant
@@ -183,7 +183,7 @@ void MainWindow::onGameOver() {
         return a.second > b.second;
     });
 
-// Réécrire tout (trié mais sans rien supprimer)
+// Réécrire tout
     if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
         QTextStream out(&file);
         for (const auto& entry : scores) {
